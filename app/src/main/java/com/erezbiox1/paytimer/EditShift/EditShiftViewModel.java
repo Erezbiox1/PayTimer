@@ -1,6 +1,7 @@
 package com.erezbiox1.paytimer.EditShift;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -13,9 +14,11 @@ import com.erezbiox1.paytimer.EditShift.Spinners.TimeSpinner;
 import com.erezbiox1.paytimer.Room.Shift;
 import com.erezbiox1.paytimer.Room.ShiftRepository;
 
+import java.util.Date;
+
 public class EditShiftViewModel extends AndroidViewModel {
 
-    private MutableLiveData<Boolean> goBack = new MutableLiveData<>();
+    private MutableLiveData<String> goBack = new MutableLiveData<>();
 
     private ShiftRepository repository;
     private CombinedSpinner start, end;
@@ -42,6 +45,11 @@ public class EditShiftViewModel extends AndroidViewModel {
     }
 
     void save(){
+        if(start.getTime() >= end.getTime() || end.getTime() > new Date().getTime()){
+            error("Invalid times.");
+            return;
+        }
+
         if(currentShift == -1) {
             Shift shift = new Shift(start.getTime(), end.getTime());
             repository.insert(shift);
@@ -50,10 +58,18 @@ public class EditShiftViewModel extends AndroidViewModel {
             repository.update(shift);
         }
 
-        goBack.setValue(true);
+        goBack();
     }
 
-    LiveData<Boolean> getGoBack() {
+    private void goBack(){
+        goBack.setValue("OK");
+    }
+
+    private void error(String error){
+        goBack.setValue(error);
+    }
+
+    LiveData<String> getGoBack() {
         return goBack;
     }
 }

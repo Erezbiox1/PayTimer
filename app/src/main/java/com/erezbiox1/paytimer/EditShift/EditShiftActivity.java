@@ -2,6 +2,7 @@ package com.erezbiox1.paytimer.EditShift;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -49,11 +50,13 @@ public class EditShiftActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.getGoBack().observe(this, new Observer<Boolean>() {
+        viewModel.getGoBack().observe(this, new Observer<String>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                if(aBoolean)
+            public void onChanged(String message) {
+                if(message.equals("OK"))
                     finish();
+
+                else Toast.makeText(EditShiftActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
 
