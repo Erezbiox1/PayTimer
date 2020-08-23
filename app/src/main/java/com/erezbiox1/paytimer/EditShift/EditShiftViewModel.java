@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2020. Erez Rotem, All rights reserved.
+ */
+
 package com.erezbiox1.paytimer.EditShift;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

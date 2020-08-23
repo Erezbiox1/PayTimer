@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020. Erez Rotem, All rights reserved.
+ */
+
 package com.erezbiox1.paytimer.EditShift.Spinners;
 
 import java.lang.ref.WeakReference;
