@@ -19,14 +19,6 @@ public class CombinedSpinner implements DateSpinner.OnSpinnerDateSelected, TimeS
         minute = c.get(Calendar.MINUTE);
     }
 
-    public CombinedSpinner(int year, int month, int day, int hour, int minute) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.hour = hour;
-        this.minute = minute;
-    }
-
     public void setSpinners(DateSpinner date, TimeSpinner time){
         this.date = new WeakReference<>(date);
         this.time = new WeakReference<>(time);
@@ -59,5 +51,20 @@ public class CombinedSpinner implements DateSpinner.OnSpinnerDateSelected, TimeS
         Calendar c = Calendar.getInstance();
         c.set(year, month, day, hour, minute);
         return c.getTime().getTime();
+    }
+
+    public void setTime(long millis){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millis);
+
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        hour = c.get(Calendar.HOUR);
+        minute = c.get(Calendar.MINUTE);
+
+        // Update the spinners
+        if(date.get() != null && time != null)
+            setSpinners(date.get(), time.get());
     }
 }

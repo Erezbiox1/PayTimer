@@ -44,6 +44,11 @@ public class EditShiftViewModel extends AndroidViewModel {
         end.setSpinners(endDate, endTime);
     }
 
+    void setTime(long startTime, long endTime){
+        start.setTime(startTime);
+        end.setTime(endTime);
+    }
+
     void save(){
         if(start.getTime() >= end.getTime() || end.getTime() > new Date().getTime()){
             error("Invalid times.");

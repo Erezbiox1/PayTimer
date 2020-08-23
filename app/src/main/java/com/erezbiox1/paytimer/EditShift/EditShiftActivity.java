@@ -1,7 +1,9 @@
 package com.erezbiox1.paytimer.EditShift;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,12 +37,21 @@ public class EditShiftActivity extends AppCompatActivity {
         int id = getIntent().getIntExtra(SHIFT_ID_EXTRA, -1);
         viewModel.setEditing(id);
 
+        TextView view = findViewById(R.id.add_title);
+        if(id == -1) view.setText(R.string.add_title);
+        else view.setText(R.string.edit_title);
+
+        long startTime = getIntent().getLongExtra(START_TIME_EXTRA, System.currentTimeMillis());
+        long endTime = getIntent().getLongExtra(END_TIME_EXTRA, System.currentTimeMillis());
+
         viewModel.setSpinners(
                 (DateSpinner) findViewById(R.id.start_date),
                 (TimeSpinner) findViewById(R.id.start_time),
                 (DateSpinner) findViewById(R.id.end_date),
                 (TimeSpinner) findViewById(R.id.end_time)
         );
+
+        viewModel.setTime(startTime, endTime);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
