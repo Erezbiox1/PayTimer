@@ -1,8 +1,10 @@
 package com.erezbiox1.paytimer;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 
+import com.erezbiox1.paytimer.AddShift.AddShiftActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -42,9 +44,20 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                anchor.startAnimation(rotatingAnimation);
-                startingAnimation.start();
-                startButton.setText(R.string.stop_now);
+                if(!isRunning){
+                    anchor.startAnimation(rotatingAnimation);
+                    startingAnimation.start();
+                    startButton.setText(R.string.stop_now);
+                } else {
+                    anchor.clearAnimation();
+                    startingAnimation.reset();
+                    startButton.setText(R.string.start_now);
+
+                    Intent intent = new Intent(MainActivity.this, AddShiftActivity.class);
+                    startActivity(intent);
+                }
+
+                isRunning = !isRunning;
             }
         });
     }

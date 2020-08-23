@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">PayTimer</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="big_circle">Big Circle</string>
     <string name="start">Start</string>
     <string name="list_all_shifts">List all shifts</string>
     <string name="start_now">Start now</string>
     <string name="animated_start_symbol">Animated start symbol</string>
     <string name="stop_now">Stop now</string>
+    <string name="start_shift_desc">Start shift</string>
+    <string name="title_activity_add_shift">AddShiftActivity</string>
+    <string name="add_title">Add.</string>
+    <string name="finish_btn">Finish</string>
+    <string name="calendar_icon_desc">Calendar Icon</string>
+    <string name="time_icon_desc">Time Icon</string>
+    <string name="until_text">Until</string>
 </resources>
