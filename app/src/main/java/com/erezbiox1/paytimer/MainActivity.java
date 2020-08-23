@@ -1,5 +1,6 @@
 package com.erezbiox1.paytimer;
 
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -11,8 +12,18 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button startButton;
+    private ImageView anchor, startSymbol;
+    private Animation rotatingAnimation;
+
+    private boolean isRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +32,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        anchor = findViewById(R.id.ic_anchor);
+        startButton = findViewById(R.id.start_shift);
+        startSymbol = findViewById(R.id.start_symbol);
+
+        rotatingAnimation = AnimationUtils.loadAnimation(this, R.anim.rotating);
+        final AnimatedVectorDrawable startingAnimation = (AnimatedVectorDrawable) startSymbol.getDrawable();
+
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                anchor.startAnimation(rotatingAnimation);
+                startingAnimation.start();
+                startButton.setText(R.string.stop_now);
             }
         });
     }
