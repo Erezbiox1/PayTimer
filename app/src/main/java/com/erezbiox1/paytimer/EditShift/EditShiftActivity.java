@@ -1,4 +1,4 @@
-package com.erezbiox1.paytimer.AddShift;
+package com.erezbiox1.paytimer.EditShift;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,24 +8,31 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.erezbiox1.paytimer.AddShift.Spinners.DateSpinner;
-import com.erezbiox1.paytimer.AddShift.Spinners.TimeSpinner;
+import com.erezbiox1.paytimer.BuildConfig;
+import com.erezbiox1.paytimer.EditShift.Spinners.DateSpinner;
+import com.erezbiox1.paytimer.EditShift.Spinners.TimeSpinner;
 import com.erezbiox1.paytimer.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class AddShiftActivity extends AppCompatActivity {
+public class EditShiftActivity extends AppCompatActivity {
 
-    private AddShiftViewModel viewModel;
+    public static final String START_TIME_EXTRA = BuildConfig.APPLICATION_ID + ".extra.TIME_START"; // TODO
+    public static final String END_TIME_EXTRA = BuildConfig.APPLICATION_ID + ".extra.TIME_END"; // TODO
+    public static final String SHIFT_ID_EXTRA = BuildConfig.APPLICATION_ID + ".extra.SHIFT_ID";
 
+    private EditShiftViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_shift);
+        setContentView(R.layout.activity_edit_shift);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        viewModel = ViewModelProviders.of(this).get(AddShiftViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(EditShiftViewModel.class);
+
+        int id = getIntent().getIntExtra(SHIFT_ID_EXTRA, -1);
+        viewModel.setEditing(id);
 
         viewModel.setSpinners(
                 (DateSpinner) findViewById(R.id.start_date),
@@ -38,7 +45,7 @@ public class AddShiftActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.add();
+                viewModel.save();
             }
         });
 

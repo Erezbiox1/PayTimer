@@ -2,6 +2,7 @@ package com.erezbiox1.paytimer.Room;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "shifts_table")
@@ -17,6 +18,13 @@ public class Shift {
     private Long endTime;
 
     public Shift(@NonNull Long startTime, @NonNull Long endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    @Ignore
+    public Shift(Integer id, @NonNull Long startTime, @NonNull Long endTime) {
+        this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
     }

@@ -1,4 +1,4 @@
-package com.erezbiox1.paytimer.AddShift.Spinners;
+package com.erezbiox1.paytimer.EditShift.Spinners;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -17,6 +17,14 @@ public class CombinedSpinner implements DateSpinner.OnSpinnerDateSelected, TimeS
         day = c.get(Calendar.DAY_OF_MONTH);
         hour = c.get(Calendar.HOUR);
         minute = c.get(Calendar.MINUTE);
+    }
+
+    public CombinedSpinner(int year, int month, int day, int hour, int minute) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
     }
 
     public void setSpinners(DateSpinner date, TimeSpinner time){

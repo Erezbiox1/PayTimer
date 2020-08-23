@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 
-import com.erezbiox1.paytimer.AddShift.AddShiftActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +16,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import static com.erezbiox1.paytimer.EditShift.EditShiftActivity.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     startingAnimation.reset();
                     startButton.setText(R.string.start_now);
 
-                    Intent intent = new Intent(MainActivity.this, AddShiftActivity.class);
+                    Intent intent = new Intent(MainActivity.this, EditShiftActivity.class);
                     startActivity(intent);
                 }
 

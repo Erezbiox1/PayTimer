@@ -1,4 +1,4 @@
-package com.erezbiox1.paytimer.AddShift.Spinners;
+package com.erezbiox1.paytimer.EditShift.Spinners;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
