@@ -4,8 +4,10 @@
 
 package com.erezbiox1.paytimer.ListShifts;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
 import com.erezbiox1.paytimer.Room.Shift;
 import com.erezbiox1.paytimer.Room.ShiftRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,8 +41,8 @@ public class ListShiftsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent newShiftIntent = new Intent(ListShiftsActivity.this, EditShiftActivity.class);
+                startActivity(newShiftIntent);
             }
         });
 

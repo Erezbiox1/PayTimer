@@ -96,7 +96,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             set(fromHour, "HH:mm", startDate);
             set(toHour, "HH:mm", startDate);
             set(date, "MMMM dd, yyyy", startDate);
-            totalPayout.setText((diff/1000/60/60 * pay) + "$");
+            totalPayout.setText(String.format(context.getString(R.string.shift_payout), (diff/1000/60/60 * pay)));
             set(totalHours, "HH:mm", diff);
 
         }
