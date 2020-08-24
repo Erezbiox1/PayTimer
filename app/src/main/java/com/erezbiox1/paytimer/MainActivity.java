@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
+import com.erezbiox1.paytimer.ListShifts.ListShiftsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
     public static final String START_TIME_EXTRA_SERVICE = BuildConfig.APPLICATION_ID + ".extra.service.START_TIME_PREF";
 
     // Ui elements
-    private Button startButton;
+    private Button startButton, shiftsButton;
     private ImageView anchor, startSymbol;
     private Animation rotatingAnimation;
     private TextView timerText;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         anchor = findViewById(R.id.ic_anchor);
         startButton = findViewById(R.id.start_shift);
         startSymbol = findViewById(R.id.start_symbol);
+        shiftsButton = findViewById(R.id.list_shifts_btn);
 
         // Get the animations
         rotatingAnimation = AnimationUtils.loadAnimation(this, R.anim.rotating);
@@ -78,6 +80,15 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
             public void onClick(View view) {
                 isRunning = !isRunning;
                 updateUI();
+            }
+        });
+
+        // Set the "list shifts button" functionality.
+        shiftsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent listIntent = new Intent(MainActivity.this, ListShiftsActivity.class);
+                startActivity(listIntent);
             }
         });
 
