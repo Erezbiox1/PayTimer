@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.erezbiox1.paytimer">
-    <!-- TODO CHANGE RTL IN PROD -->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,13 +10,19 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Settings.SettingsActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".ListShifts.ListShiftsActivity"
-            android:label="@string/title_activity_list_shifts"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".EditShift.EditShiftActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ListShifts.ListShiftsActivity"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

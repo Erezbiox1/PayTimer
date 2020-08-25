@@ -26,6 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
 import com.erezbiox1.paytimer.ListShifts.ListShiftsActivity;
+import com.erezbiox1.paytimer.Settings.SettingsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -227,6 +228,12 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.action_settings){
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

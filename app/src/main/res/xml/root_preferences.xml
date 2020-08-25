@@ -1,0 +1,82 @@
+<!--
+  ~ Copyright (c) 2020. Erez Rotem, All rights reserved.
+  -->
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Notifications">
+
+        <CheckBoxPreference
+            app:key="location_notifications"
+            app:title="Location Based Reminders"
+            app:summary="Will remind you to start your shift when entering a specified location."
+            app:defaultValue="false"
+            app:persistent="true"/>
+
+        <com.erezbiox1.paytimer.Settings.ButtonPreference
+            app:dependency="location_notifications"
+            app:key="pick_location"
+            app:title="Pick location"
+            app:defaultValue="true" />
+
+        <CheckBoxPreference
+            app:key="time_notifications"
+            app:title="Time Based Reminders"
+            app:summary="Will remind you to start your shift at a specified time of your choosing."
+            app:defaultValue="false"
+            app:persistent="true"/>
+
+        <com.erezbiox1.paytimer.Settings.ButtonPreference
+            app:dependency="time_notifications"
+            app:key="pick_time"
+            app:title="Pick time"
+            app:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="General">
+        <SwitchPreferenceCompat
+            app:key="will_stop_after_time"
+            app:title="Stop shift after certain time"
+            app:summary="This will stop the shift after a certain time for you incase you forget."
+            android:defaultValue="false"
+            app:persistent="true"
+            />
+
+        <SeekBarPreference
+            android:dependency="will_stop_after_time"
+            app:key="stop_after_time"
+            app:title="Will stop after"
+            app:summary="After how much time should the shift stop ( in hours )"
+            app:min="@integer/seek_bar_min"
+            android:max="@integer/seek_bar_max"
+            app:defaultValue="@integer/seek_bar_default"
+            app:seekBarIncrement="1"
+            app:updatesContinuously="true"
+            app:persistent="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Data">
+
+        <com.erezbiox1.paytimer.Settings.ButtonPreference
+            app:key="export"
+            app:title="Export"
+            app:summary="Export all shifts from file."
+            app:defaultValue="true" />
+
+        <com.erezbiox1.paytimer.Settings.ButtonPreference
+            app:key="import"
+            app:summary="Import all shifts from file."
+            app:title="Import"
+            app:defaultValue="true" />
+
+        <com.erezbiox1.paytimer.Settings.ButtonPreference
+            app:key="delete"
+            app:title="Delete all"
+            app:summary="Delete all shifts."
+            app:defaultValue="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
