@@ -94,7 +94,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
 
             set(dayOfTheWeek, "E", startDate);
             set(fromHour, "HH:mm", startDate);
-            set(toHour, "HH:mm", startDate);
+            set(toHour, "HH:mm", endDate);
             set(date, "MMMM dd, yyyy", startDate);
             totalPayout.setText(String.format(context.getString(R.string.shift_payout), (diff/1000/60/60 * pay)));
             set(totalHours, "HH:mm", diff);
