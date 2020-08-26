@@ -21,13 +21,8 @@ import com.erezbiox1.paytimer.R;
 
 public class GeofenceReceiver extends BroadcastReceiver {
 
-    public static final String NOTIFICATION_CHANNEL_ID = "28764";
-    private final static String default_notification_channel_id = "default";
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "GEOOO", Toast.LENGTH_SHORT).show();
-
         ReminderController.notify(context);
     }
 }

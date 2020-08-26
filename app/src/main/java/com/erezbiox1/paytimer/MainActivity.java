@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         timerText.setText(text);
     }
 
+    // Notification Action Singleton Observable that will allow StartActionReceiver to update the activity UI.
     public static class NotificationStartActionObserver extends Observable {
         private static NotificationStartActionObserver instance = new NotificationStartActionObserver();
 
@@ -232,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         }
     }
 
+    // The observer implementation that will listen to the Singleton Observable and will update the UI accordingly.
     private Observer notificationStartActionObserver = new Observer() {
         @Override
         public void update(Observable observable, Object o) {

@@ -40,8 +40,6 @@ public class LocationHandler implements LocationListener {
         this.activity = activity;
         this.preferences = preferences;
         this.geofencingClient = LocationServices.getGeofencingClient(activity);
-
-        //addGeofence();
     }
 
     public void setGeofence(){
@@ -62,6 +60,7 @@ public class LocationHandler implements LocationListener {
         Location locationGps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Location locationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         Location locationPassive = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
         if(locationGps != null)
             onLocationChanged(locationGps);
         else if(locationNetwork != null)
@@ -103,7 +102,7 @@ public class LocationHandler implements LocationListener {
                             .Builder()
                             .setRequestId("main")
                             .setExpirationDuration((long) 1000 * 60 * 60 * 24 * 365 * 10)
-                            .setCircularRegion(lat, lon, 250) // 50 meters radius.
+                            .setCircularRegion(lat, lon, 150) // 150 meters radius.
                             .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
                             .build()
                     ).build();
