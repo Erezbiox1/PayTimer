@@ -4,24 +4,29 @@
 
 package com.erezbiox1.paytimer.Settings;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import androidx.preference.SeekBarPreference;
 
+import com.erezbiox1.paytimer.Reminders.GeofenceReceiver;
+import com.erezbiox1.paytimer.Reminders.LocationHandler;
 import com.erezbiox1.paytimer.R;
+import com.erezbiox1.paytimer.Reminders.ReminderController;
 
-import java.util.Locale;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity implements ButtonPreference.ButtonPrefCallback {
+
+    private LocationHandler locationHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,8 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        locationHandler = new LocationHandler(this, getPrefs());
     }
 
     @Override // TODO: ADD FUNCTIONALITY
@@ -43,10 +50,12 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
 
         switch (button.getKey().toLowerCase()) {
             case "pick_location":
-                message = "Please pick a location...";
+                pickLocation();
                 break;
             case "pick_time":
                 message = "Please pick a time...";
+                // TODO REMOVE
+                ReminderController.notify(this);
                 break;
             case "import":
                 message = "Importing all data...";
@@ -60,6 +69,24 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
         }
 
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void pickLocation() {
+        locationHandler.setGeofence();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case LocationHandler.LOCATION_PERM_RESULT:
+                locationHandler.setGeofence();
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private SharedPreferences getPrefs(){
+        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override

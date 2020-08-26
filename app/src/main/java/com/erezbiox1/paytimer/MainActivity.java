@@ -31,9 +31,12 @@ import com.erezbiox1.paytimer.Settings.SettingsActivity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.TimeZone;
 
-import static com.erezbiox1.paytimer.EditShift.EditShiftActivity.*;
+import static com.erezbiox1.paytimer.EditShift.EditShiftActivity.END_TIME_EXTRA;
+import static com.erezbiox1.paytimer.EditShift.EditShiftActivity.START_TIME_EXTRA;
 
 public class MainActivity extends AppCompatActivity implements TimerService.Callbacks{
 
@@ -99,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
             isRunning = true;
             updateUI();
         }
+
+        NotificationStartActionObserver.getInstance().addObserver(notificationStartActionObserver);
     }
 
     /**
@@ -162,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         // Get the start and end times
         long startingTime = getSharedPreferences("TimePref", 0).getLong(START_TIME_PREF, System.currentTimeMillis());
         long endingTime = System.currentTimeMillis();
-
         // Clear the saved starting time.
         SharedPreferences pref = getSharedPreferences("TimePref", 0);
         SharedPreferences.Editor editor = pref.edit();
@@ -210,6 +214,31 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         // Set the timer text.
         timerText.setText(text);
     }
+
+    public static class NotificationStartActionObserver extends Observable {
+        private static NotificationStartActionObserver instance = new NotificationStartActionObserver();
+
+        private NotificationStartActionObserver(){}
+
+        public void execute(){
+            synchronized (NotificationStartActionObserver.this){
+                setChanged();
+                notifyObservers(true);
+            }
+        }
+
+        public static NotificationStartActionObserver getInstance() {
+            return instance;
+        }
+    }
+
+    private Observer notificationStartActionObserver = new Observer() {
+        @Override
+        public void update(Observable observable, Object o) {
+            isRunning = true;
+            updateUI();
+        }
+    };
 
     /**
      * Inflates the options menu
