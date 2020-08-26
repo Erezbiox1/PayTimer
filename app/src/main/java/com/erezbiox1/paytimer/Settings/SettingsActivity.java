@@ -54,6 +54,7 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
                 break;
             case "pick_time":
                 message = "Please pick a time...";
+                ReminderController.notify(this);
                 break;
             case "import":
                 message = "Importing all data...";

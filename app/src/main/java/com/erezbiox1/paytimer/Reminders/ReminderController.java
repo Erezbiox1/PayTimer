@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.preference.PreferenceManager;
 
 import androidx.core.app.NotificationCompat;
 
@@ -86,9 +87,10 @@ public class ReminderController {
     }
 
     private static boolean checkConditions(Context context){
-        // Check if the user was already notified today
+        // Check if the user was already notified today ( and if that is allowed )
         SharedPreferences pref = context.getSharedPreferences("TimePref", 0);
-        if(pref.contains(NOTIFIED_TIME_PREF) && isToday(pref.getLong(NOTIFIED_TIME_PREF, 0)))
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        if(settings.getBoolean("notify_once_a_day", true) && pref.contains(NOTIFIED_TIME_PREF) && isToday(pref.getLong(NOTIFIED_TIME_PREF, 0)))
             return false;
 
         // Check if the shift is already running

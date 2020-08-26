@@ -7,6 +7,12 @@
 
     <PreferenceCategory app:title="Notifications">
 
+        <SwitchPreference
+            app:key="notify_once_a_day"
+            app:title="Notify only once a day"
+            app:defaultValue="true"
+            app:persistent="true" />
+
         <CheckBoxPreference
             app:key="location_notifications"
             app:title="Location Based Reminders"
