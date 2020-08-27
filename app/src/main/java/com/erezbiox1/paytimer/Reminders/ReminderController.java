@@ -55,7 +55,7 @@ public class ReminderController {
         bigText.setSummaryText("Default job");
 
         builder.setContentIntent(mainActivityIntent);
-        builder.setSmallIcon(R.mipmap.ic_launcher_round);
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
         builder.setContentTitle("Start your shift!");
         builder.setContentText("This is your daily reminded to start your shift!");
         builder.setPriority(Notification.PRIORITY_MAX);
