@@ -29,7 +29,7 @@ public class CombinedSpinner implements DateSpinner.OnSpinnerDateSelected, TimeS
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
-        hour = c.get(Calendar.HOUR);
+        hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
     }
 
@@ -99,7 +99,7 @@ public class CombinedSpinner implements DateSpinner.OnSpinnerDateSelected, TimeS
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
-        hour = c.get(Calendar.HOUR);
+        hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
 
         // Update the spinners
