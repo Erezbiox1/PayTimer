@@ -20,5 +20,7 @@
     <string name="from_hour_to_hour">From hour to hour</string>
     <string name="shift_payout">%1$d$</string>
     <string name="stop_after_time_title">Will stop after %1$d hours.</string>
+    <string name="shift_options_edit">Edit</string>
+    <string name="shift_options_delete">Delete</string>
 
 </resources>
