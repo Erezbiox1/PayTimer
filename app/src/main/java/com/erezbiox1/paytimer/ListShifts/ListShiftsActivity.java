@@ -4,6 +4,7 @@
 
 package com.erezbiox1.paytimer.ListShifts;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,19 +12,23 @@ import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
 import com.erezbiox1.paytimer.Room.Shift;
 import com.erezbiox1.paytimer.Room.ShiftRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.erezbiox1.paytimer.R;
 
@@ -50,10 +55,10 @@ public class ListShiftsActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.shifts_list);
+        final RecyclerView recyclerView = findViewById(R.id.shifts_list);
 
         final ShiftsAdapter shiftsAdapter = new ShiftsAdapter();
-        ShiftRepository repository = new ShiftRepository(getApplication());
+        final ShiftRepository repository = new ShiftRepository(getApplication());
 
         repository.getAllShifts().observe(this, new Observer<List<Shift>>() {
             @Override
@@ -76,6 +81,21 @@ public class ListShiftsActivity extends AppCompatActivity {
                     fab.hide();
             }
         });
+
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                ((ShiftsAdapter.ViewHolder) viewHolder).deleteShift();
+                //shiftsAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+            }
+        });
+
+        helper.attachToRecyclerView(recyclerView);
 
     }
 

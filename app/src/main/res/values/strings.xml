@@ -22,5 +22,10 @@
     <string name="stop_after_time_title">Will stop after %1$d hours.</string>
     <string name="shift_options_edit">Edit</string>
     <string name="shift_options_delete">Delete</string>
+    <string name="delete_shift">Delete shift</string>
+    <string name="delete_shift_text">Do you really want to delete this shift?</string>
+    <string name="delete_shift_yes">Yes</string>
+    <string name="delete_shift_no">No</string>
+    <string name="shift_delete_undo">Undo</string>
 
 </resources>

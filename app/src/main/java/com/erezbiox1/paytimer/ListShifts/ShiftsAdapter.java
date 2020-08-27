@@ -4,7 +4,9 @@
 
 package com.erezbiox1.paytimer.ListShifts;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +21,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
 import com.erezbiox1.paytimer.R;
 import com.erezbiox1.paytimer.Room.Shift;
+import com.erezbiox1.paytimer.Room.ShiftRepository;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +42,13 @@ import java.util.TimeZone;
 public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder> {
 
     private List<Shift> shiftsList = new ArrayList<>();
+    private RecyclerView recyclerView;
     private Context context;
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+    }
 
     @NonNull
     @Override
@@ -134,7 +145,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
                     clickEditOption();
                     break;
                 case R.id.shift_options_delete:
-                    Toast.makeText(context, "NOT AN OPTION", Toast.LENGTH_SHORT).show();
+                    deleteShift();
                     break;
             }
             return false;
@@ -148,6 +159,23 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             editShiftIntent.putExtra(EditShiftActivity.END_TIME_EXTRA, shift.getEndTime());
 
             context.startActivity(editShiftIntent);
+        }
+
+        public void deleteShift(){
+            new AlertDialog.Builder(context)
+                    .setTitle(R.string.delete_shift)
+                    .setMessage(R.string.delete_shift_text)
+                    .setIcon(R.drawable.ic_warning)
+                    .setPositiveButton(R.string.delete_shift_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            final int position = getAdapterPosition();
+                            notifyItemRemoved(position);
+                            new ShiftRepository(context).delete(shift);
+                        }
+                    })
+                    .setNegativeButton(R.string.delete_shift_no, null)
+                    .show();
         }
     }
 }

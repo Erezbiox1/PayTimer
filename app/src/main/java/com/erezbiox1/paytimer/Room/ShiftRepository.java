@@ -5,6 +5,7 @@
 package com.erezbiox1.paytimer.Room;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
@@ -20,8 +21,8 @@ public class ShiftRepository {
     private LiveData<List<Shift>> allShifts;
 
     // Create the repository with the application context if needed, get the dao and the rolling shifts list.
-    public ShiftRepository(Application application) {
-        ShiftDatabase shiftDatabase = ShiftDatabase.getDatabase(application);
+    public ShiftRepository(Context context) {
+        ShiftDatabase shiftDatabase = ShiftDatabase.getDatabase(context);
         dao = shiftDatabase.shiftDao();
         allShifts = dao.getAllShifts();
     }
