@@ -4,7 +4,9 @@
 
 package com.erezbiox1.paytimer.Settings;
 
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -23,6 +26,9 @@ import com.erezbiox1.paytimer.R;
 import com.erezbiox1.paytimer.Reminders.ReminderController;
 
 import java.util.Objects;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class SettingsActivity extends AppCompatActivity implements ButtonPreference.ButtonPrefCallback {
 
@@ -41,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        locationHandler = new LocationHandler(this, getPrefs());
+        locationHandler = new LocationHandler(this);
     }
 
     @Override // TODO: ADD FUNCTIONALITY
@@ -54,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
                 break;
             case "pick_time":
                 message = "Please pick a time...";
-                ReminderController.notify(this);
+                ReminderController.notify(this); // TODO
                 break;
             case "import":
                 message = "Importing all data...";
@@ -71,6 +77,10 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
     }
 
     private void pickLocation() {
+        if (LocationHandler.checkPermission(this))
+            ActivityCompat.requestPermissions(
+                    this, new String[]{ ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION }, 1);
+
         locationHandler.setGeofence();
     }
 
@@ -82,10 +92,6 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    private SharedPreferences getPrefs(){
-        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override

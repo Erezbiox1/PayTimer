@@ -5,7 +5,6 @@
 package com.erezbiox1.paytimer.Reminders;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
@@ -34,25 +34,19 @@ public class LocationHandler implements LocationListener {
     private GeofencingClient geofencingClient;
     private PendingIntent geofencingIntent;
     private SharedPreferences preferences;
-    private Activity activity;
+    private Context context;
 
-    public LocationHandler(Activity activity, SharedPreferences preferences) {
-        this.activity = activity;
-        this.preferences = preferences;
-        this.geofencingClient = LocationServices.getGeofencingClient(activity);
+    public LocationHandler(Context context) {
+        this.context = context;
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.geofencingClient = LocationServices.getGeofencingClient(context);
     }
 
     public void setGeofence(){
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            String[] perms = {
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION};
-            ActivityCompat.requestPermissions(activity, perms, 1);
+        if(!checkPermission(context))
             return;
-        }
 
-        locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0, this);
@@ -83,13 +77,12 @@ public class LocationHandler implements LocationListener {
         locationManager.removeUpdates(this);
 
         addGeofence();
-
     }
 
-    private void addGeofence(){
-        if(preferences.contains("location_reminder_lat")
+    public void addGeofence(){
+        if(checkPermission(context)
+                && preferences.contains("location_reminder_lat")
                 && preferences.contains("location_reminder_lon")
-                && preferences.contains("location_notifications")
                 && preferences.getBoolean("location_notifications", false)){
 
             double lat = preferences.getFloat("location_reminder_lat", -1);
@@ -110,20 +103,23 @@ public class LocationHandler implements LocationListener {
             if(geofencingIntent == null)
                 geofencingIntent = PendingIntent
                         .getBroadcast(
-                                activity, 0,
-                                new Intent(activity, GeofenceReceiver.class),
+                                context, 0,
+                                new Intent(context, GeofenceReceiver.class),
                                 PendingIntent.FLAG_UPDATE_CURRENT);
+
+            geofencingClient.removeGeofences(geofencingIntent); // Clear previous geo fences.
 
             geofencingClient
                     .addGeofences(request, geofencingIntent)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(activity, "Location marked successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Location marked successfully!", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "Geofences not available on this device.", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
             });
@@ -138,4 +134,9 @@ public class LocationHandler implements LocationListener {
 
     @Override
     public void onProviderDisabled(String s) { }
+
+    public static boolean checkPermission(Context context){
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
 }
