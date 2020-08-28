@@ -34,6 +34,7 @@ import com.erezbiox1.paytimer.Room.Shift;
 import com.erezbiox1.paytimer.Room.ShiftRepository;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -110,6 +111,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             optionsButton.setOnClickListener(this);
         }
 
+        @SuppressWarnings({"IntegerDivisionInFloatingPointContext", "ConstantConditions"})
         @SuppressLint("SetTextI18n")
         private void setShift(Shift shift){
             this.shift = shift;
@@ -118,16 +120,15 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             long endDate = shift.getEndTime();
             long diff = endDate - startDate;
 
-            //noinspection ConstantConditions
             double pay = Double.parseDouble(PreferenceManager.getDefaultSharedPreferences(context).getString("hourly_pay", "23"));
+            double totalPay = ((double) diff/1000/60/60) * pay;
 
             set(dayOfTheWeek, "E", startDate);
             set(fromHour, "HH:mm", startDate);
             set(toHour, "HH:mm", endDate);
             set(date, "MMMM dd, yyyy", startDate);
-            totalPayout.setText((diff/1000/60/60 * pay) + context.getString(R.string.currency_symbol));
+            totalPayout.setText(new DecimalFormat("#.#").format(totalPay) + context.getString(R.string.currency_symbol));
             set(totalHours, "HH:mm", diff, "UTC");
-
         }
 
         private void set(TextView textView, String pattern, long time){

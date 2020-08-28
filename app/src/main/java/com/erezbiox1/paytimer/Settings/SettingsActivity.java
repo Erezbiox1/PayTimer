@@ -111,6 +111,11 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
+            //setupSeekbar();
+            setupEditText();
+        }
+
+        private void setupSeekbar(){
             SeekBarPreference seekbar = findPreference("stop_after_time");
             updateSeekbarValue(seekbar, seekbar.getValue());
             Objects.requireNonNull(seekbar).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -120,7 +125,13 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
                     return true;
                 }
             });
+        }
 
+        private void updateSeekbarValue(SeekBarPreference preference, int value){
+            preference.setTitle(getString(R.string.stop_after_time_title, value));
+        }
+
+        public void setupEditText(){
             EditTextPreference hourRateEditText = findPreference("hourly_pay");
             hourRateEditText.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -133,10 +144,6 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
                     return true;
                 }
             });
-        }
-
-        private void updateSeekbarValue(SeekBarPreference preference, int value){
-            preference.setTitle(getString(R.string.stop_after_time_title, value));
         }
 
         private boolean isNumber(String string){

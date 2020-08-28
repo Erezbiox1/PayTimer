@@ -13,6 +13,7 @@
             app:defaultValue="24"
             app:persistent="true" />
 
+        <!--
         <SwitchPreferenceCompat
             app:key="will_stop_after_time"
             app:title="@string/settings_stop_shift_after"
@@ -32,6 +33,7 @@
             app:seekBarIncrement="1"
             app:updatesContinuously="true"
             app:persistent="true"/>
+            -->
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_notification_catgory">
