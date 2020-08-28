@@ -80,6 +80,10 @@ public class LocationHandler implements LocationListener {
     }
 
     public void addGeofence(){
+        addGeofence(false);
+    }
+
+    public void addGeofence(final boolean silent){
         if(checkPermission(context)
                 && preferences.contains("location_reminder_lat")
                 && preferences.contains("location_reminder_lon")
@@ -114,12 +118,14 @@ public class LocationHandler implements LocationListener {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(context, "Location marked successfully!", Toast.LENGTH_SHORT).show();
+                            if(!silent)
+                                Toast.makeText(context, "Location marked successfully!", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, "Geofences not available on this device.", Toast.LENGTH_SHORT).show();
+                            if(!silent)
+                                Toast.makeText(context, "Geofences not available on this device.", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
             });
