@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Erez Rotem, All rights reserved.
+  -->
+
+<resources>
+    <string name="app_name">שעון שכר</string>
+    <string name="action_settings">הגדרות</string>
+    <string name="add_title">הוסף.</string>
+    <string name="anchor">אנקור</string>
+    <string name="animated_start_symbol">סימן התחלה מנופש</string>
+    <string name="big_circle">עיגול גדול</string>
+    <string name="calendar_icon_desc">איקון לוח שנה</string>
+    <string name="delete_shift">מחק משמרת</string>
+    <string name="delete_shift_no">לא, בטל</string>
+    <string name="delete_shift_text">האם אתה באמת רוצה למחוק את המשמרת הזאת?</string>
+    <string name="delete_shift_yes">כן, מחק</string>
+    <string name="edit_title">ערוך.</string>
+    <string name="finish_btn">סיום</string>
+    <string name="from_hour_to_hour">משעה לשעה</string>
+    <string name="Geofence_not_available">תזכורות מיקומיות לא זמינות במכשיר זה</string>
+    <string name="invalid_times">זמנים לא תקינים</string>
+    <string name="list_all_shifts">משמרות</string>
+    <string name="location_marked_success">מיקום נבחר בהצלחה</string>
+    <string name="shift_delete_undo">בטל</string>
+    <string name="shift_notification_reminders">תזכורות</string>
+    <string name="shift_options_delete">מחק</string>
+    <string name="shift_options_edit">ערוך</string>
+    <string name="shift_payout">%1$d₪</string>
+    <string name="shift_reminder_notification">תזכורות</string>
+    <string name="start">התחל</string>
+    <string name="start_notification_action">התחל משמרת</string>
+    <string name="start_now">התחל עכשיו</string>
+    <string name="start_shift_desc">התחלת משמרת</string>
+    <string name="start_your_shift_notification">תתחיל את המשמרת שלך</string>
+    <string name="start_your_shift_text_notification">זוהי התזכורת היומית שלך להתחיל את המשמרת</string>
+    <string name="stop_now">עצור עכשיו</string>
+    <string name="time_icon_desc">איקון זמן</string>
+    <string name="until_text">עד</string>
+    <string name="stop_after_time_title">יעצור לאחר %1$d שעות</string>
+    <string name="settings_notification_catgory">תזכורות</string>
+    <string name="settings_will_only_notify_once_a_day">תזכיר לי רק פעם ביום</string>
+    <string name="settings_location_notification_text">יזכיר לך להתחיל את המשמרת במיקום מוגדר מראש.</string>
+    <string name="settings_pick_location">בחר מיקום</string>
+    <string name="settings_location_based_reminders">תזכורות מבוססות מיקום</string>
+    <string name="settings_time_based_reminders">תזכורות מבוססות זמן</string>
+    <string name="settings_time_reminders_text">יזכיר לך להתחיל את המשמרת בשעה מסויומת</string>
+    <string name="settings_pick_time">בחר זמן</string>
+    <string name="settings_general_catagory">כל</string>
+    <string name="settings_stop_shift_after">יעצור לאחר זמן מסוים</string>
+    <string name="settings_stop_shift_after_text">יעצור את המשמרת לאחר זמן מסוים למקרה ששכחת</string>
+    <string name="settings_stop_shift_after_placeholder">יעצור לאחר</string>
+    <string name="settings_stop_shift_after_summry">לאחר כמה זמן המשמרת תעצר אוטומטית ( בשעות )</string>
+    <string name="settings_export">יצא</string>
+    <string name="settings_export_desc">יצא את כל המשמרות לקובץ</string>
+    <string name="settings_import">ייבא</string>
+    <string name="settings_import_desc">ייבא את כל המשמרות מתוך קובץ</string>
+    <string name="settings_delete_all">מחק הכל</string>
+    <string name="settings_delete_all_desc">מחק את כל המשמרות</string>
+    <string name="settings_data_catagory">מידע</string>
+</resources>

@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import com.erezbiox1.paytimer.R;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
@@ -29,6 +30,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class LocationHandler implements LocationListener {
     public static final int LOCATION_PERM_RESULT = 440;
+    public static final String LOCATION_REMINDER_LON = "location_reminder_lon";
+    public static final String LOCATION_REMINDER_LAT = "location_reminder_lat";
 
     private LocationManager locationManager;
     private GeofencingClient geofencingClient;
@@ -70,8 +73,8 @@ public class LocationHandler implements LocationListener {
 
         preferences
                 .edit()
-                .putFloat("location_reminder_lat", (float) lat)
-                .putFloat("location_reminder_lon", (float) lon)
+                .putFloat(LOCATION_REMINDER_LAT, (float) lat)
+                .putFloat(LOCATION_REMINDER_LON, (float) lon)
                 .apply();
 
         locationManager.removeUpdates(this);
@@ -85,12 +88,12 @@ public class LocationHandler implements LocationListener {
 
     public void addGeofence(final boolean silent){
         if(checkPermission(context)
-                && preferences.contains("location_reminder_lat")
-                && preferences.contains("location_reminder_lon")
+                && preferences.contains(LOCATION_REMINDER_LAT)
+                && preferences.contains(LOCATION_REMINDER_LON)
                 && preferences.getBoolean("location_notifications", false)){
 
-            double lat = preferences.getFloat("location_reminder_lat", -1);
-            double lon = preferences.getFloat("location_reminder_lon", -1);
+            double lat = preferences.getFloat(LOCATION_REMINDER_LAT, -1);
+            double lon = preferences.getFloat(LOCATION_REMINDER_LON, -1);
 
             GeofencingRequest request = new GeofencingRequest
                     .Builder()
@@ -119,13 +122,13 @@ public class LocationHandler implements LocationListener {
                         @Override
                         public void onSuccess(Void aVoid) {
                             if(!silent)
-                                Toast.makeText(context, "Location marked successfully!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.location_marked_success, Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             if(!silent)
-                                Toast.makeText(context, "Geofences not available on this device.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.Geofence_not_available, Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
             });

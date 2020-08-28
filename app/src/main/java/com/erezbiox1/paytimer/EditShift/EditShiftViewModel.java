@@ -79,7 +79,7 @@ public class EditShiftViewModel extends AndroidViewModel {
         // if the starting time is later or equal to the ending time, error out.
         // if the ending time is later then the current time, error out.
         if(start.getTime() >= end.getTime() || end.getTime() > new Date().getTime()){
-            error("Invalid times.");
+            error("INVALID_TIMES");
             return;
         }
 

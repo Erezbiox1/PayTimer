@@ -23,6 +23,7 @@ import com.erezbiox1.paytimer.R;
 import java.util.Calendar;
 
 import static com.erezbiox1.paytimer.MainActivity.START_TIME_PREF;
+import static com.erezbiox1.paytimer.MainActivity.TIME_PREF;
 
 public class ReminderController {
 
@@ -52,14 +53,14 @@ public class ReminderController {
         // Setting the builder values. ( aka building the notification. )
         NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
         bigText.setBigContentTitle(context.getString(R.string.app_name));
-        bigText.setSummaryText("Default job");
+        //bigText.setSummaryText("Default job");
 
         builder.setContentIntent(mainActivityIntent);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-        builder.setContentTitle("Start your shift!");
-        builder.setContentText("This is your daily reminded to start your shift!");
+        builder.setContentTitle(context.getString(R.string.start_your_shift_notification));
+        builder.setContentText(context.getString(R.string.start_your_shift_text_notification));
         builder.setPriority(Notification.PRIORITY_MAX);
-        builder.addAction(new NotificationCompat.Action(R.drawable.ic_time, "Start", startShiftIntent));
+        builder.addAction(new NotificationCompat.Action(R.drawable.ic_time, context.getString(R.string.start_notification_action), startShiftIntent));
         builder.setAutoCancel(true);
         builder.setStyle(bigText);
 
@@ -67,19 +68,19 @@ public class ReminderController {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     REMINDER_CHANNEL_ID,
-                    "Shift Reminders",
+                    context.getString(R.string.shift_reminder_notification),
                     NotificationManager.IMPORTANCE_HIGH);
             channel.enableLights(true);
             channel.setLightColor(Color.YELLOW);
             channel.enableVibration(true);
-            channel.setDescription("Shift reminders");
+            channel.setDescription(context.getString(R.string.shift_notification_reminders));
 
             manager.createNotificationChannel(channel);
             builder.setChannelId(REMINDER_CHANNEL_ID);
         }
 
         // Save now as the last notification time
-        SharedPreferences pref = context.getSharedPreferences("TimePref", 0);
+        SharedPreferences pref = context.getSharedPreferences(TIME_PREF, 0);
         pref.edit().putLong(NOTIFIED_TIME_PREF, System.currentTimeMillis()).apply();
 
         // Notify the user.
@@ -88,7 +89,7 @@ public class ReminderController {
 
     private static boolean checkConditions(Context context){
         // Check if the user was already notified today ( and if that is allowed )
-        SharedPreferences pref = context.getSharedPreferences("TimePref", 0);
+        SharedPreferences pref = context.getSharedPreferences(TIME_PREF, 0);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         if(settings.getBoolean("notify_once_a_day", true) && pref.contains(NOTIFIED_TIME_PREF) && isToday(pref.getLong(NOTIFIED_TIME_PREF, 0)))
             return false;

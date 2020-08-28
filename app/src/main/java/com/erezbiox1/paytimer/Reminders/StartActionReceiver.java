@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import com.erezbiox1.paytimer.MainActivity;
 
 import static com.erezbiox1.paytimer.MainActivity.START_TIME_PREF;
+import static com.erezbiox1.paytimer.MainActivity.TIME_PREF;
 
 public class StartActionReceiver extends BroadcastReceiver {
 
@@ -23,7 +24,7 @@ public class StartActionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // Get the shared preferences
-        SharedPreferences pref = context.getSharedPreferences("TimePref", 0);
+        SharedPreferences pref = context.getSharedPreferences(TIME_PREF, 0);
 
         // If the shift is already running ( there is a saved starting time ) skip starting the shift.
         if(!pref.contains(START_TIME_PREF)) {

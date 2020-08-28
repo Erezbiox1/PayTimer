@@ -27,5 +27,33 @@
     <string name="delete_shift_yes">Yes</string>
     <string name="delete_shift_no">No</string>
     <string name="shift_delete_undo">Undo</string>
+    <string name="invalid_times">Invalid times.</string>
+    <string name="location_marked_success">Location marked successfully!</string>
+    <string name="Geofence_not_available">Geofences not available on this device.</string>
+    <string name="start_your_shift_notification">Start your shift!</string>
+    <string name="start_your_shift_text_notification">This is your daily reminded to start your shift!</string>
+    <string name="start_notification_action">Start</string>
+    <string name="shift_reminder_notification">Shift Reminders</string>
+    <string name="shift_notification_reminders">Shift reminders</string>
+    <string name="settings_notification_catgory">Notifications</string>
+    <string name="settings_will_only_notify_once_a_day">Notify only once a day</string>
+    <string name="settings_location_notification_text">Will remind you to start your shift when entering a specified location.</string>
+    <string name="settings_pick_location">Pick location</string>
+    <string name="settings_location_based_reminders">Location Based Reminders</string>
+    <string name="settings_time_based_reminders">Time Based Reminders</string>
+    <string name="settings_time_reminders_text">Will remind you to start your shift at a specified time of your choosing.</string>
+    <string name="settings_pick_time">Pick time</string>
+    <string name="settings_general_catagory">General</string>
+    <string name="settings_stop_shift_after">Stop shift after certain time</string>
+    <string name="settings_stop_shift_after_text">This will stop the shift after a certain time for you incase you forget.</string>
+    <string name="settings_stop_shift_after_placeholder">Will stop after</string>
+    <string name="settings_stop_shift_after_summry">After how much time should the shift stop ( in hours )</string>
+    <string name="settings_export">Export</string>
+    <string name="settings_export_desc">Export all shifts from file.</string>
+    <string name="settings_import">Import</string>
+    <string name="settings_import_desc">Import all shifts from file.</string>
+    <string name="settings_delete_all">Delete all</string>
+    <string name="settings_delete_all_desc">Delete all shifts.</string>
+    <string name="settings_data_catagory">Data</string>
 
 </resources>

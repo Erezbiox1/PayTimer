@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
     // Constants used in various intents.
     public static final String START_TIME_PREF = BuildConfig.APPLICATION_ID + ".prefs.START_TIME_PREF";
     public static final String START_TIME_EXTRA_SERVICE = BuildConfig.APPLICATION_ID + ".extra.service.START_TIME_PREF";
+    public static final String TIME_PREF = "TimePref";
 
     // Ui elements
     private Button startButton, shiftsButton;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
 
         // If there is a "Starting Time" saved in storage (storage=sharedPreference)
         // Then set the timer active and update the UI accordingly.
-        if(getSharedPreferences("TimePref", 0).contains(START_TIME_PREF)){
+        if(getSharedPreferences(TIME_PREF, 0).contains(START_TIME_PREF)){
             isRunning = true;
             updateUI();
         }
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
      */
     private void startTimer(){
         // Get the starting time
-        SharedPreferences pref = getSharedPreferences("TimePref", 0);
+        SharedPreferences pref = getSharedPreferences(TIME_PREF, 0);
         long currentTime = pref.getLong(START_TIME_PREF, System.currentTimeMillis());
 
         // Save the starting time
@@ -165,10 +166,10 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         stopService(serviceIntent);
 
         // Get the start and end times
-        long startingTime = getSharedPreferences("TimePref", 0).getLong(START_TIME_PREF, System.currentTimeMillis());
+        long startingTime = getSharedPreferences(TIME_PREF, 0).getLong(START_TIME_PREF, System.currentTimeMillis());
         long endingTime = System.currentTimeMillis();
         // Clear the saved starting time.
-        SharedPreferences pref = getSharedPreferences("TimePref", 0);
+        SharedPreferences pref = getSharedPreferences(TIME_PREF, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
         editor.apply();

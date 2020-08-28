@@ -74,7 +74,8 @@ public class EditShiftActivity extends AppCompatActivity {
                 if(message.equals("OK"))
                     finish();
 
-                else Toast.makeText(EditShiftActivity.this, message, Toast.LENGTH_LONG).show();
+                if(message.equals("INVALID_TIMES"))
+                    Toast.makeText(EditShiftActivity.this, R.string.invalid_times, Toast.LENGTH_LONG).show();
             }
         });
 
