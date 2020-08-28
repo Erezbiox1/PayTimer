@@ -5,6 +5,35 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory app:title="@string/settings_general_catagory">
+        <EditTextPreference
+            app:key="hourly_pay"
+            app:title="Hourly rate"
+            app:summary="How much you make an hour"
+            app:defaultValue="24"
+            app:persistent="true" />
+
+        <SwitchPreferenceCompat
+            app:key="will_stop_after_time"
+            app:title="@string/settings_stop_shift_after"
+            app:summary="@string/settings_stop_shift_after_text"
+            android:defaultValue="false"
+            app:persistent="true"
+            />
+
+        <SeekBarPreference
+            android:dependency="will_stop_after_time"
+            app:key="stop_after_time"
+            app:title="@string/settings_stop_shift_after_placeholder"
+            app:summary="@string/settings_stop_shift_after_summry"
+            app:min="@integer/seek_bar_min"
+            android:max="@integer/seek_bar_max"
+            app:defaultValue="@integer/seek_bar_default"
+            app:seekBarIncrement="1"
+            app:updatesContinuously="true"
+            app:persistent="true"/>
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_notification_catgory">
 
         <SwitchPreference
@@ -41,28 +70,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/settings_general_catagory">
-        <SwitchPreferenceCompat
-            app:key="will_stop_after_time"
-            app:title="@string/settings_stop_shift_after"
-            app:summary="@string/settings_stop_shift_after_text"
-            android:defaultValue="false"
-            app:persistent="true"
-            />
-
-        <SeekBarPreference
-            android:dependency="will_stop_after_time"
-            app:key="stop_after_time"
-            app:title="@string/settings_stop_shift_after_placeholder"
-            app:summary="@string/settings_stop_shift_after_summry"
-            app:min="@integer/seek_bar_min"
-            android:max="@integer/seek_bar_max"
-            app:defaultValue="@integer/seek_bar_default"
-            app:seekBarIncrement="1"
-            app:updatesContinuously="true"
-            app:persistent="true"/>
-    </PreferenceCategory>
-
+    <!-- TODO: in the future.
     <PreferenceCategory app:title="@string/settings_data_catagory">
 
         <com.erezbiox1.paytimer.Settings.ButtonPreference
@@ -84,5 +92,6 @@
             app:defaultValue="true" />
 
     </PreferenceCategory>
+    -->
 
 </PreferenceScreen>

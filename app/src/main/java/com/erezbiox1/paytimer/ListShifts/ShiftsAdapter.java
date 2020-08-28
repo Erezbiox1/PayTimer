@@ -4,10 +4,13 @@
 
 package com.erezbiox1.paytimer.ListShifts;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -107,6 +110,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             optionsButton.setOnClickListener(this);
         }
 
+        @SuppressLint("SetTextI18n")
         private void setShift(Shift shift){
             this.shift = shift;
 
@@ -114,13 +118,14 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             long endDate = shift.getEndTime();
             long diff = endDate - startDate;
 
-            int pay = 23; // TODO
+            //noinspection ConstantConditions
+            double pay = Double.parseDouble(PreferenceManager.getDefaultSharedPreferences(context).getString("hourly_pay", "23"));
 
             set(dayOfTheWeek, "E", startDate);
             set(fromHour, "HH:mm", startDate);
             set(toHour, "HH:mm", endDate);
             set(date, "MMMM dd, yyyy", startDate);
-            totalPayout.setText(String.format(context.getString(R.string.shift_payout), (diff/1000/60/60 * pay)));
+            totalPayout.setText((diff/1000/60/60 * pay) + context.getString(R.string.currency_symbol));
             set(totalHours, "HH:mm", diff, "UTC");
 
         }

@@ -18,7 +18,7 @@
     <string name="anchor">Anchor</string>
 
     <string name="from_hour_to_hour">From hour to hour</string>
-    <string name="shift_payout">%1$d$</string>
+    <string name="currency_symbol">$</string>
     <string name="stop_after_time_title">Will stop after %1$d hours.</string>
     <string name="shift_options_edit">Edit</string>
     <string name="shift_options_delete">Delete</string>
@@ -55,5 +55,6 @@
     <string name="settings_delete_all">Delete all</string>
     <string name="settings_delete_all_desc">Delete all shifts.</string>
     <string name="settings_data_catagory">Data</string>
+    <string name="invalid_number">Invalid number</string>
 
 </resources>

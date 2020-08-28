@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -25,6 +26,7 @@ import com.erezbiox1.paytimer.Reminders.LocationHandler;
 import com.erezbiox1.paytimer.R;
 import com.erezbiox1.paytimer.Reminders.ReminderController;
 
+import java.text.NumberFormat;
 import java.util.Objects;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -118,10 +120,32 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
                     return true;
                 }
             });
+
+            EditTextPreference hourRateEditText = findPreference("hourly_pay");
+            hourRateEditText.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if(!isNumber(newValue.toString())){
+                        Toast.makeText(getContext(), R.string.invalid_number, Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+
+                    return true;
+                }
+            });
         }
 
         private void updateSeekbarValue(SeekBarPreference preference, int value){
             preference.setTitle(getString(R.string.stop_after_time_title, value));
+        }
+
+        private boolean isNumber(String string){
+            try{
+                Double.parseDouble(string);
+                return true;
+            } catch (NumberFormatException e){
+                return false;
+            }
         }
     }
 }
