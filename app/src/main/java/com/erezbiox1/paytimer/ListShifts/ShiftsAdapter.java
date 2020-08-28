@@ -121,12 +121,18 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             set(toHour, "HH:mm", endDate);
             set(date, "MMMM dd, yyyy", startDate);
             totalPayout.setText(String.format(context.getString(R.string.shift_payout), (diff/1000/60/60 * pay)));
-            set(totalHours, "HH:mm", diff);
+            set(totalHours, "HH:mm", diff, "UTC");
 
         }
 
         private void set(TextView textView, String pattern, long time){
-            textView.setText(new SimpleDateFormat(pattern, Locale.getDefault()).format(new Date(time)));
+            set(textView, pattern, time, null);
+        }
+
+        private void set(TextView textView, String pattern, long time, String timeZone){
+            SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+            dateFormat.setTimeZone(timeZone == null ? TimeZone.getDefault() : TimeZone.getTimeZone("UTC"));
+            textView.setText(dateFormat.format(new Date(time)));
         }
 
         @Override
