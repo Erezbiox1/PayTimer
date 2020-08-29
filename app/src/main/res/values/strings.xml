@@ -56,5 +56,7 @@
     <string name="settings_delete_all_desc">Delete all shifts.</string>
     <string name="settings_data_catagory">Data</string>
     <string name="invalid_number">Invalid number</string>
+    <string name="settings_hourly_rate">Hourly rate</string>
+    <string name="settings_hourly_rate_text">How much you make an hour</string>
 
 </resources>

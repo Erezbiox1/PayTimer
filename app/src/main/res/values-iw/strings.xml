@@ -46,7 +46,7 @@
     <string name="settings_time_based_reminders">תזכורות מבוססות זמן</string>
     <string name="settings_time_reminders_text">יזכיר לך להתחיל את המשמרת בשעה מסויומת</string>
     <string name="settings_pick_time">בחר זמן</string>
-    <string name="settings_general_catagory">כל</string>
+    <string name="settings_general_catagory">כללי</string>
     <string name="settings_stop_shift_after">יעצור לאחר זמן מסוים</string>
     <string name="settings_stop_shift_after_text">יעצור את המשמרת לאחר זמן מסוים למקרה ששכחת</string>
     <string name="settings_stop_shift_after_placeholder">יעצור לאחר</string>
@@ -58,4 +58,7 @@
     <string name="settings_delete_all">מחק הכל</string>
     <string name="settings_delete_all_desc">מחק את כל המשמרות</string>
     <string name="settings_data_catagory">מידע</string>
+    <string name="invalid_number">מספר לא תקין</string>
+    <string name="settings_hourly_rate">שכר שעתי</string>
+    <string name="settings_hourly_rate_text">כמה אתה מרוויח בשעה</string>
 </resources>

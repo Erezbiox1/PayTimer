@@ -8,8 +8,8 @@
     <PreferenceCategory app:title="@string/settings_general_catagory">
         <EditTextPreference
             app:key="hourly_pay"
-            app:title="Hourly rate"
-            app:summary="How much you make an hour"
+            app:title="@string/settings_hourly_rate"
+            app:summary="@string/settings_hourly_rate_text"
             app:defaultValue="24"
             app:persistent="true" />
 
