@@ -65,16 +65,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ShiftsAdapter.ViewHolder holder, final int position) {
-        Shift shift = shiftsList.get(position);
-
-        holder.setShift(shift);
-
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "The position is " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.setShift(shiftsList.get(position));
     }
 
     @Override
@@ -89,7 +80,6 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-
         private Shift shift;
         private CardView cardView;
         private TextView dayOfTheWeek, fromHour, toHour, date, totalPayout, totalHours;
@@ -111,23 +101,19 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             optionsButton.setOnClickListener(this);
         }
 
-        @SuppressWarnings({"IntegerDivisionInFloatingPointContext", "ConstantConditions"})
         @SuppressLint("SetTextI18n")
         private void setShift(Shift shift){
             this.shift = shift;
 
             long startDate = shift.getStartTime();
             long endDate = shift.getEndTime();
-            long diff = endDate - startDate;
-
-            double pay = Double.parseDouble(PreferenceManager.getDefaultSharedPreferences(context).getString("hourly_pay", "23"));
-            double totalPay = ((double) diff/1000/60/60) * pay;
+            long diff = shift.getTotalHours();
 
             set(dayOfTheWeek, "E", startDate);
             set(fromHour, "HH:mm", startDate);
             set(toHour, "HH:mm", endDate);
             set(date, "MMMM dd, yyyy", startDate);
-            totalPayout.setText(new DecimalFormat("#.#").format(totalPay) + context.getString(R.string.currency_symbol));
+            totalPayout.setText(new DecimalFormat("#.#").format(shift.getTotalPay()) + context.getString(R.string.currency_symbol));
             set(totalHours, "HH:mm", diff, "UTC");
         }
 

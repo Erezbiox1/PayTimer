@@ -49,6 +49,16 @@ public class Shift {
         this.tip = tip;
     }
 
+    // Calculated getters
+
+    public long getTotalHours(){
+        return getEndTime() - getStartTime();
+    }
+
+    public double getTotalPay(){
+        return ((double) getTotalHours() / 1000 / 60 / 60) * getHourlyRate() + (tip != null ? tip : 0);
+    }
+
     // Getters and setters
 
     public Integer getId() {
