@@ -24,6 +24,7 @@ import com.erezbiox1.paytimer.EditShift.Spinners.TimeSpinner;
 import com.erezbiox1.paytimer.R;
 import com.erezbiox1.paytimer.Room.Shift;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DecimalFormat;
 import java.util.Locale;
@@ -40,7 +41,7 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
 
     // Local UI elements ( combined spinner of date and time, both for the start datetime and the end datetime. tip and hourlyRate editTexts )
     private CombinedSpinner start, end;
-    private EditText editTip, editHourlyRate;
+    private TextInputLayout editTip, editHourlyRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,20 +171,20 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
     private void loadChanges(){
         start.setTime(shift.getStartTime());
         end.setTime(shift.getEndTime());
-        editHourlyRate.setText(new DecimalFormat("#.##").format(shift.getHourlyRate()));
+        editHourlyRate.getEditText().setText(new DecimalFormat("#.##").format(shift.getHourlyRate()));
 
         if (shift.getTip() != null)
-            editTip.setText(String.format(Locale.getDefault(), "%d", shift.getTip()));
+            editTip.getEditText().setText(String.format(Locale.getDefault(), "%d", shift.getTip()));
     }
 
     private int getTip(){
-        String text = editTip.getText().toString();
+        String text = editTip.getEditText().getText().toString();
         if(text.isEmpty()) return 0;
         return Integer.parseInt(text);
     }
 
     private double getHourlyRate(){
-        String text = editHourlyRate.getText().toString();
+        String text = editHourlyRate.getEditText().getText().toString();
         if(text.isEmpty()) return 0;
         return Double.parseDouble(text);
     }

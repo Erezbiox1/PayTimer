@@ -58,5 +58,7 @@
     <string name="invalid_number">Invalid number</string>
     <string name="settings_hourly_rate">Hourly rate</string>
     <string name="settings_hourly_rate_text">How much you make an hour</string>
+    <string name="hourly_pay">Hourly Pay</string>
+    <string name="tip">Tip</string>
 
 </resources>

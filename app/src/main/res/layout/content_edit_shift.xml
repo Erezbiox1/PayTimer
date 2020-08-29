@@ -105,37 +105,45 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="start"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tip: "
-            android:labelFor="@+id/edit_tip"/>
-
-        <EditText
-            android:id="@+id/edit_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="50dp"
-            android:importantForAutofill="no"
-            android:inputType="number" />
-
-        <TextView
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hourly Rate: "
-            android:labelFor="@+id/edit_hourly_rate"/>
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edit_hourly_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="50dp"
-            android:importantForAutofill="no"
-            android:inputType="number" />
+            android:minWidth="200dp"
+            android:layout_margin="10dp"
+            android:hint="@string/hourly_pay"
+            app:startIconDrawable="@drawable/ic_money"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="200dp"
+            android:layout_margin="10dp"
+            android:hint="@string/tip"
+            app:startIconDrawable="@drawable/ic_heart"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </LinearLayout>

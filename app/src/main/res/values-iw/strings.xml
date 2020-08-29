@@ -61,4 +61,6 @@
     <string name="invalid_number">מספר לא תקין</string>
     <string name="settings_hourly_rate">שכר שעתי</string>
     <string name="settings_hourly_rate_text">כמה אתה מרוויח בשעה</string>
+    <string name="hourly_pay">שכר שעתי</string>
+    <string name="tip">טיפ</string>
 </resources>
