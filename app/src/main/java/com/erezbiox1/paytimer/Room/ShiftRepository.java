@@ -35,6 +35,14 @@ public class ShiftRepository {
     }
 
     /**
+     * @param id shift's id
+     * @return live data of the said shift.
+     */
+    public LiveData<Shift> getShift(int id){
+        return dao.getShift(id);
+    }
+
+    /**
      * Asynchronously will insert a shift into the database
      * @param shift
      */

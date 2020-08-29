@@ -37,6 +37,9 @@ public interface ShiftDao {
     @Update
     void update(Shift shift);
 
+    @Query("SELECT * FROM shifts_table WHERE id = :id")
+    LiveData<Shift> getShift(int id);
+
     /**
      * Gets a LiveData of all of the shifts. updates live as the database changes.
      * @return

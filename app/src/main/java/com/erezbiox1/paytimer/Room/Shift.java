@@ -24,26 +24,39 @@ public class Shift {
     @NonNull
     private Long endTime;
 
+    @NonNull
+    private Double hourlyRate;
+
+    // The given tip ( will be added to the total salary )
+    private Integer tip;
+
     // Room constructor used to create new shifts
-    public Shift(@NonNull Long startTime, @NonNull Long endTime) {
+    public Shift(@NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, Integer tip) {
         this.startTime = startTime;
         this.endTime = endTime;
+        this.hourlyRate = hourlyRate;
+        this.tip = tip;
     }
 
     // Custom constructor, flagged to be ignored by the Room parser,
     // used to update shifts by specifying their id.
     @Ignore
-    public Shift(Integer id, @NonNull Long startTime, @NonNull Long endTime) {
+    public Shift(Integer id, @NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, Integer tip) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.hourlyRate = hourlyRate;
+        this.tip = tip;
     }
 
     // Getters and setters
 
-    @NonNull
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @NonNull
@@ -51,12 +64,33 @@ public class Shift {
         return startTime;
     }
 
+    public void setStartTime(@NonNull Long startTime) {
+        this.startTime = startTime;
+    }
+
     @NonNull
     public Long getEndTime() {
         return endTime;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setEndTime(@NonNull Long endTime) {
+        this.endTime = endTime;
+    }
+
+    public Integer getTip() {
+        return tip;
+    }
+
+    public void setTip(Integer tip) {
+        this.tip = tip;
+    }
+
+    @NonNull
+    public Double getHourlyRate() {
+        return hourlyRate;
+    }
+
+    public void setHourlyRate(@NonNull Double hourlyRate) {
+        this.hourlyRate = hourlyRate;
     }
 }
