@@ -87,7 +87,6 @@ public class ListShiftsActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
                 ((ShiftsAdapter.ViewHolder) viewHolder).deleteShift();
-                //shiftsAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
             }
         });
 

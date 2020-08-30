@@ -152,6 +152,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
         }
 
         public void deleteShift(){
+            final int position = getAdapterPosition();
             new AlertDialog.Builder(context)
                     .setTitle(R.string.delete_shift)
                     .setMessage(R.string.delete_shift_text)
@@ -159,12 +160,16 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
                     .setPositiveButton(R.string.delete_shift_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            final int position = getAdapterPosition();
                             notifyItemRemoved(position);
                             new ShiftRepository(context).delete(shift);
                         }
                     })
-                    .setNegativeButton(R.string.delete_shift_no, null)
+                    .setNegativeButton(R.string.delete_shift_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            notifyItemChanged(position);
+                        }
+                    })
                     .show();
         }
     }
