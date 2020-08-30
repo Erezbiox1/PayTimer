@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.erezbiox1.paytimer.R;
@@ -91,6 +93,32 @@ public class ListShiftsActivity extends AppCompatActivity {
 
         helper.attachToRecyclerView(recyclerView);
 
+    }
+
+    /**
+     * Inflates the options menu
+     * @param menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /**
+     * On option selected listener,
+     * @param item
+     * @return was the item clicked handled
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_settings){
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

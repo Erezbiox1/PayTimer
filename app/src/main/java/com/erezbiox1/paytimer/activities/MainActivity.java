@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
     }
 
     /**
-     * On option selected listener, TODO: to be implemented in the future
+     * On option selected listener,
      * @param item
      * @return was the item clicked handled
      */
