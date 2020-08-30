@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.erezbiox1.paytimer.R;
 
@@ -52,6 +53,7 @@ public class ListShiftsActivity extends AppCompatActivity {
         });
 
         final RecyclerView recyclerView = findViewById(R.id.shifts_list);
+        final TextView noShiftsView = findViewById(R.id.no_shifts);
 
         final ShiftsAdapter shiftsAdapter = new ShiftsAdapter();
         final ShiftRepository repository = new ShiftRepository(getApplication());
@@ -59,8 +61,15 @@ public class ListShiftsActivity extends AppCompatActivity {
         repository.getAllShifts().observe(this, new Observer<List<Shift>>() {
             @Override
             public void onChanged(List<Shift> shifts) {
-                if(shifts != null)
+                if(shifts != null && shifts.size() > 0){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noShiftsView.setVisibility(View.GONE);
+
                     shiftsAdapter.setShiftsList(shifts);
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                    noShiftsView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
