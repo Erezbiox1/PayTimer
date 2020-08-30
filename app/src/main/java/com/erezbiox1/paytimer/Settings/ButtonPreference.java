@@ -19,7 +19,7 @@ import com.erezbiox1.paytimer.R;
 public class ButtonPreference extends Preference implements View.OnClickListener {
 
     private Button button;
-    private ButtonPrefCallback callback;
+    protected ButtonPrefCallback callback;
 
     public ButtonPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,7 +36,7 @@ public class ButtonPreference extends Preference implements View.OnClickListener
 
         Activity activity = getActivity();
         if(activity instanceof ButtonPrefCallback)
-            callback = (ButtonPrefCallback) activity;
+            setCallback((ButtonPrefCallback) activity);
 
         button.setOnClickListener(this);
     }
@@ -47,7 +47,11 @@ public class ButtonPreference extends Preference implements View.OnClickListener
         return getTitle().toString().toUpperCase();
     }
 
-    private Activity getActivity() {
+    public void setCallback(ButtonPrefCallback callback) {
+        this.callback = callback;
+    }
+
+    protected Activity getActivity() {
         Context context = getContext();
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {

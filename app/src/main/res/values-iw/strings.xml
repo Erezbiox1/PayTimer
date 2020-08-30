@@ -59,10 +59,10 @@
     <string name="settings_delete_all_desc">מחק את כל המשמרות</string>
     <string name="settings_data_catagory">מידע</string>
     <string name="invalid_number">מספר לא תקין</string>
-    <string name="settings_hourly_rate">שכר שעתי</string>
+    <string name="settings_hourly_rate">קבע שכר שעתי</string>
     <string name="settings_hourly_rate_text">כמה אתה מרוויח בשעה</string>
-    <string name="hourly_pay">שכר שעתי</string>
     <string name="tip">טיפ</string>
     <string name="settings_tips">טיפים</string>
     <string name="settings_tips_desc">אפשר שמירה של טיפים בכל משמרת</string>
+    <string name="hourly_pay">שכר שעתי</string>
 </resources>

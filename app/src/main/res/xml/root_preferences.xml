@@ -6,12 +6,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/settings_general_catagory">
-        <EditTextPreference
+        <com.erezbiox1.paytimer.Settings.NumberPreference
             app:key="hourly_pay"
             app:title="@string/settings_hourly_rate"
             app:summary="@string/settings_hourly_rate_text"
             app:defaultValue="24"
-            app:persistent="true" />
+            app:persistent="true"
+            />
 
         <SwitchPreferenceCompat
             app:key="tips_enabled"

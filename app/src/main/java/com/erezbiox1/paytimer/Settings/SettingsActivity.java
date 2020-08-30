@@ -8,7 +8,9 @@ import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -112,7 +114,6 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
             //setupSeekbar();
-            setupEditText();
         }
 
         private void setupSeekbar(){
@@ -129,30 +130,6 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
 
         private void updateSeekbarValue(SeekBarPreference preference, int value){
             preference.setTitle(getString(R.string.stop_after_time_title, value));
-        }
-
-        public void setupEditText(){
-            EditTextPreference hourRateEditText = findPreference("hourly_pay");
-            hourRateEditText.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if(!isNumber(newValue.toString())){
-                        Toast.makeText(getContext(), R.string.invalid_number, Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-
-                    return true;
-                }
-            });
-        }
-
-        private boolean isNumber(String string){
-            try{
-                Double.parseDouble(string);
-                return true;
-            } catch (NumberFormatException e){
-                return false;
-            }
         }
     }
 }
