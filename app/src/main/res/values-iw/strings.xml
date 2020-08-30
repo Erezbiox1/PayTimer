@@ -63,4 +63,6 @@
     <string name="settings_hourly_rate_text">כמה אתה מרוויח בשעה</string>
     <string name="hourly_pay">שכר שעתי</string>
     <string name="tip">טיפ</string>
+    <string name="settings_tips">טיפים</string>
+    <string name="settings_tips_desc">אפשר שמירה של טיפים בכל משמרת</string>
 </resources>

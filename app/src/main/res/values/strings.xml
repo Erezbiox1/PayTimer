@@ -60,5 +60,7 @@
     <string name="settings_hourly_rate_text">How much you make an hour</string>
     <string name="hourly_pay">Hourly Pay</string>
     <string name="tip">Tip</string>
+    <string name="settings_tips">Tips</string>
+    <string name="settings_tips_desc">Save tips in your daily shifts.</string>
 
 </resources>

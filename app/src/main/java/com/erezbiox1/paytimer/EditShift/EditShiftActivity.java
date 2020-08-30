@@ -173,8 +173,14 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
         end.setTime(shift.getEndTime());
         editHourlyRate.getEditText().setText(new DecimalFormat("#.##").format(shift.getHourlyRate()));
 
-        if (shift.getTip() != null)
-            editTip.getEditText().setText(String.format(Locale.getDefault(), "%d", shift.getTip()));
+        if (shift.getTip() != null){
+            editTip.setVisibility(View.VISIBLE);
+
+            if(shift.getTip() != 0)
+                editTip.getEditText().setText(String.format(Locale.getDefault(), "%d", shift.getTip()));
+        } else {
+            editTip.setVisibility(View.GONE);
+        }
     }
 
     private int getTip(){

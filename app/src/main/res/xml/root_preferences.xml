@@ -13,6 +13,13 @@
             app:defaultValue="24"
             app:persistent="true" />
 
+        <SwitchPreferenceCompat
+            app:key="tips_enabled"
+            app:title="@string/settings_tips"
+            app:summary="@string/settings_tips_desc"
+            android:defaultValue="true"
+            app:persistent="true" />
+
         <!--
         <SwitchPreferenceCompat
             app:key="will_stop_after_time"
