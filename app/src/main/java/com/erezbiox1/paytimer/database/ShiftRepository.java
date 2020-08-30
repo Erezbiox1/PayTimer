@@ -2,13 +2,14 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Room;
+package com.erezbiox1.paytimer.database;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+
+import com.erezbiox1.paytimer.model.Shift;
 
 import java.util.List;
 

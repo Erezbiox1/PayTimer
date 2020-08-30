@@ -6,7 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/settings_general_catagory">
-        <com.erezbiox1.paytimer.Settings.NumberPreference
+        <com.erezbiox1.paytimer.views.preferences.NumberPreference
             app:key="hourly_pay"
             app:title="@string/settings_hourly_rate"
             app:summary="@string/settings_hourly_rate_text"
@@ -59,7 +59,7 @@
             app:defaultValue="false"
             app:persistent="true"/>
 
-        <com.erezbiox1.paytimer.Settings.ButtonPreference
+        <com.erezbiox1.paytimer.views.preferences.ButtonPreference
             app:dependency="location_notifications"
             app:key="pick_location"
             app:title="@string/settings_pick_location"
@@ -72,7 +72,7 @@
             app:defaultValue="false"
             app:persistent="true"/>
 
-        <com.erezbiox1.paytimer.Settings.ButtonPreference
+        <com.erezbiox1.paytimer.views.preferences.ButtonPreference
             app:dependency="time_notifications"
             app:key="pick_time"
             app:title="@string/settings_pick_time"
@@ -83,19 +83,19 @@
     <!-- TODO: in the future.
     <PreferenceCategory app:title="@string/settings_data_catagory">
 
-        <com.erezbiox1.paytimer.Settings.ButtonPreference
+        <com.erezbiox1.paytimer.views.preferences.ButtonPreference
             app:key="export"
             app:title="@string/settings_export"
             app:summary="@string/settings_export_desc"
             app:defaultValue="true" />
 
-        <com.erezbiox1.paytimer.Settings.ButtonPreference
+        <com.erezbiox1.paytimer.views.preferences.ButtonPreference
             app:key="import"
             app:summary="@string/settings_import_desc"
             app:title="@string/settings_import"
             app:defaultValue="true" />
 
-        <com.erezbiox1.paytimer.Settings.ButtonPreference
+        <com.erezbiox1.paytimer.views.preferences.ButtonPreference
             app:key="delete"
             app:title="@string/settings_delete_all"
             app:summary="@string/settings_delete_all_desc"

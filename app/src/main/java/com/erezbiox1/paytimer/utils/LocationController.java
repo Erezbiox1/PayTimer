@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Reminders;
+package com.erezbiox1.paytimer.utils;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
 import com.erezbiox1.paytimer.R;
+import com.erezbiox1.paytimer.background.receivers.GeofenceReceiver;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
@@ -28,7 +29,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-public class LocationHandler implements LocationListener {
+public class LocationController implements LocationListener {
     public static final int LOCATION_PERM_RESULT = 440;
     public static final String LOCATION_REMINDER_LON = "location_reminder_lon";
     public static final String LOCATION_REMINDER_LAT = "location_reminder_lat";
@@ -39,7 +40,7 @@ public class LocationHandler implements LocationListener {
     private SharedPreferences preferences;
     private Context context;
 
-    public LocationHandler(Context context) {
+    public LocationController(Context context) {
         this.context = context;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.geofencingClient = LocationServices.getGeofencingClient(context);

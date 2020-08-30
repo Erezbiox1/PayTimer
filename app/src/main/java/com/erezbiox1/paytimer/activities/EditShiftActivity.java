@@ -2,11 +2,10 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.EditShift;
+package com.erezbiox1.paytimer.activities;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +17,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.erezbiox1.paytimer.BuildConfig;
-import com.erezbiox1.paytimer.EditShift.Spinners.CombinedSpinner;
-import com.erezbiox1.paytimer.EditShift.Spinners.DateSpinner;
-import com.erezbiox1.paytimer.EditShift.Spinners.TimeSpinner;
+import com.erezbiox1.paytimer.viewmodel.EditShiftViewModel;
+import com.erezbiox1.paytimer.views.spinners.CombinedSpinner;
+import com.erezbiox1.paytimer.views.spinners.DateSpinner;
+import com.erezbiox1.paytimer.views.spinners.TimeSpinner;
 import com.erezbiox1.paytimer.R;
-import com.erezbiox1.paytimer.Room.Shift;
+import com.erezbiox1.paytimer.model.Shift;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 

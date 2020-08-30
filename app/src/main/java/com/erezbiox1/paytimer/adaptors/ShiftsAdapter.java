@@ -2,42 +2,34 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.ListShifts;
+package com.erezbiox1.paytimer.adaptors;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
+import com.erezbiox1.paytimer.activities.EditShiftActivity;
 import com.erezbiox1.paytimer.R;
-import com.erezbiox1.paytimer.Room.Shift;
-import com.erezbiox1.paytimer.Room.ShiftRepository;
-import com.google.android.material.snackbar.Snackbar;
+import com.erezbiox1.paytimer.model.Shift;
+import com.erezbiox1.paytimer.database.ShiftRepository;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -79,7 +71,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
         private Shift shift;
         private CardView cardView;
         private TextView dayOfTheWeek, fromHour, toHour, date, totalPayout, totalHours;

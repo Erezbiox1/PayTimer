@@ -2,22 +2,16 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer;
+package com.erezbiox1.paytimer.background.services;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
-import android.util.Log;
 
-import androidx.core.app.NotificationCompat;
+import com.erezbiox1.paytimer.activities.MainActivity;
 
 public class TimerService extends Service {
 
@@ -107,7 +101,7 @@ public class TimerService extends Service {
     /**
      * Callbacks interface used to communicate with the activity
      */
-    interface Callbacks {
+    public interface Callbacks {
         /**
          * a listener method that is implemented by the activity and
          * is called every second by the service runnable with the

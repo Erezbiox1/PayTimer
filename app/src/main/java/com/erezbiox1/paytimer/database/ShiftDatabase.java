@@ -2,13 +2,15 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Room;
+package com.erezbiox1.paytimer.database;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.erezbiox1.paytimer.model.Shift;
 
 @Database(entities = {Shift.class}, version = 3)
 public abstract class ShiftDatabase extends RoomDatabase {

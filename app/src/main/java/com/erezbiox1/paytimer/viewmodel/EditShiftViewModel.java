@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.EditShift;
+package com.erezbiox1.paytimer.viewmodel;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -15,8 +15,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.preference.PreferenceManager;
 
-import com.erezbiox1.paytimer.Room.Shift;
-import com.erezbiox1.paytimer.Room.ShiftRepository;
+import com.erezbiox1.paytimer.model.Shift;
+import com.erezbiox1.paytimer.database.ShiftRepository;
 
 import java.util.Date;
 
@@ -53,7 +53,7 @@ public class EditShiftViewModel extends AndroidViewModel implements Observer<Shi
      * and ask for the specified activity.
      * @param id
      */
-    void syncShift(int id){
+    public void syncShift(int id){
         // Mark that the shift isn't new ( we know it's id )
         this.newShift = false;
 
@@ -78,7 +78,7 @@ public class EditShiftViewModel extends AndroidViewModel implements Observer<Shi
      * @param startTime
      * @param endTime
      */
-    void syncShift(long startTime, long endTime){
+    public void syncShift(long startTime, long endTime){
         // If the shift is in memory ( if the activity had a configuration change for example )
         // return that shift.
         if(shift != null){
@@ -130,14 +130,14 @@ public class EditShiftViewModel extends AndroidViewModel implements Observer<Shi
      * @param lifecycleOwner the activity
      * @param observer also the activity
      */
-    void observe(LifecycleOwner lifecycleOwner, Observer<Shift> observer){
+    public void observe(LifecycleOwner lifecycleOwner, Observer<Shift> observer){
         activityShift.observe(lifecycleOwner, observer);
     }
 
     /**
      * Saves the shift.
      */
-    void save(){
+    public void save(){
 
         // force the shift to save it's UI data to the local shift ( by passing the same shift again )
         activityShift.setValue(shift);
@@ -165,7 +165,7 @@ public class EditShiftViewModel extends AndroidViewModel implements Observer<Shi
      *         either to pass an error or to tell it to go back to
      *         the main activity ( finish() )
      */
-    LiveData<String> getGoBack() {
+    public LiveData<String> getGoBack() {
         return goBack;
     }
 

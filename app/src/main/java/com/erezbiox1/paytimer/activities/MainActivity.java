@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer;
+package com.erezbiox1.paytimer.activities;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,9 +24,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
-import com.erezbiox1.paytimer.ListShifts.ListShiftsActivity;
-import com.erezbiox1.paytimer.Settings.SettingsActivity;
+import com.erezbiox1.paytimer.BuildConfig;
+import com.erezbiox1.paytimer.R;
+import com.erezbiox1.paytimer.background.services.TimerService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,10 +35,10 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.TimeZone;
 
-import static com.erezbiox1.paytimer.EditShift.EditShiftActivity.END_TIME_EXTRA;
-import static com.erezbiox1.paytimer.EditShift.EditShiftActivity.START_TIME_EXTRA;
+import static com.erezbiox1.paytimer.activities.EditShiftActivity.END_TIME_EXTRA;
+import static com.erezbiox1.paytimer.activities.EditShiftActivity.START_TIME_EXTRA;
 
-public class MainActivity extends AppCompatActivity implements TimerService.Callbacks{
+public class MainActivity extends AppCompatActivity implements TimerService.Callbacks {
 
     // Constants used in various intents.
     public static final String START_TIME_PREF = BuildConfig.APPLICATION_ID + ".prefs.START_TIME_PREF";

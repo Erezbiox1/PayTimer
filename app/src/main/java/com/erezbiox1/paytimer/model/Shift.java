@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Room;
+package com.erezbiox1.paytimer.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

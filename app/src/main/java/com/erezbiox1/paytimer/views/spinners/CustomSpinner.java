@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.EditShift.Spinners;
+package com.erezbiox1.paytimer.views.spinners;
 
 import android.app.Dialog;
 import android.content.Context;

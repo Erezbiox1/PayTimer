@@ -31,7 +31,7 @@
             app:srcCompat="@drawable/ic_calendar"
             android:contentDescription="@string/calendar_icon_desc" />
 
-        <com.erezbiox1.paytimer.EditShift.Spinners.DateSpinner
+        <com.erezbiox1.paytimer.views.spinners.DateSpinner
             android:id="@+id/start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -43,7 +43,7 @@
             app:srcCompat="@drawable/ic_time"
             android:contentDescription="@string/time_icon_desc" />
 
-        <com.erezbiox1.paytimer.EditShift.Spinners.TimeSpinner
+        <com.erezbiox1.paytimer.views.spinners.TimeSpinner
             android:id="@+id/start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -81,7 +81,7 @@
             android:contentDescription="@string/calendar_icon_desc"
             app:srcCompat="@drawable/ic_calendar" />
 
-        <com.erezbiox1.paytimer.EditShift.Spinners.DateSpinner
+        <com.erezbiox1.paytimer.views.spinners.DateSpinner
             android:id="@+id/end_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -93,7 +93,7 @@
             android:contentDescription="@string/time_icon_desc"
             app:srcCompat="@drawable/ic_time" />
 
-        <com.erezbiox1.paytimer.EditShift.Spinners.TimeSpinner
+        <com.erezbiox1.paytimer.views.spinners.TimeSpinner
             android:id="@+id/end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

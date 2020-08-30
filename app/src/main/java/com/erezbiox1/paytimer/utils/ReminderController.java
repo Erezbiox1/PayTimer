@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Reminders;
+package com.erezbiox1.paytimer.utils;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -17,13 +17,14 @@ import android.preference.PreferenceManager;
 
 import androidx.core.app.NotificationCompat;
 
-import com.erezbiox1.paytimer.MainActivity;
+import com.erezbiox1.paytimer.background.receivers.StartActionReceiver;
+import com.erezbiox1.paytimer.activities.MainActivity;
 import com.erezbiox1.paytimer.R;
 
 import java.util.Calendar;
 
-import static com.erezbiox1.paytimer.MainActivity.START_TIME_PREF;
-import static com.erezbiox1.paytimer.MainActivity.TIME_PREF;
+import static com.erezbiox1.paytimer.activities.MainActivity.START_TIME_PREF;
+import static com.erezbiox1.paytimer.activities.MainActivity.TIME_PREF;
 
 public class ReminderController {
 

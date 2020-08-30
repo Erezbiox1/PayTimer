@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Settings;
+package com.erezbiox1.paytimer.views.preferences;
 
 import android.app.Activity;
 import android.content.Context;

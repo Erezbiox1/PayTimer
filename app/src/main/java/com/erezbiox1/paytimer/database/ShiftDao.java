@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Room;
+package com.erezbiox1.paytimer.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -10,6 +10,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.erezbiox1.paytimer.model.Shift;
 
 import java.util.List;
 

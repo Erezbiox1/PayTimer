@@ -2,16 +2,14 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Settings;
+package com.erezbiox1.paytimer.views.preferences;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
 import com.erezbiox1.paytimer.R;

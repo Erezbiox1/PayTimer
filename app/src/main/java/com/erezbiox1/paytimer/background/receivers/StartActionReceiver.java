@@ -2,17 +2,18 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.Reminders;
+package com.erezbiox1.paytimer.background.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.erezbiox1.paytimer.MainActivity;
+import com.erezbiox1.paytimer.activities.MainActivity;
+import com.erezbiox1.paytimer.utils.ReminderController;
 
-import static com.erezbiox1.paytimer.MainActivity.START_TIME_PREF;
-import static com.erezbiox1.paytimer.MainActivity.TIME_PREF;
+import static com.erezbiox1.paytimer.activities.MainActivity.START_TIME_PREF;
+import static com.erezbiox1.paytimer.activities.MainActivity.TIME_PREF;
 
 public class StartActionReceiver extends BroadcastReceiver {
 

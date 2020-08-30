@@ -2,22 +2,18 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.ListShifts;
+package com.erezbiox1.paytimer.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.erezbiox1.paytimer.EditShift.EditShiftActivity;
-import com.erezbiox1.paytimer.Room.Shift;
-import com.erezbiox1.paytimer.Room.ShiftRepository;
+import com.erezbiox1.paytimer.adaptors.ShiftsAdapter;
+import com.erezbiox1.paytimer.model.Shift;
+import com.erezbiox1.paytimer.database.ShiftRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -26,9 +22,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.erezbiox1.paytimer.R;
 

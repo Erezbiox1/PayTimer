@@ -2,13 +2,15 @@
  * Copyright (c) 2020. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.EditShift.Spinners;
+package com.erezbiox1.paytimer.views.spinners;
+
+import com.erezbiox1.paytimer.viewmodel.EditShiftViewModel;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 /**
- * A combined spinner used by the {@link com.erezbiox1.paytimer.EditShift.EditShiftViewModel}
+ * A combined spinner used by the {@link EditShiftViewModel}
  * to manage the time and date spinners
  */
 public class CombinedSpinner implements DateSpinner.OnSpinnerDateSelected, TimeSpinner.OnSpinnerTimeSelect {
