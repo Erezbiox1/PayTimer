@@ -66,4 +66,6 @@
     <string name="settings_tips_desc">אפשר שמירה של טיפים בכל משמרת</string>
     <string name="hourly_pay">שכר שעתי</string>
     <string name="no_shifts">אין משמרות שמורות</string>
+    <string name="confirm">אישור</string>
+    <string name="cancel">ביטול</string>
 </resources>

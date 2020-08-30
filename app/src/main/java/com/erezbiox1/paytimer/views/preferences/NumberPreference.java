@@ -34,10 +34,10 @@ public class NumberPreference extends ButtonPreference implements
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder
-                .setTitle("Hourly Rate")
+                .setTitle(getContext().getString(R.string.hourly_pay))
                 .setView(R.layout.pref_number)
-                .setPositiveButton("Set", this)
-                .setNegativeButton("Cancel", null);
+                .setPositiveButton(getContext().getString(R.string.confirm), this)
+                .setNegativeButton(getContext().getString(R.string.cancel), null);
 
         alertDialog = builder.create();
     }

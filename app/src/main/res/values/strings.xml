@@ -63,5 +63,7 @@
     <string name="settings_tips_desc">Save tips in your daily shifts.</string>
     <string name="hourly_pay">Hourly Pay</string>
     <string name="no_shifts">No shifts</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
