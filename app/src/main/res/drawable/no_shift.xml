@@ -8,9 +8,6 @@
     android:viewportWidth="3200"
     android:viewportHeight="2000">
   <path
-      android:pathData="M0,0h3200v2000h-3200z"
-      android:fillColor="#FFFFFF"/>
-  <path
       android:pathData="M373.2,1712.2c0,0 -348.4,-349.6 -58.9,-728c256.8,-335.8 556.3,-312.8 776,-176.6c93.6,58 363.3,7.2 593,-334.5c313.1,-465.9 1398.5,-183.3 1200.6,533.5c-95.8,346.9 291.5,359.5 94.2,706.3L373.2,1712.2z"
       android:fillColor="#EBF3FA"/>
   <path
