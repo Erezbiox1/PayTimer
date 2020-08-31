@@ -5,13 +5,14 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/settings_general_catagory">
+    <PreferenceCategory app:title="@string/settings_general_catagory" app:iconSpaceReserved="false">
         <com.erezbiox1.paytimer.views.preferences.NumberPreference
             app:key="hourly_pay"
             app:title="@string/settings_hourly_rate"
             app:summary="@string/settings_hourly_rate_text"
             app:defaultValue="24"
             app:persistent="true"
+            app:iconSpaceReserved="false"
             />
 
         <SwitchPreferenceCompat
@@ -19,7 +20,8 @@
             app:title="@string/settings_tips"
             app:summary="@string/settings_tips_desc"
             android:defaultValue="true"
-            app:persistent="true" />
+            app:persistent="true"
+            app:iconSpaceReserved="false"/>
 
         <!--
         <SwitchPreferenceCompat
@@ -44,39 +46,44 @@
             -->
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/settings_notification_catgory">
+    <PreferenceCategory app:title="@string/settings_notification_catgory" app:iconSpaceReserved="false">
 
         <SwitchPreference
             app:key="notify_once_a_day"
             app:title="@string/settings_will_only_notify_once_a_day"
             app:defaultValue="true"
-            app:persistent="true" />
+            app:persistent="true"
+            app:iconSpaceReserved="false"/>
 
         <CheckBoxPreference
             app:key="location_notifications"
             app:title="@string/settings_location_based_reminders"
             app:summary="@string/settings_location_notification_text"
             app:defaultValue="false"
-            app:persistent="true"/>
+            app:persistent="true"
+            app:iconSpaceReserved="false"/>
 
         <com.erezbiox1.paytimer.views.preferences.ButtonPreference
             app:dependency="location_notifications"
             app:key="pick_location"
             app:title="@string/settings_pick_location"
-            app:defaultValue="true" />
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
 
         <CheckBoxPreference
             app:key="time_notifications_enabled"
             app:title="@string/settings_time_based_reminders"
             app:summary="@string/settings_time_reminders_text"
             app:defaultValue="false"
-            app:persistent="true"/>
+            app:persistent="true"
+            app:iconSpaceReserved="false"/>
 
         <com.erezbiox1.paytimer.views.preferences.ButtonPreference
             app:dependency="time_notifications_enabled"
             app:key="pick_time"
             app:title="@string/settings_pick_time"
-            app:defaultValue="true" />
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>
 
