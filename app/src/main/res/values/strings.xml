@@ -65,5 +65,15 @@
     <string name="no_shifts">No shifts</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="time_notifications_catg">Time Notifications</string>
+    <string name="time_notifications_daily_reminder_time">Daily reminder time</string>
+    <string name="time_notifications_time_desc">Daily hour and minute that you will be reminder through a notification.</string>
+    <string name="time_notifications_sunday">Sunday</string>
+    <string name="time_notifications_monday">Monday</string>
+    <string name="time_notifications_tuesday">Tuesday</string>
+    <string name="time_notifications_wednesday">Wednesday</string>
+    <string name="time_notifications_thursday">Thursday</string>
+    <string name="time_notifications_friday">Friday</string>
+    <string name="time_notifications_saturday">Saturday</string>
 
 </resources>

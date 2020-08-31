@@ -68,7 +68,7 @@ public class TimeSpinner extends CustomSpinner implements OnTimeSetListener {
     /**
      * Callback interface, will be called when the dialog finishes.
      */
-    interface OnSpinnerTimeSelect {
+    public interface OnSpinnerTimeSelect {
         void onTimeSelect(TimeSpinner spinner);
     }
 

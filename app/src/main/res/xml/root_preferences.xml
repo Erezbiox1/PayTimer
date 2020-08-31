@@ -66,14 +66,14 @@
             app:defaultValue="true" />
 
         <CheckBoxPreference
-            app:key="time_notifications"
+            app:key="time_notifications_enabled"
             app:title="@string/settings_time_based_reminders"
             app:summary="@string/settings_time_reminders_text"
             app:defaultValue="false"
             app:persistent="true"/>
 
         <com.erezbiox1.paytimer.views.preferences.ButtonPreference
-            app:dependency="time_notifications"
+            app:dependency="time_notifications_enabled"
             app:key="pick_time"
             app:title="@string/settings_pick_time"
             app:defaultValue="true" />

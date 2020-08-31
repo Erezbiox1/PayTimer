@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Erez Rotem, All rights reserved.
+  -->
+
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory app:title="@string/time_notifications_catg">
+
+        <com.erezbiox1.paytimer.views.preferences.TimePreference
+            app:key="time_notifications"
+            app:title="@string/time_notifications_daily_reminder_time"
+            app:summary="@string/time_notifications_time_desc"
+            app:persistent="true" />
+
+        <CheckBoxPreference
+            app:key="time_notifications_day_sunday"
+            app:title="@string/time_notifications_sunday"
+            app:persistent="true" />
+
+        <CheckBoxPreference
+            app:key="time_notifications_day_monday"
+            app:title="@string/time_notifications_monday"
+            app:persistent="true" />
+
+        <CheckBoxPreference
+            app:key="time_notifications_day_tuesday"
+            app:title="@string/time_notifications_tuesday"
+            app:persistent="true" />
+
+        <CheckBoxPreference
+            app:key="time_notifications_day_wednesday"
+            app:title="@string/time_notifications_wednesday"
+            app:persistent="true" />
+
+        <CheckBoxPreference
+            app:key="time_notifications_day_thursday"
+            app:title="@string/time_notifications_thursday"
+            app:persistent="true" />
+
+        <CheckBoxPreference
+            app:key="time_notifications_day_friday"
+            app:title="@string/time_notifications_friday"
+            app:persistent="true" />
+
+        <CheckBoxPreference
+            app:key="time_notifications_day_saturday"
+            app:title="@string/time_notifications_saturday"
+            app:persistent="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

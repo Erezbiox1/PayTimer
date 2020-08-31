@@ -68,4 +68,14 @@
     <string name="no_shifts">אין משמרות שמורות</string>
     <string name="confirm">אישור</string>
     <string name="cancel">ביטול</string>
+    <string name="time_notifications_catg">תזכורות זמן</string>
+    <string name="time_notifications_daily_reminder_time">זמן התזכורת היומית</string>
+    <string name="time_notifications_time_desc">הזמן בו האפלקציה תזכיר לך להתחיל את המשמרת שלך</string>
+    <string name="time_notifications_sunday">יום ראשון</string>
+    <string name="time_notifications_monday">יום שני</string>
+    <string name="time_notifications_tuesday">יום שלישי</string>
+    <string name="time_notifications_wednesday">יום רביעי</string>
+    <string name="time_notifications_thursday">יום חמישי</string>
+    <string name="time_notifications_friday">יום שישי</string>
+    <string name="time_notifications_saturday">שבת</string>
 </resources>

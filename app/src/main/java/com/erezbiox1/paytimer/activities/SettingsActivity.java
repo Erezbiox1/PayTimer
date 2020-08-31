@@ -4,6 +4,7 @@
 
 package com.erezbiox1.paytimer.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -46,30 +47,16 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
         locationController = new LocationController(this);
     }
 
-    @Override // TODO: ADD FUNCTIONALITY
+    @Override
     public void onClick(ButtonPreference button) {
-        String message = "";
-
         switch (button.getKey().toLowerCase()) {
             case "pick_location":
                 pickLocation();
                 break;
             case "pick_time":
-                message = "Please pick a time...";
-                ReminderController.notify(this); // TODO
-                break;
-            case "import":
-                message = "Importing all data...";
-                break;
-            case "export":
-                message = "Exporting all data...";
-                break;
-            case "delete":
-                message = "Deleting all data...";
+                pickTime();
                 break;
         }
-
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void pickLocation() {
@@ -78,6 +65,11 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
                     this, new String[]{ ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION }, 1);
 
         locationController.setGeofence();
+    }
+
+    private void pickTime(){
+        Intent timeNotificationsIntent = new Intent(this, TimeNotificationsActivity.class);
+        startActivity(timeNotificationsIntent);
     }
 
     @Override
