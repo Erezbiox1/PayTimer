@@ -97,13 +97,14 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
             }
         });
 
-        // If there is a "Starting Time" saved in storage (storage=sharedPreference)
+        // If there is a "Starting Time" saved in storage (storage = sharedPreference)
         // Then set the timer active and update the UI accordingly.
         if(getSharedPreferences(TIME_PREF, 0).contains(START_TIME_PREF)){
             isRunning = true;
             updateUI();
         }
 
+        // Observe notification "start" action button clicks.
         NotificationStartActionObserver.getInstance().addObserver(notificationStartActionObserver);
     }
 
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         // Get the start and end times
         long startingTime = getSharedPreferences(TIME_PREF, 0).getLong(START_TIME_PREF, System.currentTimeMillis());
         long endingTime = System.currentTimeMillis();
+
         // Clear the saved starting time.
         SharedPreferences pref = getSharedPreferences(TIME_PREF, 0);
         SharedPreferences.Editor editor = pref.edit();
@@ -222,6 +224,9 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
 
         private NotificationStartActionObserver(){}
 
+        /**
+         * Acquire the object lock then notify the object's observers.
+         */
         public void execute(){
             synchronized (NotificationStartActionObserver.this){
                 setChanged();
@@ -229,6 +234,9 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
             }
         }
 
+        /**
+         * @return the singleton object
+         */
         public static NotificationStartActionObserver getInstance() {
             return instance;
         }

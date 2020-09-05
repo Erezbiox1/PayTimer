@@ -37,46 +37,60 @@ public class ListShiftsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_shifts);
+
+        // Setup the toolbar
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        // Set the fab functionality ( will add a new shift )
+
         final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Move to the EditShiftActivity, passing no extras will make it add a new shift.
                 Intent newShiftIntent = new Intent(ListShiftsActivity.this, EditShiftActivity.class);
                 startActivity(newShiftIntent);
             }
         });
 
+        // RecyclerView ( the shift's list ), and the no shift place holder.
         final RecyclerView recyclerView = findViewById(R.id.shifts_list);
         final TextView noShiftsView = findViewById(R.id.no_shifts);
 
+        // The shift's adapter ( used to update each item with the shift's data. ) and repository ( used to fetch the list data )
         final ShiftsAdapter shiftsAdapter = new ShiftsAdapter();
         final ShiftRepository repository = new ShiftRepository(getApplication());
 
+        // Listen the changes in the list repository, when changes occur, update the UI accordingly.
         repository.getAllShifts().observe(this, new Observer<List<Shift>>() {
             @Override
             public void onChanged(List<Shift> shifts) {
                 if(shifts != null && shifts.size() > 0){
+                    // If there are shifts in the DB, make the list visible and the place holder invisible.
                     recyclerView.setVisibility(View.VISIBLE);
                     noShiftsView.setVisibility(View.GONE);
 
+                    // Update the shift's adapter with the updated list.
                     shiftsAdapter.setShiftsList(shifts);
                 } else {
+                    // If there are no shifts in the DB, make the list invisible and show the placeholder.
                     recyclerView.setVisibility(View.GONE);
                     noShiftsView.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        // Setup the recyclerview with our adapter, and android provided linear layout and default item animator.
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(shiftsAdapter);
 
+        // Add a scroll listener that will hide the fab after scrolling.
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -87,6 +101,7 @@ public class ListShiftsActivity extends AppCompatActivity {
             }
         });
 
+        // The item touch helper that will listen to item swipes
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -95,17 +110,19 @@ public class ListShiftsActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                // Call the shift deleteShift() method. ( will ask the user for confirmation then will delete the shift. )
                 ((ShiftsAdapter.ViewHolder) viewHolder).deleteShift();
             }
         });
 
+        // Attach the swipe listener to the recyclerview
         helper.attachToRecyclerView(recyclerView);
 
     }
 
     /**
      * Inflates the options menu
-     * @param menu
+     * @param menu menu to inflate
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,7 +132,8 @@ public class ListShiftsActivity extends AppCompatActivity {
 
     /**
      * On option selected listener,
-     * @param item
+     * start the settings activity ( only item currently in the menu )
+     * @param item menu item clicked
      * @return was the item clicked handled
      */
     @Override

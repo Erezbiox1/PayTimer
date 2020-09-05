@@ -22,6 +22,11 @@ public class StartActionReceiver extends BroadcastReceiver {
     and also updates the UI using the MainActivity observer ( NotificationStartActionObserver ).
      */
 
+    /**
+     * Called when the notification "start" action button is clicked
+     * @param context provided context
+     * @param intent provided intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         // Get the shared preferences

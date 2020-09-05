@@ -31,8 +31,9 @@ import java.util.Locale;
 
 public class EditShiftActivity extends AppCompatActivity implements Observer<Shift> {
 
-    public static final String START_TIME_EXTRA = BuildConfig.APPLICATION_ID + ".extra.TIME_START"; // TODO
-    public static final String END_TIME_EXTRA = BuildConfig.APPLICATION_ID + ".extra.TIME_END"; // TODO
+    // Intent extra's constants.
+    public static final String START_TIME_EXTRA = BuildConfig.APPLICATION_ID + ".extra.TIME_START";
+    public static final String END_TIME_EXTRA = BuildConfig.APPLICATION_ID + ".extra.TIME_END";
     public static final String SHIFT_ID_EXTRA = BuildConfig.APPLICATION_ID + ".extra.SHIFT_ID";
 
     // The viewModel, and the local viewModel shift ( same reference, will be saved after fab click )
@@ -127,7 +128,7 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
      * called, save the changed shift's information in the viewModel local shift.
      * ( by calling saveChanges() it will update the same shift - same reference as
      *   local shift in the viewModel memory. )
-     * @param outState
+     * @param outState saved sate
      */
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -137,7 +138,7 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
 
     /**
      * Will listen to the new shift that was asked by the syncShift method.
-     * @param shift
+     * @param shift the provided shift.
      */
     @Override
     public void onChanged(Shift shift) {
@@ -183,12 +184,18 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
         }
     }
 
+    /**
+     * @return ui tip field
+     */
     private int getTip(){
         String text = editTip.getEditText().getText().toString();
         if(text.isEmpty()) return 0;
         return Integer.parseInt(text);
     }
 
+    /**
+     * @return hourly rate ui field.
+     */
     private double getHourlyRate(){
         String text = editHourlyRate.getEditText().getText().toString();
         if(text.isEmpty()) return 0;
