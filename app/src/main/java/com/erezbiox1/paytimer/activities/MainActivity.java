@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
 
     /**
      * Inflates the options menu
-     * @param menu
+     * @param menu menu to inflate
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
 
     /**
      * On option selected listener,
-     * @param item
+     * @param item menu item clicked
      * @return was the item clicked handled
      */
     @Override

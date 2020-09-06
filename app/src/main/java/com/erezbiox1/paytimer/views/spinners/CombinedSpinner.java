@@ -61,7 +61,7 @@ public class CombinedSpinner implements DateSpinner.OnSpinnerDateSelected, TimeS
 
     /**
      * the date spinner callback, called when the dialog returns a new date.
-     * @param spinner
+     * @param spinner date spinner that was modified by a user opened dialog
      */
     @Override
     public void onDateSelected(DateSpinner spinner) {
@@ -72,7 +72,7 @@ public class CombinedSpinner implements DateSpinner.OnSpinnerDateSelected, TimeS
 
     /**
      * the date spinner callback, called when the dialog returns a new time.
-     * @param spinner
+     * @param spinner time spinner that was modified by a user opened dialog
      */
     @Override
     public void onTimeSelect(TimeSpinner spinner) {

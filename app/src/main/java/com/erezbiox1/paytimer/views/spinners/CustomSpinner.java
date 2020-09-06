@@ -19,8 +19,8 @@ public abstract class CustomSpinner extends AppCompatSpinner {
 
     /**
      * Default constructor required by every view in android.
-     * @param context
-     * @param attrs
+     * @param context provided context
+     * @param attrs provided attrs
      */
     public CustomSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,7 +34,7 @@ public abstract class CustomSpinner extends AppCompatSpinner {
 
     /**
      * Click listener, will trigger the dialog.
-     * @return
+     * @return was the click handled
      */
     @Override
     public final boolean performClick() {
@@ -51,7 +51,7 @@ public abstract class CustomSpinner extends AppCompatSpinner {
 
     /**
      * Set's the custom spinner text.
-     * @param text
+     * @param text the text used to update the spinner with
      */
     public final void setText(String text){
         // Create an array adapter with a single element, the specified text.

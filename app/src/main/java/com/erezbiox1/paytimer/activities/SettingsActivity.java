@@ -34,12 +34,14 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // use the general settings_activity layout, a shared layout that is used to infalte settings like activities
+        // use the general settings_activity layout, a shared layout that is used to inflate settings like activities
         setContentView(R.layout.settings_activity);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.settings, new SettingsFragment())
                 .commit();
+
+        // setup the actionbar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

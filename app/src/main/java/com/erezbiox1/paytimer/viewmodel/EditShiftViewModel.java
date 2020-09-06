@@ -39,7 +39,7 @@ public class EditShiftViewModel extends AndroidViewModel implements Observer<Shi
 
     /**
      * EditShiftViewModel Constructor
-     * @param application
+     * @param application provided application
      */
     public EditShiftViewModel(@NonNull Application application) {
         super(application);
@@ -75,8 +75,8 @@ public class EditShiftViewModel extends AndroidViewModel implements Observer<Shi
     /**
      * a method used by the activity to pass it's provided starting and ending time,
      * and ask for the a new activity with those times.
-     * @param startTime
-     * @param endTime
+     * @param startTime shift's starting time
+     * @param endTime shift's ending time
      */
     public void syncShift(long startTime, long endTime){
         // If the shift is in memory ( if the activity had a configuration change for example )

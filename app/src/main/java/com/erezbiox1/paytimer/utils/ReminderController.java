@@ -28,18 +28,21 @@ import static com.erezbiox1.paytimer.activities.MainActivity.TIME_PREF;
 
 public class ReminderController {
 
+    // Notification constants
     private static final String REMINDER_CHANNEL_ID = "reminder_channel_id";
     private static final String NOTIFIED_TIME_PREF = "NOTIFIED_TIME_PREF";
     private static final int NOTIFICATION_ID = 199;
 
     /**
      * Create the shift reminder notification.
-     * @param context
+     * @param context provided context
      */
     public static void notify(Context context){
+        // Check if the conditions apply ( time notifications are enabled, current day is enabled.. )
         if(!checkConditions(context))
             return;
 
+        // Get the notification manager from the provided context
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // Notification builder
@@ -88,6 +91,11 @@ public class ReminderController {
         manager.notify(NOTIFICATION_ID, builder.build());
     }
 
+    /**
+     * Checks if the notifications can be sent
+     * @param context provided context
+     * @return if the notifications can be sent
+     */
     private static boolean checkConditions(Context context){
         // Check if the user was already notified today ( and if that is allowed )
         SharedPreferences pref = context.getSharedPreferences(TIME_PREF, 0);
@@ -103,19 +111,27 @@ public class ReminderController {
         return true;
     }
 
+    /**
+     * Check if the provided time is today
+     * @param time provided time
+     * @return is that time today
+     */
     private static boolean isToday(long time){
+        // Current time calender
         Calendar nowC = Calendar.getInstance();
         nowC.setTimeInMillis(System.currentTimeMillis());
 
+        // Provided time calender
         Calendar timeC = Calendar.getInstance();
         timeC.setTimeInMillis(time);
 
+        // Check if the are in the same day ( DAY_OF_YEAR )
         return nowC.get(Calendar.DAY_OF_YEAR) == timeC.get(Calendar.DAY_OF_YEAR);
     }
 
     /**
      * Cancel the notification ( in the event of the "start" action button clicked )
-     * @param context
+     * @param context provided context
      */
     public static void cancel(Context context){
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
