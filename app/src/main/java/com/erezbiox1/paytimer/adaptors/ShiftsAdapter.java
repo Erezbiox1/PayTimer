@@ -151,41 +151,87 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
             // react to options button clicks and edit/delete the shift for example. )
             this.shift = shift;
 
-            // Get the start, end, and total hours between them ( will be used in the future to deduct breaks ) from the shift.
-            long startDate = shift.getStartTime();
-            long endDate = shift.getEndTime();
-            long diff = shift.getTotalHours();
+            // Get the start, end, total hours between them ( will be used
+            // in the future to deduct breaks ), and given tip from the shift.
+            long shiftStartTime = shift.getStartTime();
+            long shiftEndTime = shift.getEndTime();
+            double shiftTotalPay = shift.getTotalPay();
+            long shiftTotalHours = shift.getTotalHours();
+            int shiftTip = shift.getTip();
 
             // Set the UI
-            set(dayOfTheWeek, "E", startDate);
-            set(fromHour, "HH:mm", startDate);
-            set(toHour, "HH:mm", endDate);
-            set(date, "MMMM dd, yyyy", startDate);
-            totalPayout.setText(new DecimalFormat("#.#").format(shift.getTotalPay()) + context.getString(R.string.currency_symbol));
-            set(totalHours, "HH:mm", diff, "UTC");
-        }
-
-
-        private void set(TextView textView, String pattern, long time){
-            set(textView, pattern, time, null);
+            dayOfTheWeek    .setText(format("E", shiftStartTime, null));
+            fromHour        .setText(format("HH:mm", shiftStartTime, null));
+            toHour          .setText(format("HH:mm", shiftEndTime, null));
+            date            .setText(format("MMMM dd, yyyy", shiftStartTime, null));
+            totalPayout     .setText(getFormattedTotalPayout(shiftTotalPay));
+            totalHours      .setText(getFormattedTotalHours(shiftTotalHours, shiftTip));
         }
 
         /**
-         * Sets a textView to match a time pattern
-         * @param textView text view to update
+         * Get the formatted total hours text
+         * @param totalHours total shift hours
+         * @param tip total tip given in the shift
+         * @return the formatted total payout text
+         */
+        private String getFormattedTotalHours(long totalHours, int tip){
+            // Create a string builder to avoid concatenating strings
+            StringBuilder builder = new StringBuilder();
+
+            // Get the currency symbol ( changes per language )
+            String symbol = context.getString(R.string.currency_symbol);
+
+            // If the tip isn't 0, add it to the total hours
+            if(tip != 0) {
+                // Append the tip
+                builder.append(tip);
+                builder.append(symbol);
+
+                // Append the separator
+                builder.append(" + ");
+            }
+
+            // Append the total hours
+            builder.append(format("HH:mm", totalHours, "UTC"));
+
+            // Return the result
+            return builder.toString();
+        }
+
+        /**
+         * Get the formatted total payout text
+         * @param totalPayout total shit's payout
+         * @return the formatted total hours text
+         */
+        private String getFormattedTotalPayout(double totalPayout){
+            // Create a string builder to avoid concatenating strings
+            StringBuilder builder = new StringBuilder();
+
+            // Add the total payout
+            builder.append(new DecimalFormat("#.#").format(totalPayout));
+
+            // Add the currency symbol
+            builder.append(context.getString(R.string.currency_symbol));
+
+            // Return the result
+            return builder.toString();
+        }
+
+        /**
+         * Parses a long time in the chosen pattern
          * @param pattern time pattern used to update the text view
          * @param time time in epoch format to update the text view
          * @param timeZone time zone to parse the time in.
          */
-        private void set(TextView textView, String pattern, long time, String timeZone){
+        private String format(String pattern, long time, String timeZone){
             // Create a simple date format with the supplied pattern ( and default locale. )
             SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
 
             // Set the time zone to the specified time zone ( if null use the default time zone )
             dateFormat.setTimeZone(timeZone == null ? TimeZone.getDefault() : TimeZone.getTimeZone(timeZone));
 
-            // Format the time and set the text view to that formatted time.
-            textView.setText(dateFormat.format(new Date(time)));
+            // Format the time and return the formatted time.
+            return dateFormat.format(time);
         }
 
         /**
