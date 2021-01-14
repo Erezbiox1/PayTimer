@@ -23,6 +23,13 @@
             app:persistent="true"
             app:iconSpaceReserved="false"/>
 
+        <com.erezbiox1.paytimer.views.preferences.ButtonPreference
+            app:key="cloud_saves"
+            app:title="@string/settings_auth"
+            app:summary="Login to enable cloud saves"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
         <!--
         <SwitchPreferenceCompat
             app:key="will_stop_after_time"

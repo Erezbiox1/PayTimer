@@ -60,12 +60,16 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
         // handle the buttons according to their specified key bt the root_preferences.xml file.
         switch (button.getKey().toLowerCase()) {
             case "pick_location":
-                // if the "Pick Location" button is picked, invoke the pickLocation() method.
+                // if the "Pick Location" button is clicked, invoke the pickLocation() method.
                 pickLocation();
                 break;
             case "pick_time":
-                // if the "Pick Time" Button is picked, invoke the pickTime() method.
+                // if the "Pick Time" Button is clicked, invoke the pickTime() method.
                 pickTime();
+                break;
+            case "cloud_saves":
+                // if the "Login" button ic clicked, invoke the login() method.
+                login();
                 break;
         }
     }
@@ -92,6 +96,14 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
     private void pickTime(){
         Intent timeNotificationsIntent = new Intent(this, TimeNotificationsActivity.class);
         startActivity(timeNotificationsIntent);
+    }
+
+    /**
+     * Will start the LoginActivity. ( Firebase authentication )
+     */
+    private void login(){
+        Intent loginActivity = new Intent(this, LoginActivity.class);
+        startActivity(loginActivity);
     }
 
     /**
