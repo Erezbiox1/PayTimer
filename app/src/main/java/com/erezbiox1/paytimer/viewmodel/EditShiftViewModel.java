@@ -15,8 +15,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.preference.PreferenceManager;
 
-import com.erezbiox1.paytimer.model.Shift;
 import com.erezbiox1.paytimer.database.ShiftRepository;
+import com.erezbiox1.paytimer.model.Shift;
+import com.erezbiox1.paytimer.database.sql.SqlShiftRepository;
 
 import java.util.Date;
 
@@ -45,7 +46,7 @@ public class EditShiftViewModel extends AndroidViewModel implements Observer<Shi
         super(application);
 
         // Create the ShiftRepository from the provided application context.
-        repository = new ShiftRepository(application);
+        repository = ShiftRepository.getInstance(getApplication());
     }
 
     /**

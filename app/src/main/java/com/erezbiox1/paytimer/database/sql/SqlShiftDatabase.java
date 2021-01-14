@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2020. Erez Rotem, All rights reserved.
+ * Copyright (c) 2021. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.database;
+package com.erezbiox1.paytimer.database.sql;
 
 import android.content.Context;
 
@@ -13,13 +13,13 @@ import androidx.room.RoomDatabase;
 import com.erezbiox1.paytimer.model.Shift;
 
 @Database(entities = {Shift.class}, version = 3)
-public abstract class ShiftDatabase extends RoomDatabase {
+public abstract class SqlShiftDatabase extends RoomDatabase {
 
     // The shift's database data access object (DAO)
-    public abstract ShiftDao shiftDao();
+    public abstract SqlShiftDao shiftDao();
 
     // The singleton instance
-    private static ShiftDatabase INSTANCE;
+    private static SqlShiftDatabase INSTANCE;
 
     /**
      * Get the singleton database, will use the application context provided to
@@ -27,11 +27,11 @@ public abstract class ShiftDatabase extends RoomDatabase {
      * @param context application context that will be used to lazy init the database
      * @return the database instance.
      */
-    public static ShiftDatabase getDatabase(final Context context) {
+    public static SqlShiftDatabase getDatabase(final Context context) {
         // If the instance is null ( no database was initiated yet ), create a new one
         if (INSTANCE == null) {
             // Get a static lock on the class
-            synchronized (ShiftDatabase.class) {
+            synchronized (SqlShiftDatabase.class) {
                 // check again if the instance is null and have not been changed
                 // by another thread in the meantime
                 if (INSTANCE == null) {
@@ -40,7 +40,7 @@ public abstract class ShiftDatabase extends RoomDatabase {
                     // this is here for the development and should not be used in production.
                     INSTANCE = Room
                             .databaseBuilder(context.getApplicationContext(),
-                            ShiftDatabase.class, "shift_database")
+                            SqlShiftDatabase.class, "shift_database")
                             .fallbackToDestructiveMigration()
                             .build();
                 }

@@ -24,13 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.erezbiox1.paytimer.activities.EditShiftActivity;
 import com.erezbiox1.paytimer.R;
-import com.erezbiox1.paytimer.model.Shift;
 import com.erezbiox1.paytimer.database.ShiftRepository;
+import com.erezbiox1.paytimer.model.Shift;
+import com.erezbiox1.paytimer.database.sql.SqlShiftRepository;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -311,7 +311,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
                             notifyItemRemoved(position);
 
                             // Tell the ShiftRepository to delete the shift asynchronously.
-                            new ShiftRepository(context).delete(shift);
+                            ShiftRepository.getInstance(context).delete(shift);
                         }
                     })
                     .setNegativeButton(R.string.delete_shift_no, new DialogInterface.OnClickListener() {

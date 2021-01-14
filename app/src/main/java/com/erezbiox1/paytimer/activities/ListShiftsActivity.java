@@ -8,8 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.erezbiox1.paytimer.adaptors.ShiftsAdapter;
-import com.erezbiox1.paytimer.model.Shift;
 import com.erezbiox1.paytimer.database.ShiftRepository;
+import com.erezbiox1.paytimer.model.Shift;
+import com.erezbiox1.paytimer.database.sql.SqlShiftRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
@@ -64,7 +65,7 @@ public class ListShiftsActivity extends AppCompatActivity {
 
         // The shift's adapter ( used to update each item with the shift's data. ) and repository ( used to fetch the list data )
         final ShiftsAdapter shiftsAdapter = new ShiftsAdapter();
-        final ShiftRepository repository = new ShiftRepository(getApplication());
+        final ShiftRepository repository = ShiftRepository.getInstance(getApplication());
 
         // Listen the changes in the list repository, when changes occur, update the UI accordingly.
         repository.getAllShifts().observe(this, new Observer<List<Shift>>() {

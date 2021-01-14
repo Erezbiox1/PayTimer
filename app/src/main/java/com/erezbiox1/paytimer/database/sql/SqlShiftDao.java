@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2020. Erez Rotem, All rights reserved.
+ * Copyright (c) 2021. Erez Rotem, All rights reserved.
  */
 
-package com.erezbiox1.paytimer.database;
+package com.erezbiox1.paytimer.database.sql;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -16,7 +16,7 @@ import com.erezbiox1.paytimer.model.Shift;
 import java.util.List;
 
 @Dao
-public interface ShiftDao {
+public interface SqlShiftDao {
 
     /**
      * Inserts a new shift into the local database

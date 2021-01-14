@@ -9,6 +9,13 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@IgnoreExtraProperties
 @Entity(tableName = "shifts_table")
 public class Shift {
 
@@ -29,6 +36,9 @@ public class Shift {
 
     // The given tip ( will be added to the total salary )
     private Integer tip;
+
+    // Default constructor required for calls to DataSnapshot.getValue(Shift.class)
+    public Shift(){ }
 
     // Room constructor used to create new shifts
     public Shift(@NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, Integer tip) {
@@ -102,5 +112,17 @@ public class Shift {
 
     public void setHourlyRate(@NonNull Double hourlyRate) {
         this.hourlyRate = hourlyRate;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap(){
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("startTime", startTime);
+        result.put("endTime", endTime);
+        result.put("hourlyRate", hourlyRate);
+        result.put("tip", tip);
+
+        return result;
     }
 }
