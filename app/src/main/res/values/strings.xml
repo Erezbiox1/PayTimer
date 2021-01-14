@@ -85,5 +85,16 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="settings_auth">Login</string>
+    <string name="login_title">Login.</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_btn">Login</string>
+    <string name="logout_btn">Logout</string>
+    <string name="register_btn">Register</string>
+    <string name="login_success">Logged in successfully!</string>
+    <string name="login_failed_user_doesnt_exists">User doesn\'t exists.</string>
+    <string name="login_failed_user_already_exists">User already exists.</string>
+    <string name="login_failed_password_short">Password is too short. Please use atleast 6 characters</string>
+    <string name="login_failed_password_incorrect">Password is incorrect.</string>
 
 </resources>
