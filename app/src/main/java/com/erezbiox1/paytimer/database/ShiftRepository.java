@@ -32,9 +32,13 @@ public abstract class ShiftRepository {
 
     public static ShiftRepository getInstance(Context context){
         if(INSTANCE == null)
-            INSTANCE = FirebaseAuth.getInstance().getCurrentUser() == null ? new SqlShiftRepository(context) : new FirebaseShiftRepository();;
+            INSTANCE = FirebaseAuth.getInstance().getCurrentUser() == null ? new SqlShiftRepository(context) : new FirebaseShiftRepository();
 
         return INSTANCE;
+    }
+
+    public static void resetInstance(){
+        INSTANCE = null;
     }
 
 }

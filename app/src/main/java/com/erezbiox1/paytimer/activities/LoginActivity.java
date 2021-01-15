@@ -6,6 +6,8 @@ package com.erezbiox1.paytimer.activities;
 
 import android.os.Bundle;
 
+import com.erezbiox1.paytimer.database.ShiftRepository;
+import com.erezbiox1.paytimer.model.Shift;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -117,6 +119,7 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
     public void onSuccess(AuthResult authResult) {
         Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
         updateUi(authResult.getUser());
+        ShiftRepository.resetInstance();
     }
 
     @Override
