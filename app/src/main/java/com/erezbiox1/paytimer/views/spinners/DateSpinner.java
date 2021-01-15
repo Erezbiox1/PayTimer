@@ -54,7 +54,7 @@ public class DateSpinner extends CustomSpinner implements OnDateSetListener {
      * Updates the spinner text using a day/month/year format ( 19/12/2002 )
      */
     private void updateText(){
-        setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year));
+        setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month + 1, year));
     }
 
     /**
