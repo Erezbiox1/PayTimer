@@ -113,7 +113,7 @@
             android:id="@+id/edit_hourly_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="200dp"
+            android:minWidth="130dp"
             android:layout_margin="10dp"
             android:hint="@string/hourly_pay"
             app:startIconDrawable="@drawable/ic_money"
