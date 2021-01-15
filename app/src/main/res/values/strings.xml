@@ -96,5 +96,6 @@
     <string name="login_failed_user_already_exists">User already exists.</string>
     <string name="login_failed_password_short">Password is too short. Please use atleast 6 characters</string>
     <string name="login_failed_password_incorrect">Password is incorrect.</string>
+    <string name="profile_picture">Profile picture</string>
 
 </resources>

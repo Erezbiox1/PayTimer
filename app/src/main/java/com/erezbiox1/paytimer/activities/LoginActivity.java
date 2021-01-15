@@ -4,10 +4,15 @@
 
 package com.erezbiox1.paytimer.activities;
 
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.erezbiox1.paytimer.database.ShiftRepository;
 import com.erezbiox1.paytimer.model.Shift;
+import com.erezbiox1.paytimer.utils.DownloadImageTask;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -16,14 +21,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.erezbiox1.paytimer.R;
@@ -31,14 +39,21 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class LoginActivity extends AppCompatActivity implements OnFailureListener, OnSuccessListener<AuthResult> {
 
     // TODO: Add a viewModel
 
+    private static final int FILE_PICKER = 420;
+
     private FirebaseAuth firebaseAuth;
     private Button loginBtn, registerBtn, logoutBtn;
     private TextInputLayout emailField, passwordField;
+    private ImageView profilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +76,8 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
         loginBtn = findViewById(R.id.login_button);
         registerBtn = findViewById(R.id.register_button);
         logoutBtn = findViewById(R.id.logout_button);
+
+        profilePic = findViewById(R.id.profile_pic);
     }
 
     private void updateUi(FirebaseUser user){
@@ -75,6 +92,11 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
 
         emailField.getEditText().setText(isLoggedIn ? user.getEmail() : "");
         passwordField.getEditText().setText(isLoggedIn ? "*********" : "");
+
+        if(!isLoggedIn)
+            profilePic.setImageResource(R.drawable.ic_profile);
+        else
+            new DownloadImageTask(profilePic).execute(user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : String.format("https://robohash.org/%s.png?set=set4", user.getEmail()));
     }
 
     @Override
@@ -115,6 +137,53 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
         updateUi(null);
     }
 
+    public void onProfilePicUpload(View view) {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null) return;
+
+        Intent pickFileIntent = new Intent();
+        pickFileIntent.setType("image/*");
+        pickFileIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(pickFileIntent, "Select a profile picture"), FILE_PICKER);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        switch (requestCode){
+            case FILE_PICKER:
+                if(data != null && data.getData() != null){
+                    Uri uri = data.getData();
+                    StorageReference storage = FirebaseStorage.getInstance().getReference();
+
+                    StorageReference profilePicRef = storage.child("profiles").child(user.getUid());
+                    profilePicRef
+                            .putFile(uri)
+                            .continueWithTask(task -> {
+                                if(!task.isSuccessful())
+                                    throw task.getException();
+
+                                return profilePicRef.getDownloadUrl();
+                            }).continueWithTask(downloadLink -> {
+                                return user
+                                        .updateProfile(new UserProfileChangeRequest.Builder()
+                                                .setPhotoUri(downloadLink.getResult())
+                                                .build());
+                            }).addOnSuccessListener(uri1 -> {
+                                Toast.makeText(LoginActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
+                                updateUi(user);
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(LoginActivity.this, "Image upload failed!", Toast.LENGTH_SHORT).show();
+                            });
+                }
+
+                break;
+        }
+    }
+
     @Override
     public void onSuccess(AuthResult authResult) {
         Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
@@ -127,7 +196,7 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
         Log.i("LoginActivity", "Failed logging in: " + e.getMessage());
 
         String message = e.getLocalizedMessage();
-        
+
         if(e.getMessage().contains("no user record"))
             message = getString(R.string.login_failed_user_doesnt_exists);
         if(e.getMessage().contains("already in use"))
