@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.erezbiox1.paytimer.BuildConfig;
 import com.erezbiox1.paytimer.R;
 import com.erezbiox1.paytimer.background.services.TimerService;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -106,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
 
         // Observe notification "start" action button clicks.
         NotificationStartActionObserver.getInstance().addObserver(notificationStartActionObserver);
+
+        // Enable firebase realtime database offline data persistence
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     /**
