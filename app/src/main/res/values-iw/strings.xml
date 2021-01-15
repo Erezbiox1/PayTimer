@@ -78,4 +78,22 @@
     <string name="time_notifications_thursday">יום חמישי</string>
     <string name="time_notifications_friday">יום שישי</string>
     <string name="time_notifications_saturday">שבת</string>
+    <string name="title_activity_login">הגדרות חשבון</string>
+    <string name="settings_auth">הגדרות חשבון</string>
+    <string name="login_title">התחבר.</string>
+    <string name="email_hint">אימייל</string>
+    <string name="password_hint">סיסמה</string>
+    <string name="login_btn">התחבר</string>
+    <string name="logout_btn">התנתק</string>
+    <string name="register_btn">הירשם</string>
+    <string name="login_success">התחברת בהצלחה!</string>
+    <string name="login_failed_user_doesnt_exists">המשתמש לא קיים</string>
+    <string name="login_failed_user_already_exists">המשתמש כבר קיים</string>
+    <string name="login_failed_password_short">הסיסמה קצרה מדי, השתמש בלפחות 6 תווים</string>
+    <string name="login_failed_password_incorrect">הסיסמה שגויה</string>
+    <string name="profile_picture">תמונת פרופיל</string>
+    <string name="select_profile_pictrue">בחר תמונת פרופיל</string>
+    <string name="image_uploaded_success">התמונה הועלתה בהצלחה</string>
+    <string name="image_upload_fail">העלאת התמונה נכשלה</string>
+    <string name="settings_auth_summary">התחבר כדאי להפעיל סנכרון ענן אקטיבי</string>
 </resources>

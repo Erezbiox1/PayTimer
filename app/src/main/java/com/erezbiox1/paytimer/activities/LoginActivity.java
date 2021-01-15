@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
         Intent pickFileIntent = new Intent();
         pickFileIntent.setType("image/*");
         pickFileIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(pickFileIntent, "Select a profile picture"), FILE_PICKER);
+        startActivityForResult(Intent.createChooser(pickFileIntent, getString(R.string.select_profile_pictrue)), FILE_PICKER);
 
     }
 
@@ -173,10 +173,10 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
                                                 .setPhotoUri(downloadLink.getResult())
                                                 .build());
                             }).addOnSuccessListener(uri1 -> {
-                                Toast.makeText(LoginActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, R.string.image_uploaded_success, Toast.LENGTH_SHORT).show();
                                 updateUi(user);
                             }).addOnFailureListener(e -> {
-                                Toast.makeText(LoginActivity.this, "Image upload failed!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, R.string.image_upload_fail, Toast.LENGTH_SHORT).show();
                             });
                 }
 

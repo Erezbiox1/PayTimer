@@ -75,16 +75,10 @@
     <string name="time_notifications_thursday">Thursday</string>
     <string name="time_notifications_friday">Friday</string>
     <string name="time_notifications_saturday">Saturday</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">Account Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="settings_auth">Login</string>
+    <string name="settings_auth">Account Settings</string>
     <string name="login_title">Login.</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
@@ -97,5 +91,9 @@
     <string name="login_failed_password_short">Password is too short. Please use atleast 6 characters</string>
     <string name="login_failed_password_incorrect">Password is incorrect.</string>
     <string name="profile_picture">Profile picture</string>
+    <string name="select_profile_pictrue">Select a profile picture</string>
+    <string name="image_uploaded_success">Image uploaded successfully!</string>
+    <string name="image_upload_fail">Image upload failed!</string>
+    <string name="settings_auth_summary">Login to enable active cloud sync</string>
 
 </resources>
