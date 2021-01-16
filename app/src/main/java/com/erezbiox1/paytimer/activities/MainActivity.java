@@ -108,8 +108,6 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         // Observe notification "start" action button clicks.
         NotificationStartActionObserver.getInstance().addObserver(notificationStartActionObserver);
 
-        // Enable firebase realtime database offline data persistence
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     /**
