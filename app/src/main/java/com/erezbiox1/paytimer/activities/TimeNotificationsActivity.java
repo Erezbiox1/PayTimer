@@ -49,7 +49,7 @@ public class TimeNotificationsActivity extends AppCompatActivity implements Shar
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         // If the key that was changed starts with time_notifications ( all time-notification related preferences )
         // then reschedule the notification with the updated settings.
-        if(!key.toLowerCase().startsWith("time_notifications"))
+        if(key.toLowerCase().startsWith("time_notifications"))
             TimeNotificationsController.rescheduleNotification(this);
     }
 
