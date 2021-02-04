@@ -8,9 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.erezbiox1.paytimer.adaptors.ShiftsAdapter;
+import com.erezbiox1.paytimer.adaptors.ShiftsAdapter.ListItem.ListItemType;
 import com.erezbiox1.paytimer.database.ShiftRepository;
 import com.erezbiox1.paytimer.model.Shift;
-import com.erezbiox1.paytimer.database.sql.SqlShiftRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
@@ -112,7 +112,18 @@ public class ListShiftsActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
                 // Call the shift deleteShift() method. ( will ask the user for confirmation then will delete the shift. )
-                ((ShiftsAdapter.ViewHolder) viewHolder).deleteShift();
+                ((ShiftsAdapter.ShiftViewHolder) viewHolder).deleteShift();
+            }
+
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                // Get the item type
+                ListItemType type = ListItemType.getType(viewHolder.getItemViewType());
+
+                if(type == ListItemType.SHIFT)
+                    return makeMovementFlags(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+
+                return 0;
             }
         });
 

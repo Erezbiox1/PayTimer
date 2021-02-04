@@ -22,23 +22,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.erezbiox1.paytimer.activities.EditShiftActivity;
 import com.erezbiox1.paytimer.R;
+import com.erezbiox1.paytimer.activities.EditShiftActivity;
 import com.erezbiox1.paytimer.database.ShiftRepository;
 import com.erezbiox1.paytimer.model.Shift;
-import com.erezbiox1.paytimer.database.sql.SqlShiftRepository;
+import com.erezbiox1.paytimer.utils.Utils.Month;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder> {
+import static com.erezbiox1.paytimer.utils.Utils.format;
+
+public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     // The local shift data store ( static and is updated through setShiftsList(). also the recyclerView ref and activity context
-    private List<Shift> shiftsList = new ArrayList<>();
+    private List<ListItem> entryList = new ArrayList<>();
     private RecyclerView recyclerView;
     private Context context;
 
@@ -51,6 +53,11 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
         this.recyclerView = recyclerView;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return entryList.get(position).type.ordinal();
+    }
+
     /**
      * Called when the recycler view asks us to inflate a new view holder
      * returns a custom ViewHolder class that takes the inflated view ( shift_item layout )
@@ -60,13 +67,26 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
      */
     @NonNull
     @Override
-    public ShiftsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate a shift item view
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shift_item, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Get the item type
+        ListItem.ListItemType type = ListItem.ListItemType.getType(viewType);
+
+        // Inflate a the item view
+        View view = LayoutInflater.from(parent.getContext()).inflate(type.layout, parent, false);
 
         // Create a custom ViewHolder class and pass the shift item view ( so
         // the custom class could change it's children properties. )
-        ViewHolder viewHolder = new ViewHolder(view);
+        RecyclerView.ViewHolder viewHolder;
+        switch (type){
+            case SHIFT:
+                viewHolder = new ShiftViewHolder(view);
+                break;
+            case MONTHLY_TITLE:
+                viewHolder = new MonthlyTitleViewHolder(view);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid view type");
+        }
 
         // Save the context
         context = parent.getContext();
@@ -81,10 +101,23 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
      * @param position the new position assigned to the view holder
      */
     @Override
-    public void onBindViewHolder(@NonNull ShiftsAdapter.ViewHolder holder, final int position) {
-        // Tell the holder to update their shift with the shift from the list
-        // ( will allow the holder to update their UI to the new shift in the specified position. )
-        holder.setShift(shiftsList.get(position));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        // Get the item type
+        ListItem.ListItemType type = ListItem.ListItemType.getType(holder.getItemViewType());
+
+        // Bind it to its content according to it's type.
+        switch (type){
+            case SHIFT:
+                // Tell the holder to update their shift with the shift from the list
+                // ( will allow the holder to update their UI to the new shift in the specified position. )
+                ((ShiftViewHolder) holder).setShift(entryList.get(position).shift);
+                break;
+            case MONTHLY_TITLE:
+                // Tell the holder to update their month with the updated month from the list
+                // ( will allow the holder to update their UI to the new month in the specified position. )
+                ((MonthlyTitleViewHolder) holder).setMonth(entryList.get(position).month);
+                break;
+        }
     }
 
     /**
@@ -93,7 +126,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
     @Override
     public int getItemCount() {
         // If the shift list is null return 0, otherwise return it's size.
-        return shiftsList != null ? shiftsList.size() : 0;
+        return entryList != null ? entryList.size() : 0;
     }
 
     /**
@@ -102,17 +135,84 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
      */
     public void setShiftsList(List<Shift> list){
         // Delete all previous shifts references stored in the local shift's list
-        shiftsList.clear();
+        entryList.clear();
 
-        // Add all of the shifts to our list
-        shiftsList.addAll(list);
+        // Map all of the shifts to their months
+        Map<Month, List<Shift>> map = new TreeMap<>();
+        for (Shift shift : list) {
+            Month month = Month.getMonth(shift.getStartTime());
+
+            map.putIfAbsent(month, new ArrayList<>());
+            map.get(month).add(shift);
+        }
+
+        // iterate the month's map,
+        for (Map.Entry<Month, List<Shift>> entry : map.entrySet()) {
+            // for each month add a monthly title item
+            entryList.add(new ListItem(entry.getKey()));
+
+            // then add all of the shifts in that month as a shift item.
+            for (Shift shift : entry.getValue())
+                entryList.add(new ListItem(shift));
+        }
 
         // Notify the recycler view that the data was updated.
         notifyDataSetChanged();
     }
 
+    // A custom item list entry that can be either a shift or a monthly title
+    public static class ListItem {
+        private final ListItemType type;
+        private final Shift shift;
+        private final Month month;
+
+        public ListItem(Shift shift){
+            this.type = ListItemType.SHIFT;
+            this.shift = shift;
+            this.month = null;
+        }
+
+        public ListItem(Month month){
+            this.type = ListItemType.MONTHLY_TITLE;
+            this.shift = null;
+            this.month = month;
+        }
+
+        public enum ListItemType {
+            SHIFT(0, R.layout.shift_item),
+            MONTHLY_TITLE(1, R.layout.monthly_title_item);
+
+            final int value, layout;
+
+            ListItemType(int value, int layout){
+                this.value = value;
+                this.layout = layout;
+            }
+
+            public static ListItemType getType(int value){
+                return value == 0 ? SHIFT : MONTHLY_TITLE;
+            }
+        }
+    }
+
+    public class MonthlyTitleViewHolder extends RecyclerView.ViewHolder {
+        private TextView monthlyTitle;
+        private Month month;
+
+        public MonthlyTitleViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            monthlyTitle = itemView.findViewById(R.id.monthly_item_text);
+        }
+
+        public void setMonth(Month month) {
+            this.month = month;
+            monthlyTitle.setText(month.toString());
+        }
+    }
+
     // A custom ViewHolder class
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    public class ShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
         // UI elements
         private TextView dayOfTheWeek, fromHour, toHour, date, totalPayout, totalHours;
@@ -122,7 +222,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
         // Stored shift
         private Shift shift;
 
-        ViewHolder(@NonNull View itemView) {
+        ShiftViewHolder(@NonNull View itemView) {
             super(itemView);
 
             // Get the UI elements
@@ -215,23 +315,6 @@ public class ShiftsAdapter extends RecyclerView.Adapter<ShiftsAdapter.ViewHolder
 
             // Return the result
             return builder.toString();
-        }
-
-        /**
-         * Parses a long time in the chosen pattern
-         * @param pattern time pattern used to update the text view
-         * @param time time in epoch format to update the text view
-         * @param timeZone time zone to parse the time in.
-         */
-        private String format(String pattern, long time, String timeZone){
-            // Create a simple date format with the supplied pattern ( and default locale. )
-            SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
-
-            // Set the time zone to the specified time zone ( if null use the default time zone )
-            dateFormat.setTimeZone(timeZone == null ? TimeZone.getDefault() : TimeZone.getTimeZone(timeZone));
-
-            // Format the time and return the formatted time.
-            return dateFormat.format(time);
         }
 
         /**
