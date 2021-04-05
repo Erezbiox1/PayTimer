@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.erezbiox1.paytimer.R;
 import com.erezbiox1.paytimer.activities.EditShiftActivity;
+import com.erezbiox1.paytimer.activities.MonthlySummary;
 import com.erezbiox1.paytimer.database.ShiftRepository;
 import com.erezbiox1.paytimer.model.Shift;
 import com.erezbiox1.paytimer.utils.Utils.Month;
@@ -195,7 +196,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public class MonthlyTitleViewHolder extends RecyclerView.ViewHolder {
+    public class MonthlyTitleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView monthlyTitle;
         private Month month;
 
@@ -203,11 +204,20 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
 
             monthlyTitle = itemView.findViewById(R.id.monthly_item_text);
+            View view = itemView.findViewById(R.id.monthly_card_view);
+            view.setOnClickListener(this);
         }
 
         public void setMonth(Month month) {
             this.month = month;
             monthlyTitle.setText(month.toString());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent monthlySummary = new Intent(context, MonthlySummary.class);
+            monthlySummary.putExtra(MonthlySummary.MONTH_EXTRA, month);
+            context.startActivity(monthlySummary);
         }
     }
 

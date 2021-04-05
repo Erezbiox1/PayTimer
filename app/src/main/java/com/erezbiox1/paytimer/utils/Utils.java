@@ -4,6 +4,9 @@
 
 package com.erezbiox1.paytimer.utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -38,13 +41,30 @@ public class Utils {
      * Represents a month and a year
      * (YearMonth is restricted to API level 26. sigh.)
      */
-    public final static class Month implements Comparable<Month> {
+    public final static class Month implements Comparable<Month>, Parcelable {
         private final int year, month;
 
         public Month(int year, int month) {
             this.year = year;
             this.month = month;
         }
+
+        protected Month(Parcel in) {
+            year = in.readInt();
+            month = in.readInt();
+        }
+
+        public static final Creator<Month> CREATOR = new Creator<Month>() {
+            @Override
+            public Month createFromParcel(Parcel in) {
+                return new Month(in);
+            }
+
+            @Override
+            public Month[] newArray(int size) {
+                return new Month[size];
+            }
+        };
 
         public int getYear() {
             return year;
@@ -54,11 +74,15 @@ public class Utils {
             return month;
         }
 
-        @NonNull
-        public static Month getMonth(Long timeInMillis){
-            Calendar time = Calendar.getInstance();
-            time.setTimeInMillis(timeInMillis);
-            return new Month(time.get(Calendar.YEAR), time.get(Calendar.MONTH));
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(year);
+            dest.writeInt(month);
         }
 
         @NonNull
@@ -89,6 +113,13 @@ public class Utils {
         @Override
         public int compareTo(Month o) {
             return (o.year*12 + o.month) - (this.year*12 + this.month);
+        }
+
+        @NonNull
+        public static Month getMonth(Long timeInMillis){
+            Calendar time = Calendar.getInstance();
+            time.setTimeInMillis(timeInMillis);
+            return new Month(time.get(Calendar.YEAR), time.get(Calendar.MONTH));
         }
     }
 
