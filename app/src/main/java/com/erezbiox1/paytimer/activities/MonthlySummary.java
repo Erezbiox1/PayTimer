@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.erezbiox1.paytimer.BuildConfig;
+import com.erezbiox1.paytimer.adaptors.ShiftsAdapter;
 import com.erezbiox1.paytimer.database.ShiftRepository;
 import com.erezbiox1.paytimer.model.Shift;
 import com.erezbiox1.paytimer.utils.Utils;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public class MonthlySummary extends AppCompatActivity implements Observer<List<Shift>> {
@@ -72,12 +74,12 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
 
     @SuppressLint("SetTextI18n")
     private void updateUi(){
-        IntStream totalHours = shifts.stream().mapToInt(shift -> ((int) shift.getTotalHours() / 1000 / 60 / 60));
-        DoubleStream totalPay = shifts.stream().mapToDouble(shift -> shift.getTotalPay());
+        LongStream totalHours = shifts.stream().mapToLong(Shift::getTotalHours);
+        DoubleStream totalPay = shifts.stream().mapToDouble(Shift::getTotalPay);
 
         monthText.setText(month.toString());
-        sumText.setText(totalPay.sum() + getString(R.string.currency_symbol));
-        hoursText.setText(getString(R.string.monthly_report_total_hours, shifts.size()));
-        shiftsText.setText(getString(R.string.monthly_report_total_shifts, totalHours.sum()));
+        sumText.setText(Utils.getFormattedTotalPayout(this, totalPay.sum()));
+        shiftsText.setText(getString(R.string.monthly_report_total_shifts, shifts.size()));
+        hoursText.setText(getString(R.string.monthly_report_total_hours, (int) totalHours.sum() / 3600000));
     }
 }

@@ -4,12 +4,18 @@
 
 package com.erezbiox1.paytimer.utils;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.erezbiox1.paytimer.R;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.Calendar;
@@ -35,6 +41,61 @@ public class Utils {
 
         // Format the time and return the formatted time.
         return dateFormat.format(time);
+    }
+
+    /**
+     * Get the formatted total hours text
+     * @param totalHours total shift hours
+     * @param tip total tip given in the shift
+     * @return the formatted total payout text
+     */
+    public static String getFormattedTotalHours(Context context, long totalHours, int tip){
+        // Create a string builder to avoid concatenating strings
+        StringBuilder builder = new StringBuilder();
+
+        // Get the currency symbol ( changes per language )
+        String symbol = context.getString(R.string.currency_symbol);
+
+        // If the tip isn't 0, add it to the total hours
+        if(tip != 0) {
+            // Append the tip
+            builder.append(tip);
+            builder.append(symbol);
+
+            // Append the separator
+            builder.append(" + ");
+        }
+
+        // Append the total hours
+        builder.append(String.format(Locale.getDefault(), "%02d:%02d", ((int) totalHours / 3600000), ((int) (totalHours % 3600000)/60000)));
+
+        // Return the result
+        return builder.toString();
+    }
+
+    /**
+     * Get the formatted total payout text
+     * @param totalPayout total shit's payout
+     * @return the formatted total hours text
+     */
+    public static String getFormattedTotalPayout(Context context, double totalPayout){
+        // Create a string builder to avoid concatenating strings
+        StringBuilder builder = new StringBuilder();
+
+        // Add the total payout
+        builder.append(new DecimalFormat("#,###.#").format(totalPayout));
+//        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+//        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+//
+//        symbols.setGroupingSeparator(' ');
+//        formatter.setDecimalFormatSymbols(symbols);
+//        builder.append(formatter.format(totalPayout));
+
+        // Add the currency symbol
+        builder.append(context.getString(R.string.currency_symbol));
+
+        // Return the result
+        return builder.toString();
     }
 
     /**

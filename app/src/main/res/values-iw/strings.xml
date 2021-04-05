@@ -96,4 +96,6 @@
     <string name="image_uploaded_success">התמונה הועלתה בהצלחה</string>
     <string name="image_upload_fail">העלאת התמונה נכשלה</string>
     <string name="settings_auth_summary">התחבר כדאי להפעיל סנכרון ענן אקטיבי</string>
+    <string name="monthly_report_total_hours">%1$d שעות</string>
+    <string name="monthly_report_total_shifts">%1$d משמרות</string>
 </resources>

@@ -27,6 +27,7 @@ import com.erezbiox1.paytimer.activities.EditShiftActivity;
 import com.erezbiox1.paytimer.activities.MonthlySummary;
 import com.erezbiox1.paytimer.database.ShiftRepository;
 import com.erezbiox1.paytimer.model.Shift;
+import com.erezbiox1.paytimer.utils.Utils;
 import com.erezbiox1.paytimer.utils.Utils.Month;
 
 import java.text.DecimalFormat;
@@ -274,57 +275,8 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             fromHour        .setText(format("HH:mm", shiftStartTime, null));
             toHour          .setText(format("HH:mm", shiftEndTime, null));
             date            .setText(format("MMMM dd, yyyy", shiftStartTime, null));
-            totalPayout     .setText(getFormattedTotalPayout(shiftTotalPay));
-            totalHours      .setText(getFormattedTotalHours(shiftTotalHours, shiftTip));
-        }
-
-        /**
-         * Get the formatted total hours text
-         * @param totalHours total shift hours
-         * @param tip total tip given in the shift
-         * @return the formatted total payout text
-         */
-        private String getFormattedTotalHours(long totalHours, int tip){
-            // Create a string builder to avoid concatenating strings
-            StringBuilder builder = new StringBuilder();
-
-            // Get the currency symbol ( changes per language )
-            String symbol = context.getString(R.string.currency_symbol);
-
-            // If the tip isn't 0, add it to the total hours
-            if(tip != 0) {
-                // Append the tip
-                builder.append(tip);
-                builder.append(symbol);
-
-                // Append the separator
-                builder.append(" + ");
-            }
-
-            // Append the total hours
-            builder.append(format("HH:mm", totalHours, "UTC"));
-
-            // Return the result
-            return builder.toString();
-        }
-
-        /**
-         * Get the formatted total payout text
-         * @param totalPayout total shit's payout
-         * @return the formatted total hours text
-         */
-        private String getFormattedTotalPayout(double totalPayout){
-            // Create a string builder to avoid concatenating strings
-            StringBuilder builder = new StringBuilder();
-
-            // Add the total payout
-            builder.append(new DecimalFormat("#.#").format(totalPayout));
-
-            // Add the currency symbol
-            builder.append(context.getString(R.string.currency_symbol));
-
-            // Return the result
-            return builder.toString();
+            totalPayout     .setText(Utils.getFormattedTotalPayout(context, shiftTotalPay));
+            totalHours      .setText(Utils.getFormattedTotalHours(context, shiftTotalHours, shiftTip));
         }
 
         /**
