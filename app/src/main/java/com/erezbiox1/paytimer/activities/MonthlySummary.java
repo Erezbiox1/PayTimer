@@ -21,11 +21,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
 import com.erezbiox1.paytimer.R;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -40,6 +43,7 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
     private List<Shift> shifts;
 
     private TextView sumText, monthText, hoursText, shiftsText;
+    private View[] weekdayViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,16 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
         monthText = findViewById(R.id.month);
         hoursText = findViewById(R.id.report_total_hours);
         shiftsText = findViewById(R.id.report_total_shifts);
+
+        weekdayViews = new View[]{
+                findViewById(R.id.stat_day1),
+                findViewById(R.id.stat_day2),
+                findViewById(R.id.stat_day3),
+                findViewById(R.id.stat_day4),
+                findViewById(R.id.stat_day5),
+                findViewById(R.id.stat_day6),
+                findViewById(R.id.stat_day7),
+        };
     }
 
     @Override
@@ -81,5 +95,38 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
         sumText.setText(Utils.getFormattedTotalPayout(this, totalPay.sum()));
         shiftsText.setText(getString(R.string.monthly_report_total_shifts, shifts.size()));
         hoursText.setText(getString(R.string.monthly_report_total_hours, (int) totalHours.sum() / 3600000));
+
+        int[] weekdays = new int[7];
+        for (Shift shift : shifts) {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(shift.getStartTime());
+
+            int weekday = c.get(Calendar.DAY_OF_WEEK);
+            weekdays[weekday - 1] += shift.getTotalPay();
+        }
+
+        calcWeekdaysHeights(weekdays);
+
+        for (int i = 0; i < weekdays.length; i++) {
+
+        }
+
+        for (int i = 0; i < weekdayViews.length; i++) {
+            Log.i("MonthlySummary", i + ": " + weekdays[i]);
+            weekdayViews[i].getLayoutParams().height = weekdays[i];
+            weekdayViews[i].requestLayout();
+        }
+    }
+
+    private void calcWeekdaysHeights(int[] weekdays){
+        final double INITIAL = 30.0, MAX = 80.0;
+
+        int max = -1;
+        for(int weekday: weekdays)
+            if(weekday > max) max = weekday;
+
+        for (int i = 0; i < weekdays.length; i++)
+            weekdays[i] = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) (INITIAL + ((double) weekdays[i] / max) * MAX), getResources().getDisplayMetrics());
+
     }
 }

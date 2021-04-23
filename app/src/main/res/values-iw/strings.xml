@@ -98,4 +98,11 @@
     <string name="settings_auth_summary">התחבר כדאי להפעיל סנכרון ענן אקטיבי</string>
     <string name="monthly_report_total_hours">%1$d שעות</string>
     <string name="monthly_report_total_shifts">%1$d משמרות</string>
+    <string name="sun">יום א\'</string>
+    <string name="mon">יום ב\'</string>
+    <string name="tue">יום ג\'</string>
+    <string name="wed">יום ד\'</string>
+    <string name="thu">יום ה\'</string>
+    <string name="fri">יום ו\'</string>
+    <string name="sat">שבת</string>
 </resources>

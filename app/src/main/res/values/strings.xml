@@ -95,5 +95,12 @@
     <string name="settings_auth_summary">Login to enable active cloud sync</string>
     <string name="monthly_report_total_hours">%1$d hours</string>
     <string name="monthly_report_total_shifts">%1$d shifts</string>
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
 
 </resources>
