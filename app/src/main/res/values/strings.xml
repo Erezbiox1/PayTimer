@@ -102,5 +102,8 @@
     <string name="thu">Thu</string>
     <string name="fri">Fri</string>
     <string name="sat">Sat</string>
+    <string name="hours_title">hrs</string>
+    <string name="avg_tip">Avg Tip</string>
+    <string name="avg_shift">Avg Shift</string>
 
 </resources>

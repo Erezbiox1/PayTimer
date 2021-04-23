@@ -30,14 +30,13 @@
         android:id="@+id/total_earnings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/dancing_script"
         android:gravity="center"
         android:textColor="@color/green"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/month"
         tools:text="2,000.0$" />
 
@@ -45,10 +44,13 @@
         android:id="@+id/view"
         android:layout_width="2dp"
         android:layout_height="70dp"
+        android:layout_marginStart="4dp"
         android:layout_marginEnd="16dp"
         android:background="@color/cardview_dark_background"
         app:layout_constraintBottom_toBottomOf="@+id/total_earnings"
         app:layout_constraintEnd_toStartOf="@+id/report_total_shifts"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/total_earnings"
         app:layout_constraintTop_toTopOf="@+id/total_earnings" />
 
     <TextView
@@ -75,9 +77,10 @@
         tools:text="@string/monthly_report_total_hours" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +104,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_height="30dp"/>
+                    tools:layout_height="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -114,8 +117,7 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/stat_day1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,7 +133,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_height="30dp"/>
+                    tools:layout_height="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -144,8 +146,7 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/stat_day2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -160,7 +161,7 @@
                     android:background="@drawable/redbtn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -173,8 +174,7 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/stat_day3"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -190,7 +190,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_height="30dp"/>
+                    tools:layout_height="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -203,8 +203,7 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/stat_day4"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -220,7 +219,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_height="30dp"/>
+                    tools:layout_height="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -233,8 +232,7 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/stat_day5"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -250,7 +248,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_height="30dp"/>
+                    tools:layout_height="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -263,8 +261,7 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/stat_day6"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -280,7 +277,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_height="30dp"/>
+                    tools:layout_height="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -293,18 +290,75 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/stat_day7"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <View
             android:layout_width="270dp"
             android:layout_height="2dp"
-            android:layout_marginTop="-25dp"
             android:layout_gravity="center"
-            android:background="@color/colorPrimaryLessDark"/>
+            android:layout_marginTop="-25dp"
+            android:background="@android:color/white" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/avg_tip_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/currency_symbol"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/avg_tip_title"
+        app:layout_constraintStart_toEndOf="@+id/avg_tip_title" />
+
+    <TextView
+        android:id="@+id/avg_tip_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:textSize="50sp"
+        app:layout_constraintStart_toStartOf="@+id/total_earnings"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:text="90.0" />
+
+    <TextView
+        android:id="@+id/avg_shift_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="4dp"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toStartOf="@+id/avg_shift_sub_title"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:text="2.5" />
+
+    <TextView
+        android:id="@+id/avg_shift_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hours_title"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/avg_shift_title"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/avg_tip_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/avg_tip"
+        app:layout_constraintEnd_toEndOf="@+id/avg_tip_sub_title"
+        app:layout_constraintStart_toStartOf="@+id/avg_tip_title"
+        app:layout_constraintTop_toBottomOf="@+id/avg_tip_title" />
+
+    <TextView
+        android:id="@+id/avg_shift_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/avg_shift"
+        app:layout_constraintEnd_toEndOf="@+id/avg_shift_sub_title"
+        app:layout_constraintStart_toStartOf="@+id/avg_shift_title"
+        app:layout_constraintTop_toBottomOf="@+id/avg_shift_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

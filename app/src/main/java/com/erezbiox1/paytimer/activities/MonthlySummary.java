@@ -30,6 +30,7 @@ import com.erezbiox1.paytimer.R;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -42,7 +43,7 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
     private Month month;
     private List<Shift> shifts;
 
-    private TextView sumText, monthText, hoursText, shiftsText;
+    private TextView sumText, monthText, hoursText, shiftsText, avgShift, avgTip;
     private View[] weekdayViews;
 
     @Override
@@ -64,6 +65,9 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
         monthText = findViewById(R.id.month);
         hoursText = findViewById(R.id.report_total_hours);
         shiftsText = findViewById(R.id.report_total_shifts);
+
+        avgTip = findViewById(R.id.avg_tip_title);
+        avgShift = findViewById(R.id.avg_shift_title);
 
         weekdayViews = new View[]{
                 findViewById(R.id.stat_day1),
@@ -88,13 +92,16 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
 
     @SuppressLint("SetTextI18n")
     private void updateUi(){
-        LongStream totalHours = shifts.stream().mapToLong(Shift::getTotalHours);
-        DoubleStream totalPay = shifts.stream().mapToDouble(Shift::getTotalPay);
-
         monthText.setText(month.toString());
-        sumText.setText(Utils.getFormattedTotalPayout(this, totalPay.sum()));
+        sumText.setText(Utils.getFormattedTotalPayout(this, shifts.stream().mapToDouble(Shift::getTotalPay).sum()));
         shiftsText.setText(getString(R.string.monthly_report_total_shifts, shifts.size()));
-        hoursText.setText(getString(R.string.monthly_report_total_hours, (int) totalHours.sum() / 3600000));
+        hoursText.setText(getString(R.string.monthly_report_total_hours, (int) shifts.stream().mapToLong(Shift::getTotalHours).sum() / 3600000));
+
+        //avgShift.setText("" + (int) shifts.stream().mapToLong(Shift::getTotalHours).average().orElse(0));
+        //avgTip.setText("" + (int) shifts.stream().mapToDouble(Shift::getTip).average().orElse(0));
+
+        avgShift.setText(String.format(Locale.getDefault(), "%.1f", shifts.stream().mapToLong(Shift::getTotalHours).average().orElse(0)  / 3600000));
+        avgTip.setText(String.format(Locale.getDefault(), "%.1f", shifts.stream().mapToDouble(Shift::getTip).average().orElse(0)));
 
         int[] weekdays = new int[7];
         for (Shift shift : shifts) {
@@ -107,12 +114,7 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
 
         calcWeekdaysHeights(weekdays);
 
-        for (int i = 0; i < weekdays.length; i++) {
-
-        }
-
         for (int i = 0; i < weekdayViews.length; i++) {
-            Log.i("MonthlySummary", i + ": " + weekdays[i]);
             weekdayViews[i].getLayoutParams().height = weekdays[i];
             weekdayViews[i].requestLayout();
         }

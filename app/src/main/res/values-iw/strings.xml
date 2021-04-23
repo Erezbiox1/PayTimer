@@ -105,4 +105,7 @@
     <string name="thu">יום ה\'</string>
     <string name="fri">יום ו\'</string>
     <string name="sat">שבת</string>
+    <string name="hours_title">שעות</string>
+    <string name="avg_tip">טיפ ממוצע</string>
+    <string name="avg_shift">משמרת ממוצעת</string>
 </resources>
