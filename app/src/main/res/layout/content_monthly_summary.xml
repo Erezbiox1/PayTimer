@@ -36,7 +36,7 @@
         android:textColor="@color/green"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/stats"
         app:layout_constraintTop_toBottomOf="@+id/month"
         tools:text="2,000.0$" />
 
@@ -76,8 +76,16 @@
         app:layout_constraintTop_toBottomOf="@+id/report_total_shifts"
         tools:text="@string/monthly_report_total_hours" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#D8D8D8"
+        app:layout_constraintBottom_toBottomOf="@+id/stats"
+        app:layout_constraintTop_toTopOf="@id/stats" />
+
+
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -299,7 +307,7 @@
             android:layout_height="2dp"
             android:layout_gravity="center"
             android:layout_marginTop="-25dp"
-            android:background="@android:color/white" />
+            android:background="#D8D8D8" />
 
     </LinearLayout>
 
@@ -320,7 +328,7 @@
         android:layout_marginTop="48dp"
         android:textSize="50sp"
         app:layout_constraintStart_toStartOf="@+id/total_earnings"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/stats"
         tools:text="90.0" />
 
     <TextView
@@ -331,7 +339,7 @@
         android:layout_marginEnd="4dp"
         android:textSize="50sp"
         app:layout_constraintEnd_toStartOf="@+id/avg_shift_sub_title"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/stats"
         tools:text="2.5" />
 
     <TextView
@@ -341,7 +349,7 @@
         android:text="@string/hours_title"
         android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/avg_shift_title"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2" />
+        app:layout_constraintEnd_toEndOf="@+id/stats" />
 
     <TextView
         android:id="@+id/avg_tip_summary"
