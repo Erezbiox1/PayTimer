@@ -82,14 +82,15 @@ public class Utils {
         // Create a string builder to avoid concatenating strings
         StringBuilder builder = new StringBuilder();
 
-        // Add the total payout
-        builder.append(new DecimalFormat("#,###.#").format(totalPayout));
-//        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
-//        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-//
-//        symbols.setGroupingSeparator(' ');
-//        formatter.setDecimalFormatSymbols(symbols);
-//        builder.append(formatter.format(totalPayout));
+        // Format the total payout
+        String formattedPayout = new DecimalFormat("#,###.#").format(totalPayout);
+
+        // If the formatted payout is bigger than 7 characters then use a slimmed version.
+        if(formattedPayout.length() > 7)
+            formattedPayout = new DecimalFormat("#,###").format(totalPayout);
+
+        // Add the formatted total payout
+        builder.append(formattedPayout);
 
         // Add the currency symbol
         builder.append(context.getString(R.string.currency_symbol));

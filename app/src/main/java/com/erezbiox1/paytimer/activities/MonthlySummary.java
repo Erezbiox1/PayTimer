@@ -59,6 +59,7 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
 
         month = getIntent().getParcelableExtra(MONTH_EXTRA);
 
+        // TODO: Create a filter that will fetch only the shifts from the same month.
         ShiftRepository.getInstance(this).getAllShifts().observe(this, this);
 
         sumText = findViewById(R.id.total_earnings);
