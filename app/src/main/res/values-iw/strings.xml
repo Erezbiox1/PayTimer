@@ -107,4 +107,7 @@
     <string name="hours_title">שעות</string>
     <string name="avg_tip">טיפ ממוצע</string>
     <string name="avg_shift">משמרת ממוצעת</string>
+    <string name="settings_choose_currency">בחר את המטבע שלך</string>
+    <string name="settings_currency">מטבע</string>
+    <string name="shifts_options_payed">סמן שולם \\ לא שולם</string>
 </resources>

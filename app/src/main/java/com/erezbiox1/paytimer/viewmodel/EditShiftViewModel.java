@@ -99,7 +99,7 @@ public class EditShiftViewModel extends AndroidViewModel implements Observer<Shi
         Integer tip = prefs.getBoolean("tips_enabled", false) ? 0 : null;
 
         // Create the new shift from the collected parameters. Mark that the shift is new.
-        this.shift = new Shift(startTime, endTime, hourlyRate, tip);
+        this.shift = new Shift(startTime, endTime, hourlyRate, false, tip);
         this.newShift = true;
 
         // Pass the shift to the activity.

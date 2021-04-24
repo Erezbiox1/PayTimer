@@ -38,6 +38,31 @@
                 card_view:layout_constraintTop_toTopOf="parent"
                 tools:text="Sunday" />
 
+            <View
+                android:id="@+id/checkmark_circle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/redbtn"
+                android:backgroundTint="@color/green"
+                android:visibility="gone"
+                card_view:layout_constraintBottom_toBottomOf="@id/shift_day_of_week"
+                card_view:layout_constraintEnd_toEndOf="@id/shift_day_of_week">
+            </View>
+
+            <View
+                android:id="@+id/checkmark_circle_tick"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/ic_check"
+                android:backgroundTint="@android:color/white"
+                android:visibility="gone"
+                card_view:layout_constraintStart_toStartOf="@id/checkmark_circle"
+                card_view:layout_constraintTop_toTopOf="@id/checkmark_circle"
+                card_view:layout_constraintBottom_toBottomOf="@id/checkmark_circle"
+                card_view:layout_constraintEnd_toEndOf="@id/checkmark_circle" />
+
             <TextView
                 android:id="@+id/shift_from_hour"
                 android:layout_width="wrap_content"

@@ -106,5 +106,6 @@
     <string name="avg_shift">Avg Shift</string>
     <string name="settings_choose_currency">Choose your currency</string>
     <string name="settings_currency">Currency</string>
+    <string name="shifts_options_payed">Mark Paid \\ Unpaid</string>
 
 </resources>

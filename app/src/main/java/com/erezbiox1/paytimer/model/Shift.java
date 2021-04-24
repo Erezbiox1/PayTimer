@@ -34,6 +34,9 @@ public class Shift {
     @NonNull
     private Double hourlyRate;
 
+    // Has the shift been payed for.
+    private boolean payed;
+
     // The given tip ( will be added to the total salary )
     private Integer tip;
 
@@ -41,21 +44,23 @@ public class Shift {
     public Shift(){ }
 
     // Room constructor used to create new shifts
-    public Shift(@NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, Integer tip) {
+    public Shift(@NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, boolean payed, Integer tip) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.hourlyRate = hourlyRate;
+        this.payed = payed;
         this.tip = tip;
     }
 
     // Custom constructor, flagged to be ignored by the Room parser,
     // used to update shifts by specifying their id.
     @Ignore
-    public Shift(Integer id, @NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, Integer tip) {
+    public Shift(Integer id, @NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, boolean payed, Integer tip) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.hourlyRate = hourlyRate;
+        this.payed = payed;
         this.tip = tip;
     }
 
@@ -105,6 +110,14 @@ public class Shift {
         this.tip = tip;
     }
 
+    public boolean isPayed(){
+        return payed;
+    }
+
+    public void setPayed(boolean payed){
+        this.payed = payed;
+    }
+
     @NonNull
     public Double getHourlyRate() {
         return hourlyRate;
@@ -121,6 +134,7 @@ public class Shift {
         result.put("startTime", startTime);
         result.put("endTime", endTime);
         result.put("hourlyRate", hourlyRate);
+        result.put("payed", payed);
         result.put("tip", tip);
 
         return result;

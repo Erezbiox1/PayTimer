@@ -4,6 +4,8 @@
 
 package com.erezbiox1.paytimer.adaptors;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -226,9 +229,9 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public class ShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
         // UI elements
-        private TextView dayOfTheWeek, fromHour, toHour, date, totalPayout, totalHours;
-        private ImageView optionsButton;
-        private CardView cardView;
+        private final TextView dayOfTheWeek, fromHour, toHour, date, totalPayout, totalHours;
+        private final ImageView optionsButton;
+        private final View checkmarkCircle, checkmarkTick;
 
         // Stored shift
         private Shift shift;
@@ -237,8 +240,8 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
 
             // Get the UI elements
-
-            cardView = itemView.findViewById(R.id.shift_card_view);
+            checkmarkCircle = itemView.findViewById(R.id.checkmark_circle);
+            checkmarkTick = itemView.findViewById(R.id.checkmark_circle_tick);
 
             dayOfTheWeek = itemView.findViewById(R.id.shift_day_of_week);
             fromHour = itemView.findViewById(R.id.shift_from_hour);
@@ -269,6 +272,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             double shiftTotalPay = shift.getTotalPay();
             long shiftTotalHours = shift.getTotalHours();
             int shiftTip = shift.getTip();
+            boolean payed = shift.isPayed();
 
             // Set the UI
             dayOfTheWeek    .setText(format("E", shiftStartTime, null));
@@ -277,6 +281,9 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             date            .setText(format("MMMM dd, yyyy", shiftStartTime, null));
             totalPayout     .setText(Utils.getFormattedTotalPayout(context, shiftTotalPay));
             totalHours      .setText(Utils.getFormattedTotalHours(context, shiftTotalHours, shiftTip));
+
+            checkmarkTick.setVisibility(payed ? View.VISIBLE : View.GONE);
+            checkmarkCircle.setVisibility(payed ? View.VISIBLE : View.GONE);
         }
 
         /**
@@ -311,6 +318,9 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     break;
                 case R.id.shift_options_delete:
                     deleteShift();
+                    break;
+                case R.id.shift_options_payed:
+                    setShiftPayed(!shift.isPayed());
                     break;
             }
 
@@ -347,28 +357,66 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .setTitle(R.string.delete_shift)
                     .setMessage(R.string.delete_shift_text)
                     .setIcon(R.drawable.ic_warning)
-                    .setPositiveButton(R.string.delete_shift_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            // If the alert "yes" button was clicked, delete the shift:
+                    .setPositiveButton(R.string.delete_shift_yes, (dialogInterface, i) -> {
+                        // If the alert "yes" button was clicked, delete the shift:
 
-                            // Notify the recyclerView that an item was deleted in this location
-                            notifyItemRemoved(position);
+                        // Notify the recyclerView that an item was deleted in this location
+                        notifyItemRemoved(position);
 
-                            // Tell the ShiftRepository to delete the shift asynchronously.
-                            ShiftRepository.getInstance(context).delete(shift);
-                        }
+                        // Tell the ShiftRepository to delete the shift asynchronously.
+                        ShiftRepository.getInstance(context).delete(shift);
                     })
-                    .setNegativeButton(R.string.delete_shift_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            // If the alert "no" button was clicked, revert the swipe operation by simply notifying
-                            // the recyclerView that an item was changed in that position, causing the recyclerView
-                            // to Re-Populate that shift's item view.
-                            notifyItemChanged(position);
-                        }
+                    .setNegativeButton(R.string.delete_shift_no, (dialogInterface, i) -> {
+                        // If the alert "no" button was clicked, revert the swipe operation by simply notifying
+                        // the recyclerView that an item was changed in that position, causing the recyclerView
+                        // to Re-Populate that shift's item view.
+                        notifyItemChanged(position);
                     })
                     .show();
+        }
+
+        /**
+         * Toggle shift payed
+         */
+        public void setShiftPayed(final boolean payed){
+            // Set the shift payed status
+            shift.setPayed(payed);
+
+            // Animate the checkmark icon
+            int cx = checkmarkCircle.getWidth() / 2;
+            int cy = checkmarkCircle.getHeight() / 2;
+            float finalRadius = (float) Math.hypot(cx, cy);
+
+            Animator anim = ViewAnimationUtils.createCircularReveal(
+                    checkmarkCircle,
+                    cx,
+                    cy,
+                    payed ? 0 : finalRadius,
+                    payed ? finalRadius : 0);
+
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+
+                    if(payed)
+                        checkmarkTick.setVisibility(View.VISIBLE);
+                    else
+                        checkmarkCircle.setVisibility(View.GONE);
+
+
+                    // Save the changes made to the shift in the shift repo
+                    ShiftRepository.getInstance(context).update(shift);
+                }
+            });
+
+            if(payed)
+                checkmarkCircle.setVisibility(View.VISIBLE);
+            else
+                checkmarkTick.setVisibility(View.GONE);
+
+            anim.start();
+
         }
     }
 }
