@@ -5,11 +5,13 @@
 package com.erezbiox1.paytimer.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import com.erezbiox1.paytimer.R;
 
@@ -54,7 +56,7 @@ public class Utils {
         StringBuilder builder = new StringBuilder();
 
         // Get the currency symbol ( changes per language )
-        String symbol = context.getString(R.string.currency_symbol);
+        String symbol = Utils.getCurrencySymbol(context);
 
         // If the tip isn't 0, add it to the total hours
         if(tip != 0) {
@@ -93,10 +95,20 @@ public class Utils {
         builder.append(formattedPayout);
 
         // Add the currency symbol
-        builder.append(context.getString(R.string.currency_symbol));
+        builder.append(Utils.getCurrencySymbol(context));
 
         // Return the result
         return builder.toString();
+    }
+
+    public static String getCurrencySymbol(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String currencyType = prefs.getString("currency", "ils");
+        switch (currencyType){
+            case "ils": return "₪";
+            case "usd": return "$";
+        }
+        return null;
     }
 
     /**

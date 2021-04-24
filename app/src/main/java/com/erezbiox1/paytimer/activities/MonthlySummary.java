@@ -79,6 +79,9 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
                 findViewById(R.id.stat_day6),
                 findViewById(R.id.stat_day7),
         };
+
+        final TextView avgTipSubtitle = findViewById(R.id.avg_tip_sub_title);
+        avgTipSubtitle.setText(Utils.getCurrencySymbol(this));
     }
 
     @Override
@@ -97,9 +100,6 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
         sumText.setText(Utils.getFormattedTotalPayout(this, shifts.stream().mapToDouble(Shift::getTotalPay).sum()));
         shiftsText.setText(getString(R.string.monthly_report_total_shifts, shifts.size()));
         hoursText.setText(getString(R.string.monthly_report_total_hours, (int) shifts.stream().mapToLong(Shift::getTotalHours).sum() / 3600000));
-
-        //avgShift.setText("" + (int) shifts.stream().mapToLong(Shift::getTotalHours).average().orElse(0));
-        //avgTip.setText("" + (int) shifts.stream().mapToDouble(Shift::getTip).average().orElse(0));
 
         avgShift.setText(String.format(Locale.getDefault(), "%.1f", shifts.stream().mapToLong(Shift::getTotalHours).average().orElse(0)  / 3600000));
         avgTip.setText(String.format(Locale.getDefault(), "%.1f", shifts.stream().mapToDouble(Shift::getTip).average().orElse(0)));

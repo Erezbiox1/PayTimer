@@ -30,7 +30,15 @@
             app:defaultValue="true"
             app:iconSpaceReserved="false"/>
 
-        <!--
+        <ListPreference
+            app:key="currency"
+            app:title="@string/settings_currency"
+            app:summary="@string/settings_choose_currency"
+            app:entries="@array/currencies"
+            app:entryValues="@array/currenciesValues"
+            app:iconSpaceReserved="false"/>
+
+        <!-- TODO:
         <SwitchPreferenceCompat
             app:key="will_stop_after_time"
             app:title="@string/settings_stop_shift_after"
