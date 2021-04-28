@@ -34,33 +34,34 @@ public class Shift {
     @NonNull
     private Double hourlyRate;
 
-    // Has the shift been payed for.
-    private boolean payed;
+    // Has the shift been paid for.
+    private boolean paid;
 
     // The given tip ( will be added to the total salary )
     private Integer tip;
 
     // Default constructor required for calls to DataSnapshot.getValue(Shift.class)
+    @Ignore
     public Shift(){ }
 
     // Room constructor used to create new shifts
-    public Shift(@NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, boolean payed, Integer tip) {
+    public Shift(@NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, boolean paid, Integer tip) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.hourlyRate = hourlyRate;
-        this.payed = payed;
+        this.paid = paid;
         this.tip = tip;
     }
 
     // Custom constructor, flagged to be ignored by the Room parser,
     // used to update shifts by specifying their id.
     @Ignore
-    public Shift(Integer id, @NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, boolean payed, Integer tip) {
+    public Shift(Integer id, @NonNull Long startTime, @NonNull Long endTime, @NonNull Double hourlyRate, boolean paid, Integer tip) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.hourlyRate = hourlyRate;
-        this.payed = payed;
+        this.paid = paid;
         this.tip = tip;
     }
 
@@ -110,12 +111,12 @@ public class Shift {
         this.tip = tip;
     }
 
-    public boolean isPayed(){
-        return payed;
+    public boolean isPaid(){
+        return paid;
     }
 
-    public void setPayed(boolean payed){
-        this.payed = payed;
+    public void setPaid(boolean paid){
+        this.paid = paid;
     }
 
     @NonNull
@@ -134,7 +135,7 @@ public class Shift {
         result.put("startTime", startTime);
         result.put("endTime", endTime);
         result.put("hourlyRate", hourlyRate);
-        result.put("payed", payed);
+        result.put("paid", paid);
         result.put("tip", tip);
 
         return result;

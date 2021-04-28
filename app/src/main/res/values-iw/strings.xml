@@ -109,5 +109,7 @@
     <string name="avg_shift">משמרת ממוצעת</string>
     <string name="settings_choose_currency">בחר את המטבע שלך</string>
     <string name="settings_currency">מטבע</string>
-    <string name="shifts_options_payed">סמן שולם \\ לא שולם</string>
+    <string name="shifts_options_paid">סמן שולם \\ לא שולם</string>
+    <string name="delete_shifts">מחק משמרות</string>
+    <string name="delete_shifts_text">האם אתה באמת רוצה למחוק את המשמרות הללו?</string>
 </resources>

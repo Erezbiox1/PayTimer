@@ -106,6 +106,8 @@
     <string name="avg_shift">Avg Shift</string>
     <string name="settings_choose_currency">Choose your currency</string>
     <string name="settings_currency">Currency</string>
-    <string name="shifts_options_payed">Mark Paid \\ Unpaid</string>
+    <string name="shifts_options_paid">Mark Paid \\ Unpaid</string>
+    <string name="delete_shifts">Delete shifts</string>
+    <string name="delete_shifts_text">Do you really want to delete these shifts?</string>
 
 </resources>

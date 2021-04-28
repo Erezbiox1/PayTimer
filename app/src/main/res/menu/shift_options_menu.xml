@@ -9,8 +9,8 @@
         android:title="@string/shift_options_edit" />
 
     <item
-        android:id="@+id/shift_options_payed"
-        android:title="@string/shifts_options_payed"/>
+        android:id="@+id/shift_options_paid"
+        android:title="@string/shifts_options_paid"/>
 
     <item
         android:id="@+id/shift_options_delete"

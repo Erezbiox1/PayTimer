@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -30,9 +31,13 @@ import android.widget.TextView;
 
 import com.erezbiox1.paytimer.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ListShiftsActivity extends AppCompatActivity {
+public class ListShiftsActivity extends AppCompatActivity implements Observer<List<Integer>> {
+
+    private ShiftsAdapter shiftsAdapter;
+    private List<Integer> selectedShifts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +69,7 @@ public class ListShiftsActivity extends AppCompatActivity {
         final TextView noShiftsView = findViewById(R.id.no_shifts);
 
         // The shift's adapter ( used to update each item with the shift's data. ) and repository ( used to fetch the list data )
-        final ShiftsAdapter shiftsAdapter = new ShiftsAdapter();
+        shiftsAdapter = new ShiftsAdapter();
         final ShiftRepository repository = ShiftRepository.getInstance(getApplication());
 
         // Listen the changes in the list repository, when changes occur, update the UI accordingly.
@@ -130,6 +135,7 @@ public class ListShiftsActivity extends AppCompatActivity {
         // Attach the swipe listener to the recyclerview
         helper.attachToRecyclerView(recyclerView);
 
+        shiftsAdapter.selectedLiveData.observe(this, this);
     }
 
     /**
@@ -138,9 +144,14 @@ public class ListShiftsActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(selectedShifts.size() > 0)
+            getMenuInflater().inflate(R.menu.selected_shifts_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+
 
     /**
      * On option selected listener,
@@ -150,13 +161,56 @@ public class ListShiftsActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_settings){
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
+        if(selectedShifts.size() > 0){
+            switch (item.getItemId()){
+                case R.id.shift_selected_options_paid:
+                    shiftsAdapter.getShiftsList()
+                            .stream()
+                            .filter(shift -> selectedShifts.contains(shift.getId()))
+                            .forEach(shift -> {
+                                shift.setPaid(!shift.isPaid());
+                                ShiftRepository.getInstance(this).update(shift);
+                    });
+
+                    shiftsAdapter.selectedLiveData.setValue(new ArrayList<>());
+                    break;
+                case R.id.shift_selected_options_delete:
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.delete_shifts)
+                            .setMessage(R.string.delete_shifts_text)
+                            .setIcon(R.drawable.ic_warning)
+                            .setPositiveButton(R.string.delete_shift_yes, (dialogInterface, i) -> {
+                                // If the alert "yes" button was clicked, delete the shifts:
+                                shiftsAdapter.getShiftsList()
+                                        .stream()
+                                        .filter(shift -> selectedShifts.contains(shift.getId()))
+                                        .forEach(shift -> {
+                                            // Tell the ShiftRepository to delete the shift asynchronously.
+                                            ShiftRepository.getInstance(this).delete(shift);
+                                        });
+
+                                shiftsAdapter.selectedLiveData.setValue(new ArrayList<>());
+                            })
+                            .setNegativeButton(R.string.delete_shift_no, null)
+                            .show();
+                    break;
+            }
+
+
+        } else {
+            if (item.getItemId() == R.id.action_settings) {
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onChanged(List<Integer> selectedShifts) {
+        this.selectedShifts = selectedShifts;
+        invalidateOptionsMenu();
+    }
 }

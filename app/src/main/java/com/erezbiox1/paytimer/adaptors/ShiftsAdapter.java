@@ -8,7 +8,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -22,8 +21,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,9 +33,7 @@ import com.erezbiox1.paytimer.model.Shift;
 import com.erezbiox1.paytimer.utils.Utils;
 import com.erezbiox1.paytimer.utils.Utils.Month;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -52,6 +47,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     // The local shift data store ( static and is updated through setShiftsList(). also the recyclerView ref and activity context
     private List<ListItem> entryList = new ArrayList<>();
+    private List<Shift> shiftsList = new ArrayList<>();
     private RecyclerView recyclerView;
     private Context context;
 
@@ -171,6 +167,9 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @param list new shift's list
      */
     public void setShiftsList(List<Shift> list){
+        this.shiftsList.clear();
+        this.shiftsList.addAll(list);
+
         // Delete all previous shifts references stored in the local shift's list
         entryList.clear();
 
@@ -197,12 +196,15 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
+    public List<Shift> getShiftsList() {
+        return shiftsList;
+    }
+
     // A custom item list entry that can be either a shift or a monthly title
     public static class ListItem {
         private final ListItemType type;
         private final Shift shift;
         private final Month month;
-        private boolean selected;
 
         public ListItem(Shift shift){
             this.type = ListItemType.SHIFT;
@@ -311,7 +313,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             double shiftTotalPay = shift.getTotalPay();
             long shiftTotalHours = shift.getTotalHours();
             int shiftTip = shift.getTip();
-            boolean payed = shift.isPayed();
+            boolean paid = shift.isPaid();
 
             // Set the UI
             dayOfTheWeek    .setText(format("E", shiftStartTime, null));
@@ -322,7 +324,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             totalHours      .setText(Utils.getFormattedTotalHours(context, shiftTotalHours, shiftTip));
 
             checkmarkCircle.setText(Utils.getCurrencySymbol(context));
-            checkmarkCircle.setVisibility(payed ? View.VISIBLE : View.GONE);
+            checkmarkCircle.setVisibility(paid ? View.VISIBLE : View.GONE);
         }
 
         @Override
@@ -364,8 +366,8 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 case R.id.shift_options_delete:
                     deleteShift();
                     break;
-                case R.id.shift_options_payed:
-                    setShiftPayed(!shift.isPayed());
+                case R.id.shift_options_paid:
+                    setShiftPaid(!shift.isPaid());
                     break;
             }
 
@@ -421,13 +423,13 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         /**
-         * Toggle shift payed
+         * Toggle shift paid
          */
-        public void setShiftPayed(final boolean payed){
-            // Set the shift payed status
-            shift.setPayed(payed);
+        public void setShiftPaid(final boolean paid){
+            // Set the shift paid status
+            shift.setPaid(paid);
 
-            // Animate the checkmark icon
+            // Animate the currency icon
             int cx = checkmarkCircle.getWidth() / 2;
             int cy = checkmarkCircle.getHeight() / 2;
             float finalRadius = (float) Math.hypot(cx, cy);
@@ -436,15 +438,15 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     checkmarkCircle,
                     cx,
                     cy,
-                    payed ? 0 : finalRadius,
-                    payed ? finalRadius : 0);
+                    paid ? 0 : finalRadius,
+                    paid ? finalRadius : 0);
 
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
 
-                    if(!payed)
+                    if(!paid)
                         checkmarkCircle.setVisibility(View.GONE);
 
                     // Save the changes made to the shift in the shift repo
@@ -452,7 +454,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            if(payed)
+            if(paid)
                 checkmarkCircle.setVisibility(View.VISIBLE);
 
             anim.start();
