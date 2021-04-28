@@ -23,6 +23,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.erezbiox1.paytimer.R;
@@ -43,6 +46,9 @@ import java.util.TreeMap;
 import static com.erezbiox1.paytimer.utils.Utils.format;
 
 public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    // Selected shifts live data
+    public MutableLiveData<List<Integer>> selectedLiveData = new MutableLiveData<>(new ArrayList<>());
 
     // The local shift data store ( static and is updated through setShiftsList(). also the recyclerView ref and activity context
     private List<ListItem> entryList = new ArrayList<>();
@@ -115,7 +121,33 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case SHIFT:
                 // Tell the holder to update their shift with the shift from the list
                 // ( will allow the holder to update their UI to the new shift in the specified position. )
-                ((ShiftViewHolder) holder).setShift(entryList.get(position).shift);
+                final ShiftViewHolder shiftViewHolder = ((ShiftViewHolder) holder);
+                shiftViewHolder.setShift(entryList.get(position).shift);
+
+                int id = shiftViewHolder.shift.getId();
+                List<Integer> selected = selectedLiveData.getValue();
+
+                shiftViewHolder.cardView.setOnLongClickListener(v -> {
+                    if(!selected.contains(id))
+                        selected.add(id);
+                    else
+                        selected.remove(id);
+
+                    selectedLiveData.setValue(selectedLiveData.getValue());
+                    return true;
+                });
+
+                shiftViewHolder.cardView.setOnClickListener(v -> {
+                    if(selected.size() > 0) {
+                        if(!selected.contains(id))
+                            selected.add(id);
+                        else
+                            selected.remove(Integer.valueOf(id));
+
+                        selectedLiveData.setValue(selectedLiveData.getValue());
+                    }
+                });
+
                 break;
             case MONTHLY_TITLE:
                 // Tell the holder to update their month with the updated month from the list
@@ -170,6 +202,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private final ListItemType type;
         private final Shift shift;
         private final Month month;
+        private boolean selected;
 
         public ListItem(Shift shift){
             this.type = ListItemType.SHIFT;
@@ -226,12 +259,12 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     // A custom ViewHolder class
-    public class ShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    public class ShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, Observer<List<Integer>> {
 
         // UI elements
-        private final TextView dayOfTheWeek, fromHour, toHour, date, totalPayout, totalHours;
+        private final TextView dayOfTheWeek, fromHour, toHour, date, totalPayout, totalHours, checkmarkCircle;
         private final ImageView optionsButton;
-        private final View checkmarkCircle, checkmarkTick;
+        private final View cardView, selectionCircle, selectionCircleSelected;
 
         // Stored shift
         private Shift shift;
@@ -240,8 +273,11 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
 
             // Get the UI elements
+            cardView = itemView.findViewById(R.id.shift_card_view);
+
             checkmarkCircle = itemView.findViewById(R.id.checkmark_circle);
-            checkmarkTick = itemView.findViewById(R.id.checkmark_circle_tick);
+            selectionCircle = itemView.findViewById(R.id.selection_circle);
+            selectionCircleSelected = itemView.findViewById(R.id.selection_circle_selected);
 
             dayOfTheWeek = itemView.findViewById(R.id.shift_day_of_week);
             fromHour = itemView.findViewById(R.id.shift_from_hour);
@@ -253,6 +289,9 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             // Set the options button click listener to this view holder.
             optionsButton.setOnClickListener(this);
+
+            // Observe selected shifts live data
+            selectedLiveData.observeForever(this);
         }
 
         /**
@@ -282,8 +321,14 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             totalPayout     .setText(Utils.getFormattedTotalPayout(context, shiftTotalPay));
             totalHours      .setText(Utils.getFormattedTotalHours(context, shiftTotalHours, shiftTip));
 
-            checkmarkTick.setVisibility(payed ? View.VISIBLE : View.GONE);
+            checkmarkCircle.setText(Utils.getCurrencySymbol(context));
             checkmarkCircle.setVisibility(payed ? View.VISIBLE : View.GONE);
+        }
+
+        @Override
+        public void onChanged(List<Integer> selectedShifts) {
+            selectionCircle.setVisibility(selectedShifts.size() > 0 ? View.VISIBLE : View.GONE);
+            selectionCircleSelected.setVisibility(shift == null || !selectedShifts.contains(shift.getId()) ? View.GONE : View.VISIBLE);
         }
 
         /**
@@ -399,11 +444,8 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
 
-                    if(payed)
-                        checkmarkTick.setVisibility(View.VISIBLE);
-                    else
+                    if(!payed)
                         checkmarkCircle.setVisibility(View.GONE);
-
 
                     // Save the changes made to the shift in the shift repo
                     ShiftRepository.getInstance(context).update(shift);
@@ -412,8 +454,6 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if(payed)
                 checkmarkCircle.setVisibility(View.VISIBLE);
-            else
-                checkmarkTick.setVisibility(View.GONE);
 
             anim.start();
 
