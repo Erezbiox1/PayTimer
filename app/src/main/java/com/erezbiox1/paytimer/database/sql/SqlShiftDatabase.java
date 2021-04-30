@@ -12,7 +12,7 @@ import androidx.room.RoomDatabase;
 
 import com.erezbiox1.paytimer.model.Shift;
 
-@Database(entities = {Shift.class}, version = 4)
+@Database(entities = {Shift.class}, version = 5)
 public abstract class SqlShiftDatabase extends RoomDatabase {
 
     // The shift's database data access object (DAO)

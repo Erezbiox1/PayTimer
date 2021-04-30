@@ -270,6 +270,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         // Stored shift
         private Shift shift;
+        private boolean wasPaid;
 
         ShiftViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -302,10 +303,6 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
          */
         @SuppressLint("SetTextI18n")
         private void setShift(Shift shift){
-            // Saves the shift for future reference ( to get it's ID so we can
-            // react to options button clicks and edit/delete the shift for example. )
-            this.shift = shift;
-
             // Get the start, end, total hours between them ( will be used
             // in the future to deduct breaks ), and given tip from the shift.
             long shiftStartTime = shift.getStartTime();
@@ -323,8 +320,18 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             totalPayout     .setText(Utils.getFormattedTotalPayout(context, shiftTotalPay));
             totalHours      .setText(Utils.getFormattedTotalHours(context, shiftTotalHours, shiftTip));
 
-            checkmarkCircle.setText(Utils.getCurrencySymbol(context));
-            checkmarkCircle.setVisibility(paid ? View.VISIBLE : View.GONE);
+            if(this.shift == null) {
+                checkmarkCircle.setText(Utils.getCurrencySymbol(context));
+                checkmarkCircle.setVisibility(paid ? View.VISIBLE : View.INVISIBLE);
+            } else if(shift.isPaid() != wasPaid) {
+                animatePaidUnpaid(shift.isPaid());
+            }
+
+            wasPaid = shift.isPaid();
+
+            // Saves the shift for future reference ( to get it's ID so we can
+            // react to options button clicks and edit/delete the shift for example. )
+            this.shift = shift;
         }
 
         @Override
@@ -367,7 +374,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     deleteShift();
                     break;
                 case R.id.shift_options_paid:
-                    setShiftPaid(!shift.isPaid());
+                    clickPaidUnpaid();
                     break;
             }
 
@@ -425,40 +432,40 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         /**
          * Toggle shift paid
          */
-        public void setShiftPaid(final boolean paid){
-            // Set the shift paid status
-            shift.setPaid(paid);
+        public void clickPaidUnpaid(){
+            shift.setPaid(!shift.isPaid());
+            ShiftRepository.getInstance(context).update(shift);
+        }
 
-            // Animate the currency icon
-            int cx = checkmarkCircle.getWidth() / 2;
-            int cy = checkmarkCircle.getHeight() / 2;
-            float finalRadius = (float) Math.hypot(cx, cy);
+        private void animatePaidUnpaid(final boolean paid){
+            cardView.post(() -> {
+                // Animate the currency icon
+                int cx = checkmarkCircle.getWidth() / 2;
+                int cy = checkmarkCircle.getHeight() / 2;
+                float finalRadius = (float) Math.hypot(cx, cy);
 
-            Animator anim = ViewAnimationUtils.createCircularReveal(
-                    checkmarkCircle,
-                    cx,
-                    cy,
-                    paid ? 0 : finalRadius,
-                    paid ? finalRadius : 0);
+                Animator anim = ViewAnimationUtils.createCircularReveal(
+                        checkmarkCircle,
+                        cx,
+                        cy,
+                        paid ? 0 : finalRadius,
+                        paid ? finalRadius : 0);
 
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
 
-                    if(!paid)
-                        checkmarkCircle.setVisibility(View.GONE);
+                        if(!paid)
+                            checkmarkCircle.setVisibility(View.INVISIBLE);
+                    }
+                });
 
-                    // Save the changes made to the shift in the shift repo
-                    ShiftRepository.getInstance(context).update(shift);
-                }
+                if(paid)
+                    checkmarkCircle.setVisibility(View.VISIBLE);
+
+                anim.start();
             });
-
-            if(paid)
-                checkmarkCircle.setVisibility(View.VISIBLE);
-
-            anim.start();
-
         }
     }
 }

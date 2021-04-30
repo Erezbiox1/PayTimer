@@ -40,11 +40,11 @@
 
             <View
                 android:id="@+id/selection_circle"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="@drawable/redbtn"
                 android:backgroundTint="#e3e3e3"
-                android:visibility="gone"
+                android:visibility="invisible"
                 card_view:layout_constraintBottom_toBottomOf="@id/shift_day_of_week"
                 card_view:layout_constraintEnd_toEndOf="@id/shift_day_of_week"
                 card_view:layout_constraintStart_toStartOf="@+id/shift_day_of_week"
@@ -56,7 +56,7 @@
                 android:layout_height="30dp"
                 android:background="@drawable/ic_check"
                 android:backgroundTint="@color/colorAccent"
-                android:visibility="gone"
+                android:visibility="invisible"
                 card_view:layout_constraintBottom_toBottomOf="@id/shift_day_of_week"
                 card_view:layout_constraintEnd_toEndOf="@id/shift_day_of_week"
                 card_view:layout_constraintStart_toStartOf="@+id/shift_day_of_week"
@@ -72,23 +72,11 @@
                 android:background="@drawable/redbtn"
                 android:backgroundTint="@color/green"
                 android:gravity="center_horizontal"
-
+                android:visibility="invisible"
                 card_view:layout_constraintBottom_toBottomOf="@id/shift_day_of_week"
                 card_view:layout_constraintEnd_toEndOf="@id/shift_day_of_week"
                 tools:text="₪">
             </TextView>
-
-<!--            <View-->
-<!--                android:id="@+id/checkmark_circle_tick"-->
-<!--                android:layout_width="15dp"-->
-<!--                android:layout_height="15dp"-->
-<!--                android:background="@drawable/ic_check"-->
-<!--                android:backgroundTint="@android:color/white"-->
-<!--                android:visibility="gone"-->
-<!--                card_view:layout_constraintStart_toStartOf="@id/checkmark_circle"-->
-<!--                card_view:layout_constraintTop_toTopOf="@id/checkmark_circle"-->
-<!--                card_view:layout_constraintBottom_toBottomOf="@id/checkmark_circle"-->
-<!--                card_view:layout_constraintEnd_toEndOf="@id/checkmark_circle" />-->
 
             <TextView
                 android:id="@+id/shift_from_hour"

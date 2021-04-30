@@ -102,7 +102,7 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
         hoursText.setText(getString(R.string.monthly_report_total_hours, (int) shifts.stream().mapToLong(Shift::getTotalHours).sum() / 3600000));
 
         avgShift.setText(String.format(Locale.getDefault(), "%.1f", shifts.stream().mapToLong(Shift::getTotalHours).average().orElse(0)  / 3600000));
-        avgTip.setText(String.format(Locale.getDefault(), "%.1f", shifts.stream().mapToDouble(Shift::getTip).average().orElse(0)));
+        avgTip.setText("" + (int) shifts.stream().mapToInt(Shift::getTip).average().orElse(0));
 
         int[] weekdays = new int[7];
         for (Shift shift : shifts) {
