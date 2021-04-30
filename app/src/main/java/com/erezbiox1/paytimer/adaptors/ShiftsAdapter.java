@@ -270,7 +270,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         // Stored shift
         private Shift shift;
-        private boolean wasPaid;
+        private boolean wasPaid, wasSelected;
 
         ShiftViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -336,8 +336,21 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onChanged(List<Integer> selectedShifts) {
-            selectionCircle.setVisibility(selectedShifts.size() > 0 ? View.VISIBLE : View.GONE);
-            selectionCircleSelected.setVisibility(shift == null || !selectedShifts.contains(shift.getId()) ? View.GONE : View.VISIBLE);
+            selectionCircle.setVisibility(selectedShifts.size() > 0 ? View.VISIBLE : View.INVISIBLE);
+            //selectionCircleSelected.setVisibility(shift == null || !selectedShifts.contains(shift.getId()) ? View.INVISIBLE : View.VISIBLE);
+            if(shift != null && selectedShifts.contains(shift.getId())){
+                if(!wasSelected)
+                    animateSelectedCheckmark(true);
+                else
+                    selectionCircleSelected.setVisibility(View.VISIBLE);
+                wasSelected = true;
+            } else if(wasSelected){
+                if(selectedShifts.size() == 0)
+                    selectionCircleSelected.setVisibility(View.INVISIBLE);
+                else
+                    animateSelectedCheckmark(false);
+                wasSelected = false;
+            }
         }
 
         /**
@@ -463,6 +476,37 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 if(paid)
                     checkmarkCircle.setVisibility(View.VISIBLE);
+
+                anim.start();
+            });
+        }
+
+        private void animateSelectedCheckmark(final boolean checked){
+            cardView.post(() -> {
+                // Animate the selected checkmark icon
+                int cx = selectionCircleSelected.getWidth() / 2;
+                int cy = selectionCircleSelected.getHeight() / 2;
+                float finalRadius = (float) Math.hypot(cx, cy);
+
+                Animator anim = ViewAnimationUtils.createCircularReveal(
+                        selectionCircleSelected,
+                        cx,
+                        cy,
+                        checked ? 0 : finalRadius,
+                        checked ? finalRadius : 0);
+
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+
+                        if(!checked)
+                            selectionCircleSelected.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+                if(checked)
+                    selectionCircleSelected.setVisibility(View.VISIBLE);
 
                 anim.start();
             });
