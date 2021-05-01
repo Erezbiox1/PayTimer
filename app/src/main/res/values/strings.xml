@@ -109,5 +109,7 @@
     <string name="shifts_options_paid">Mark Paid \\ Unpaid</string>
     <string name="delete_shifts">Delete shifts</string>
     <string name="delete_shifts_text">Do you really want to delete these shifts?</string>
+    <string name="login_failed_email_empty">Email cannot be empty</string>
+    <string name="login_failed_password_empty">Password cannot be empty</string>
 
 </resources>

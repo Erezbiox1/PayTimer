@@ -113,6 +113,15 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
         // Get the email and password from the fields
         String email = emailField.getEditText().getText().toString(), password = passwordField.getEditText().getText().toString();
 
+        if(email.isEmpty())
+            emailField.setError(getString(R.string.login_failed_email_empty));
+
+        if(password.isEmpty())
+            passwordField.setError(getString(R.string.login_failed_password_empty));
+
+        if(email.isEmpty() || password.isEmpty())
+            return;
+
         // Login.
         firebaseAuth
                 .signInWithEmailAndPassword(email, password)
@@ -188,6 +197,7 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
     public void onSuccess(AuthResult authResult) {
         Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
         updateUi(authResult.getUser());
+        resetErrors();
         ShiftRepository.resetInstance();
     }
 
@@ -195,19 +205,22 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
     public void onFailure(@NonNull Exception e) {
         Log.i("LoginActivity", "Failed logging in: " + e.getMessage());
 
-        String message = e.getLocalizedMessage();
+        // Reset previous errors
+        resetErrors();
 
         if(e.getMessage().contains("no user record"))
-            message = getString(R.string.login_failed_user_doesnt_exists);
-        if(e.getMessage().contains("already in use"))
-            message = getString(R.string.login_failed_user_already_exists);
-        if(e.getMessage().contains("at least 6 characters"))
-            message = getString(R.string.login_failed_password_short);
-        if(e.getMessage().contains("password is invalid"))
-            message = getString(R.string.login_failed_password_incorrect);
-
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            emailField.setError(getString(R.string.login_failed_user_doesnt_exists));
+        else if(e.getMessage().contains("already in use"))
+            emailField.setError(getString(R.string.login_failed_user_already_exists));
+        else if(e.getMessage().contains("at least 6 characters"))
+            passwordField.setError(getString(R.string.login_failed_password_short));
+        else if(e.getMessage().contains("password is invalid"))
+            passwordField.setError(getString(R.string.login_failed_password_incorrect));
+        else Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
     }
 
-
+    private void resetErrors(){
+        emailField.setError("");
+        passwordField.setError("");
+    }
 }
