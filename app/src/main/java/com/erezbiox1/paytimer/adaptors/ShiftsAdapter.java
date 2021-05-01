@@ -270,7 +270,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         // Stored shift
         private Shift shift;
-        private boolean wasPaid, wasSelected;
+        private boolean wasSelected;
 
         ShiftViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -320,14 +320,8 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             totalPayout     .setText(Utils.getFormattedTotalPayout(context, shiftTotalPay));
             totalHours      .setText(Utils.getFormattedTotalHours(context, shiftTotalHours, shiftTip));
 
-            if(this.shift == null) {
-                checkmarkCircle.setText(Utils.getCurrencySymbol(context));
-                checkmarkCircle.setVisibility(paid ? View.VISIBLE : View.INVISIBLE);
-            } else if(shift.isPaid() != wasPaid) {
-                animatePaidUnpaid(shift.isPaid());
-            }
-
-            wasPaid = shift.isPaid();
+            checkmarkCircle.setText(Utils.getCurrencySymbol(context));
+            checkmarkCircle.setVisibility(paid ? View.VISIBLE : View.INVISIBLE);
 
             // Saves the shift for future reference ( to get it's ID so we can
             // react to options button clicks and edit/delete the shift for example. )
@@ -448,37 +442,6 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void clickPaidUnpaid(){
             shift.setPaid(!shift.isPaid());
             ShiftRepository.getInstance(context).update(shift);
-        }
-
-        private void animatePaidUnpaid(final boolean paid){
-            cardView.post(() -> {
-                // Animate the currency icon
-                int cx = checkmarkCircle.getWidth() / 2;
-                int cy = checkmarkCircle.getHeight() / 2;
-                float finalRadius = (float) Math.hypot(cx, cy);
-
-                Animator anim = ViewAnimationUtils.createCircularReveal(
-                        checkmarkCircle,
-                        cx,
-                        cy,
-                        paid ? 0 : finalRadius,
-                        paid ? finalRadius : 0);
-
-                anim.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-
-                        if(!paid)
-                            checkmarkCircle.setVisibility(View.INVISIBLE);
-                    }
-                });
-
-                if(paid)
-                    checkmarkCircle.setVisibility(View.VISIBLE);
-
-                anim.start();
-            });
         }
 
         private void animateSelectedCheckmark(final boolean checked){
