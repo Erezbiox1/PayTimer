@@ -133,7 +133,7 @@ public class Utils {
         lengths.add(4.0);
         lengths.add(6.0);
 
-        List<Double> latest4 = lengths.stream().limit(4).collect(Collectors.toList());
+        List<Double> latest4 = lengths.stream().distinct().filter(d -> d < 0.5).limit(4).collect(Collectors.toList());
         return latest4;
     }
 
