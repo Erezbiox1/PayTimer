@@ -6,6 +6,7 @@ package com.erezbiox1.paytimer.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.erezbiox1.paytimer.BuildConfig;
+import com.erezbiox1.paytimer.database.ShiftRepository;
+import com.erezbiox1.paytimer.utils.Utils;
 import com.erezbiox1.paytimer.viewmodel.EditShiftViewModel;
 import com.erezbiox1.paytimer.views.spinners.CombinedSpinner;
 import com.erezbiox1.paytimer.views.spinners.DateSpinner;
@@ -27,6 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Locale;
 
 public class EditShiftActivity extends AppCompatActivity implements Observer<Shift> {
@@ -43,6 +47,7 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
     // Local UI elements ( combined spinner of date and time, both for the start datetime and the end datetime. tip and hourlyRate editTexts )
     private CombinedSpinner start, end;
     private TextInputLayout editTip, editHourlyRate;
+    private Button[] quickShifts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,11 +105,8 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
 
         // Set the fab save button functionality ( saves the shift by calling the viewModel )
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.save();
-            }
+        fab.setOnClickListener(v -> {
+            viewModel.save();
         });
 
         // Event listener that will listen to the viewModel in case of an error or a finish signal.
@@ -120,6 +122,24 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
                     Toast.makeText(EditShiftActivity.this, R.string.invalid_times, Toast.LENGTH_LONG).show();
             }
         });
+
+        quickShifts = new Button[]{
+                findViewById(R.id.quick_shift_button1),
+                findViewById(R.id.quick_shift_button2),
+                findViewById(R.id.quick_shift_button3),
+                findViewById(R.id.quick_shift_button4)
+        };
+
+        List<Double> latest4 = Utils.getLatestLengths(this);
+
+        for (int i = 0; i < quickShifts.length; i++) {
+            final double length = latest4.get(i);
+
+            quickShifts[i].setText(getString(R.string.quick_shift_length, latest4.get(i)));
+            quickShifts[i].setOnClickListener(v -> {
+                start.setTime((long) (end.getTime() - 3600000 * length));
+            });
+        }
 
     }
 

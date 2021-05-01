@@ -14,16 +14,22 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import com.erezbiox1.paytimer.R;
+import com.erezbiox1.paytimer.database.ShiftRepository;
+import com.erezbiox1.paytimer.model.Shift;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -109,6 +115,34 @@ public class Utils {
             case "usd": return "$";
         }
         return null;
+    }
+
+    public static List<Double> getLatestLengths(Context context){
+        List<Shift> latest4shifts = ShiftRepository
+                .getInstance(context)
+                .getAllShifts().getValue();
+
+        if(latest4shifts == null) latest4shifts = new ArrayList<>();
+
+        List<Double> lengths = new ArrayList<>();
+        for (Shift shift : latest4shifts)
+            lengths.add(getAproxShiftLength(shift));
+
+        lengths.add(0.5);
+        lengths.add(2.0);
+        lengths.add(4.0);
+        lengths.add(6.0);
+
+        List<Double> latest4 = lengths.stream().limit(4).collect(Collectors.toList());
+        return latest4;
+    }
+
+    public static double getAproxShiftLength(Shift shift){
+        return ((int) (getShiftLength(shift) * 2)) / 2;
+    }
+
+    private static int getShiftLength(Shift shift){
+        return (int) ((shift.getEndTime() - shift.getStartTime()) / 3600000);
     }
 
     /**
