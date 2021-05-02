@@ -114,6 +114,6 @@
     <string name="delete_shifts_text">האם אתה באמת רוצה למחוק את המשמרות הללו?</string>
     <string name="login_failed_email_empty">האמייל לא יכול להיות ריק</string>
     <string name="login_failed_password_empty">הסיסמה לא יכולה להיות ריקה</string>
-    <string name="quick_shift_length">%1$.1f שעות</string>
+    <string name="quick_shift_length">%1$s שעות</string>
     <string name="quick_shift_lengths">קיצור לאורך משמרת</string>
 </resources>

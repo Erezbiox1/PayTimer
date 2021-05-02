@@ -36,7 +36,8 @@
             app:summary="@string/settings_choose_currency"
             app:entries="@array/currencies"
             app:entryValues="@array/currenciesValues"
-            app:iconSpaceReserved="false"/>
+            app:iconSpaceReserved="false"
+            app:defaultValue="ils"/>
 
         <!-- TODO:
         <SwitchPreferenceCompat

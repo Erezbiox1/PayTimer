@@ -118,14 +118,14 @@ public class Utils {
     }
 
     public static List<Double> getLatestLengths(Context context){
-        List<Shift> latest4shifts = ShiftRepository
+        List<Shift> latest4 = ShiftRepository
                 .getInstance(context)
                 .getAllShifts().getValue();
 
-        if(latest4shifts == null) latest4shifts = new ArrayList<>();
+        if(latest4 == null) latest4 = new ArrayList<>();
 
         List<Double> lengths = new ArrayList<>();
-        for (Shift shift : latest4shifts)
+        for (Shift shift : latest4)
             lengths.add(getAproxShiftLength(shift));
 
         lengths.add(0.5);
@@ -133,8 +133,7 @@ public class Utils {
         lengths.add(4.0);
         lengths.add(6.0);
 
-        List<Double> latest4 = lengths.stream().distinct().filter(d -> d < 0.5).limit(4).collect(Collectors.toList());
-        return latest4;
+        return lengths.stream().distinct().filter(d -> d >= 0.5).limit(4).collect(Collectors.toList());
     }
 
     public static double getAproxShiftLength(Shift shift){

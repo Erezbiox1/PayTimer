@@ -112,6 +112,6 @@
     <string name="login_failed_email_empty">Email cannot be empty</string>
     <string name="login_failed_password_empty">Password cannot be empty</string>
     <string name="quick_shift_lengths">Quick Shift Lengths</string>
-    <string name="quick_shift_length">%1$.1f hours</string>
+    <string name="quick_shift_length">%1$s hours</string>
 
 </resources>

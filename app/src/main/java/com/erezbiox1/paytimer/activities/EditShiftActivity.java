@@ -135,7 +135,7 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
         for (int i = 0; i < quickShifts.length; i++) {
             final double length = latest4.get(i);
 
-            quickShifts[i].setText(getString(R.string.quick_shift_length, latest4.get(i)));
+            quickShifts[i].setText(getString(R.string.quick_shift_length, new DecimalFormat("#.#").format(latest4.get(i))));
             quickShifts[i].setOnClickListener(v -> {
                 start.setTime((long) (end.getTime() - 3600000 * length));
             });
