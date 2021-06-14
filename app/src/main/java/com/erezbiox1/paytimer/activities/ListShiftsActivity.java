@@ -55,13 +55,10 @@ public class ListShiftsActivity extends AppCompatActivity implements Observer<Li
         // Set the fab functionality ( will add a new shift )
 
         final FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Move to the EditShiftActivity, passing no extras will make it add a new shift.
-                Intent newShiftIntent = new Intent(ListShiftsActivity.this, EditShiftActivity.class);
-                startActivity(newShiftIntent);
-            }
+        fab.setOnClickListener(view -> {
+            // Move to the EditShiftActivity, passing no extras will make it add a new shift.
+            Intent newShiftIntent = new Intent(ListShiftsActivity.this, EditShiftActivity.class);
+            startActivity(newShiftIntent);
         });
 
         // RecyclerView ( the shift's list ), and the no shift place holder.
@@ -73,21 +70,18 @@ public class ListShiftsActivity extends AppCompatActivity implements Observer<Li
         final ShiftRepository repository = ShiftRepository.getInstance(getApplication());
 
         // Listen the changes in the list repository, when changes occur, update the UI accordingly.
-        repository.getAllShifts().observe(this, new Observer<List<Shift>>() {
-            @Override
-            public void onChanged(List<Shift> shifts) {
-                if(shifts != null && shifts.size() > 0){
-                    // If there are shifts in the DB, make the list visible and the place holder invisible.
-                    recyclerView.setVisibility(View.VISIBLE);
-                    noShiftsView.setVisibility(View.GONE);
+        repository.getAllShifts().observe(this, shifts -> {
+            if(shifts != null && shifts.size() > 0){
+                // If there are shifts in the DB, make the list visible and the place holder invisible.
+                recyclerView.setVisibility(View.VISIBLE);
+                noShiftsView.setVisibility(View.GONE);
 
-                    // Update the shift's adapter with the updated list.
-                    shiftsAdapter.setShiftsList(shifts);
-                } else {
-                    // If there are no shifts in the DB, make the list invisible and show the placeholder.
-                    recyclerView.setVisibility(View.GONE);
-                    noShiftsView.setVisibility(View.VISIBLE);
-                }
+                // Update the shift's adapter with the updated list.
+                shiftsAdapter.setShiftsList(shifts);
+            } else {
+                // If there are no shifts in the DB, make the list invisible and show the placeholder.
+                recyclerView.setVisibility(View.GONE);
+                noShiftsView.setVisibility(View.VISIBLE);
             }
         });
 

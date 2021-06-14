@@ -110,17 +110,14 @@ public class EditShiftActivity extends AppCompatActivity implements Observer<Shi
         });
 
         // Event listener that will listen to the viewModel in case of an error or a finish signal.
-        viewModel.getGoBack().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String message) {
-                // The activity is finished, can go back to the parent activity.
-                if(message.equals("OK"))
-                    finish();
+        viewModel.getGoBack().observe(this, message -> {
+            // The activity is finished, can go back to the parent activity.
+            if(message.equals("OK"))
+                finish();
 
-                // an "INVALID_TIMES" error has occurred, notify the user that their times are not correct.
-                if(message.equals("INVALID_TIMES"))
-                    Toast.makeText(EditShiftActivity.this, R.string.invalid_times, Toast.LENGTH_LONG).show();
-            }
+            // an "INVALID_TIMES" error has occurred, notify the user that their times are not correct.
+            if(message.equals("INVALID_TIMES"))
+                Toast.makeText(EditShiftActivity.this, R.string.invalid_times, Toast.LENGTH_LONG).show();
         });
 
         quickShifts = new Button[]{

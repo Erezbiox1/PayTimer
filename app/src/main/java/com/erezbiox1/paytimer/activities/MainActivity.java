@@ -81,21 +81,15 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
         startingAnimation = (AnimatedVectorDrawable) startSymbol.getDrawable();
 
         // Set the "start shift button" functionality.
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isRunning = !isRunning;
-                updateUI();
-            }
+        startButton.setOnClickListener(view -> {
+            isRunning = !isRunning;
+            updateUI();
         });
 
         // Set the "list shifts button" functionality.
-        shiftsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent listIntent = new Intent(MainActivity.this, ListShiftsActivity.class);
-                startActivity(listIntent);
-            }
+        shiftsButton.setOnClickListener(view -> {
+            Intent listIntent = new Intent(MainActivity.this, ListShiftsActivity.class);
+            startActivity(listIntent);
         });
 
         // If there is a "Starting Time" saved in storage (storage = sharedPreference)
@@ -245,12 +239,9 @@ public class MainActivity extends AppCompatActivity implements TimerService.Call
     }
 
     // The observer implementation that will listen to the Singleton Observable and will update the UI accordingly.
-    private Observer notificationStartActionObserver = new Observer() {
-        @Override
-        public void update(Observable observable, Object o) {
-            isRunning = true;
-            updateUI();
-        }
+    private Observer notificationStartActionObserver = (observable, o) -> {
+        isRunning = true;
+        updateUI();
     };
 
     /**

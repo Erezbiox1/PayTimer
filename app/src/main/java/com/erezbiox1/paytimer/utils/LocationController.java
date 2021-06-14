@@ -167,22 +167,16 @@ public class LocationController implements LocationListener {
             // Add the geofencing request and intent to the client.
             geofencingClient
                     .addGeofences(request, geofencingIntent)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            // If the method isn't silent, notify the user ( via toast ) that the location marking was successful!
-                            if(!silent)
-                                Toast.makeText(context, R.string.location_marked_success, Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            if(!silent)
-                                // If the method isn't silent, notify the user ( via toast ) that the location marking was failed.
-                                Toast.makeText(context, R.string.Geofence_not_available, Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-            });
+                    .addOnSuccessListener(aVoid -> {
+                        // If the method isn't silent, notify the user ( via toast ) that the location marking was successful!
+                        if(!silent)
+                            Toast.makeText(context, R.string.location_marked_success, Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(e -> {
+                        if(!silent)
+                            // If the method isn't silent, notify the user ( via toast ) that the location marking was failed.
+                            Toast.makeText(context, R.string.Geofence_not_available, Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    });
         }
     }
 

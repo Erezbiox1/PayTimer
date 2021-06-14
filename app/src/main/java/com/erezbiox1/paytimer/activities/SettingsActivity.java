@@ -167,12 +167,9 @@ public class SettingsActivity extends AppCompatActivity implements ButtonPrefere
         private void setupSeekbar(){
             SeekBarPreference seekbar = findPreference("stop_after_time");
             updateSeekbarValue(seekbar, seekbar.getValue());
-            Objects.requireNonNull(seekbar).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    updateSeekbarValue((SeekBarPreference) preference, Integer.parseInt(String.valueOf(newValue)));
-                    return true;
-                }
+            Objects.requireNonNull(seekbar).setOnPreferenceChangeListener((preference, newValue) -> {
+                updateSeekbarValue((SeekBarPreference) preference, Integer.parseInt(String.valueOf(newValue)));
+                return true;
             });
         }
 
