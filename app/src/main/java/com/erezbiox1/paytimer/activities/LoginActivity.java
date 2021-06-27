@@ -133,6 +133,15 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
         // Get the email and password from the fields
         String email = emailField.getEditText().getText().toString(), password = passwordField.getEditText().getText().toString();
 
+        if(email.isEmpty())
+            emailField.setError(getString(R.string.login_failed_email_empty));
+
+        if(password.isEmpty())
+            passwordField.setError(getString(R.string.login_failed_password_empty));
+
+        if(email.isEmpty() || password.isEmpty())
+            return;
+
         // Login.
         firebaseAuth
                 .createUserWithEmailAndPassword(email, password)
@@ -162,34 +171,27 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        switch (requestCode){
-            case FILE_PICKER:
-                if(data != null && data.getData() != null){
-                    Uri uri = data.getData();
-                    StorageReference storage = FirebaseStorage.getInstance().getReference();
+        if (requestCode == FILE_PICKER && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            StorageReference storage = FirebaseStorage.getInstance().getReference();
 
-                    StorageReference profilePicRef = storage.child("profiles").child(user.getUid());
-                    profilePicRef
-                            .putFile(uri)
-                            .continueWithTask(task -> {
-                                if(!task.isSuccessful())
-                                    throw task.getException();
+            StorageReference profilePicRef = storage.child("profiles").child(user.getUid());
+            profilePicRef
+                    .putFile(uri)
+                    .continueWithTask(task -> {
+                        if (!task.isSuccessful())
+                            throw task.getException();
 
-                                return profilePicRef.getDownloadUrl();
-                            }).continueWithTask(downloadLink -> {
-                                return user
-                                        .updateProfile(new UserProfileChangeRequest.Builder()
-                                                .setPhotoUri(downloadLink.getResult())
-                                                .build());
-                            }).addOnSuccessListener(uri1 -> {
-                                Toast.makeText(LoginActivity.this, R.string.image_uploaded_success, Toast.LENGTH_SHORT).show();
-                                updateUi(user);
-                            }).addOnFailureListener(e -> {
-                                Toast.makeText(LoginActivity.this, R.string.image_upload_fail, Toast.LENGTH_SHORT).show();
-                            });
-                }
-
-                break;
+                        return profilePicRef.getDownloadUrl();
+                    }).continueWithTask(downloadLink ->
+                        user.updateProfile(new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(downloadLink.getResult())
+                                    .build())).addOnSuccessListener(uri1 -> {
+                Toast.makeText(LoginActivity.this, R.string.image_uploaded_success, Toast.LENGTH_SHORT).show();
+                updateUi(user);
+            }).addOnFailureListener(e -> {
+                Toast.makeText(LoginActivity.this, R.string.image_upload_fail, Toast.LENGTH_SHORT).show();
+            });
         }
     }
 
@@ -212,6 +214,8 @@ public class LoginActivity extends AppCompatActivity implements OnFailureListene
             emailField.setError(getString(R.string.login_failed_user_doesnt_exists));
         else if(e.getMessage().contains("already in use"))
             emailField.setError(getString(R.string.login_failed_user_already_exists));
+        else if(e.getMessage().contains("email address is badly formatted"))
+            emailField.setError(getString(R.string.login_failed_invalid_email));
         else if(e.getMessage().contains("at least 6 characters"))
             passwordField.setError(getString(R.string.login_failed_password_short));
         else if(e.getMessage().contains("password is invalid"))

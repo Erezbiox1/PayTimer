@@ -8,20 +8,16 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.erezbiox1.paytimer.BuildConfig;
-import com.erezbiox1.paytimer.adaptors.ShiftsAdapter;
 import com.erezbiox1.paytimer.database.ShiftRepository;
 import com.erezbiox1.paytimer.model.Shift;
 import com.erezbiox1.paytimer.utils.Utils;
 import com.erezbiox1.paytimer.utils.Utils.Month;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
@@ -32,10 +28,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 public class MonthlySummary extends AppCompatActivity implements Observer<List<Shift>> {
 
@@ -43,7 +35,7 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
     private Month month;
     private List<Shift> shifts;
 
-    private TextView sumText, monthText, hoursText, shiftsText, avgShift, avgTip;
+    private TextView sumText, monthText, hoursText, shiftsText, avgShiftText, avgTipText;
     private View[] weekdayViews;
 
     @Override
@@ -67,8 +59,8 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
         hoursText = findViewById(R.id.report_total_hours);
         shiftsText = findViewById(R.id.report_total_shifts);
 
-        avgTip = findViewById(R.id.avg_tip_title);
-        avgShift = findViewById(R.id.avg_shift_title);
+        avgTipText = findViewById(R.id.avg_tip_title);
+        avgShiftText = findViewById(R.id.avg_shift_title);
 
         weekdayViews = new View[]{
                 findViewById(R.id.stat_day1),
@@ -96,15 +88,22 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
 
     @SuppressLint("SetTextI18n")
     private void updateUi(){
+
+        double sum = shifts.stream().mapToDouble(Shift::getTotalPay).sum();
+        int shiftCount = shifts.size();
+        int totalHours = (int) shifts.stream().mapToLong(Shift::getTotalHours).sum() / 3600000;
+        double avgShift = shifts.stream().mapToLong(Shift::getTotalHours).average().orElse(0)  / 3600000;
+        int avgTip = (int) shifts.stream().mapToInt(Shift::getTip).average().orElse(0);
+
         monthText.setText(month.toString());
-        sumText.setText(Utils.getFormattedTotalPayout(this, shifts.stream().mapToDouble(Shift::getTotalPay).sum()));
-        shiftsText.setText(getString(R.string.monthly_report_total_shifts, shifts.size()));
-        hoursText.setText(getString(R.string.monthly_report_total_hours, (int) shifts.stream().mapToLong(Shift::getTotalHours).sum() / 3600000));
+        sumText.setText(Utils.getFormattedTotalPayout(this, sum));
+        shiftsText.setText(getString(R.string.monthly_report_total_shifts, shiftCount));
+        hoursText.setText(getString(R.string.monthly_report_total_hours, totalHours));
 
-        avgShift.setText(String.format(Locale.getDefault(), "%.1f", shifts.stream().mapToLong(Shift::getTotalHours).average().orElse(0)  / 3600000));
-        avgTip.setText("" + (int) shifts.stream().mapToInt(Shift::getTip).average().orElse(0));
+        avgShiftText.setText(String.format(Locale.getDefault(), "%.1f", avgShift));
+        avgTipText.setText(String.valueOf(avgTip));
 
-        int[] weekdays = new int[7];
+        double[] weekdays = new double[7];
         for (Shift shift : shifts) {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(shift.getStartTime());
@@ -114,22 +113,28 @@ public class MonthlySummary extends AppCompatActivity implements Observer<List<S
         }
 
         calcWeekdaysHeights(weekdays);
+        setWeekdaysHeights(weekdays);
+    }
 
+    private void calcWeekdaysHeights(double[] weekdays){
+        final double INITIAL = 30.0, MAX = 80.0;
+
+        double max = -1;
+        for(double weekday: weekdays)
+            if(weekday > max) max = weekday;
+
+        for (int i = 0; i < weekdays.length; i++)
+            weekdays[i] = INITIAL + (weekdays[i] / max) * MAX;
+    }
+
+    private void setWeekdaysHeights(double[] weekdays){
         for (int i = 0; i < weekdayViews.length; i++) {
-            weekdayViews[i].getLayoutParams().height = weekdays[i];
+            weekdayViews[i].getLayoutParams().height = calcDP(weekdays[i]);
             weekdayViews[i].requestLayout();
         }
     }
 
-    private void calcWeekdaysHeights(int[] weekdays){
-        final double INITIAL = 30.0, MAX = 80.0;
-
-        int max = -1;
-        for(int weekday: weekdays)
-            if(weekday > max) max = weekday;
-
-        for (int i = 0; i < weekdays.length; i++)
-            weekdays[i] = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) (INITIAL + ((double) weekdays[i] / max) * MAX), getResources().getDisplayMetrics());
-
+    private int calcDP(double height){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) height, getResources().getDisplayMetrics());
     }
 }
