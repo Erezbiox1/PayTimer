@@ -9,6 +9,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -51,6 +55,9 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private RecyclerView recyclerView;
     private Context context;
 
+    // Filter status (null for all, paid for paid, unpaid for unpaid)
+    private String filterStatus = null;
+
     /**
      * Called when the adapter is attached to a recycler view, thus enabled us to save a reference to the recycler view.
      * @param recyclerView recycler view reference
@@ -62,7 +69,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        return entryList.get(position).type.ordinal();
+        return entryList.get(position).type.value;
     }
 
     /**
@@ -90,6 +97,9 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case MONTHLY_TITLE:
                 viewHolder = new MonthlyTitleViewHolder(view);
+                break;
+            case FILTERS:
+                viewHolder = new FiltersViewHolder(view);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid view type");
@@ -176,11 +186,17 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         // Map all of the shifts to their months
         Map<Month, List<Shift>> map = new TreeMap<>();
         for (Shift shift : list) {
+            if(filterStatus != null && filterStatus.equals("paid") != shift.isPaid())
+                continue;
+
             Month month = Month.getMonth(shift.getStartTime());
 
             map.putIfAbsent(month, new ArrayList<>());
             map.get(month).add(shift);
         }
+
+        // Add the filters row
+        entryList.add(new ListItem());
 
         // iterate the month's map,
         for (Map.Entry<Month, List<Shift>> entry : map.entrySet()) {
@@ -218,9 +234,16 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             this.month = month;
         }
 
+        public ListItem(){
+            this.type = ListItemType.FILTERS;
+            this.shift = null;
+            this.month = null;
+        }
+
         public enum ListItemType {
             SHIFT(0, R.layout.shift_item),
-            MONTHLY_TITLE(1, R.layout.monthly_title_item);
+            MONTHLY_TITLE(1, R.layout.monthly_title_item),
+            FILTERS(2, R.layout.filters_item);
 
             final int value, layout;
 
@@ -230,7 +253,7 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
 
             public static ListItemType getType(int value){
-                return value == 0 ? SHIFT : MONTHLY_TITLE;
+                return value == 0 ? SHIFT : (value == 1 ? MONTHLY_TITLE : FILTERS);
             }
         }
     }
@@ -257,6 +280,73 @@ public class ShiftsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Intent monthlySummary = new Intent(context, MonthlySummary.class);
             monthlySummary.putExtra(MonthlySummary.MONTH_EXTRA, month);
             context.startActivity(monthlySummary);
+        }
+    }
+
+    public class FiltersViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout unpaid, all, paid;
+        private TextView unpaidText, allText, paidText;
+        private View unpaidLogo, allLogo, paidLogo;
+
+        public FiltersViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            unpaid = itemView.findViewById(R.id.filter_unpaid);
+            unpaidText = itemView.findViewById(R.id.filter_unpaid_text);
+            unpaidLogo = itemView.findViewById(R.id.filter_unpaid_icon);
+
+            all = itemView.findViewById(R.id.filter_all);
+            allText = itemView.findViewById(R.id.filter_all_text);
+            allLogo = itemView.findViewById(R.id.filter_all_icon);
+
+            paid = itemView.findViewById(R.id.filter_paid);
+            paidText = itemView.findViewById(R.id.filter_paid_text);
+            paidLogo = itemView.findViewById(R.id.filter_paid_icon);
+
+            unpaid.setOnClickListener(v -> setStatus("unpaid"));
+            all.setOnClickListener(v -> setStatus(null));
+            paid.setOnClickListener(v -> setStatus("paid"));
+
+            //updateUI();
+        }
+
+        private void setStatus(String status){
+            filterStatus = status;
+            updateUI();
+        }
+
+        private void updateUI(){
+            if(filterStatus == null){
+                unpaidText.setTextColor(Color.parseColor("#AAAAAA"));
+                unpaidLogo.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AAAAAA")));
+
+                allText.setTextColor(Color.WHITE);
+                allLogo.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+
+                paidText.setTextColor(Color.parseColor("#AAAAAA"));
+                paidLogo.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AAAAAA")));
+            } else if(filterStatus.equals("unpaid")){
+                unpaidText.setTextColor(Color.WHITE);
+                unpaidLogo.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+
+                allText.setTextColor(Color.parseColor("#AAAAAA"));
+                allLogo.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AAAAAA")));
+
+                paidText.setTextColor(Color.parseColor("#AAAAAA"));
+                paidLogo.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AAAAAA")));
+            } else if(filterStatus.equals("paid")){
+                unpaidText.setTextColor(Color.parseColor("#AAAAAA"));
+                unpaidLogo.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AAAAAA")));
+
+                allText.setTextColor(Color.parseColor("#AAAAAA"));
+                allLogo.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AAAAAA")));
+
+                paidText.setTextColor(Color.WHITE);
+                paidLogo.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+            }
+
+            if(!shiftsList.isEmpty())
+                setShiftsList(new ArrayList<>(shiftsList));
         }
     }
 
